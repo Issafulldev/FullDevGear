@@ -1,0 +1,21 @@
+{
+  "name": "isaastack-portfolio",
+  "version": "1.0.0",
+  "description": "Portfolio website for iSaaStack - Code, No-Code, AI solutions",
+  "scripts": {
+    "dev": "live-server --port=3000 --open=index.html",
+    "start": "live-server --port=8080"
+  },
+  "keywords": [
+    "portfolio",
+    "full-stack",
+    "developer",
+    "javascript",
+    "web-development"
+  ],
+  "author": "Issa Azegouar",
+  "license": "MIT",
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}
