@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const TECH_BRAND_COLORS_FOR_TILES = [
       { name: "bun", tileBackground: "#FFF000", iconColor: "#000000", textColor: "#000000", description: "An incredibly fast JavaScript runtime.", featured: true },
       { name: "claude", tileBackground: "#8A2BE2", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Anthropic's conversational and safe AI." },
-      { name: "css", tileBackground: "#264DE4", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Styling the web since 1996." },
+      { name: "css", tileBackground: "#4A148C", iconColor: "original", textColor: "#FFFFFF", description: "Styling the web since 1996." },
       { name: "deno", tileBackground: "#3AA3A4", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Secure-by-default JavaScript runtime." },
       { name: "express", tileBackground: "#68A063", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "The minimalist Node.js web framework." },
       { name: "fastify", tileBackground: "#F40050", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Super-fast, lightweight Node.js web framework." },
@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
       { name: "sqlite", tileBackground: "#003B57", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "The world's most widely deployed database." },
       { name: "supabase", tileBackground: "#3ECF8E", iconColor: "#000000", textColor: "#000000", description: "The open-source Firebase alternative." },
       { name: "typescript", tileBackground: "#3178C6", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Adds typing to JavaScript for reliable projects." },
-      { name: "vite", tileBackground: "#646CFF", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "An incredibly fast web build tool." },
+      { name: "vite", tileBackground: "#1a1a2e", iconColor: "original", textColor: "#FFFFFF", description: "An incredibly fast web build tool." },
       { name: "vue.js", tileBackground: "#4FC08D", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "A progressive framework, easy to learn." },
       { name: "wordpress", tileBackground: "#21759B", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Powers over 43% of the web." },
     ];
@@ -416,17 +416,87 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    contactCtaBtn.addEventListener('click', () => {
+    let isAnimating = false;
+
+    const showPopup = () => {
+      if (isAnimating) return;
+      isAnimating = true;
+
+      contactCtaBtn.setAttribute('aria-expanded', 'true');
+      contactCtaBtn.classList.add('active');
+      contactPopup.hidden = false;
+
+      // Force reflow to ensure the element is rendered before animation
+      contactPopup.offsetHeight;
+
+      contactPopup.classList.add('show');
+
+      // Reset animation flag after animation completes
+      setTimeout(() => {
+        isAnimating = false;
+      }, 500); // Match CSS transition duration
+    };
+
+    const hidePopup = () => {
+      if (isAnimating) return;
+      isAnimating = true;
+
+      contactCtaBtn.setAttribute('aria-expanded', 'false');
+      contactCtaBtn.classList.remove('active');
+      contactPopup.classList.remove('show');
+
+      // Hide element after animation completes
+      setTimeout(() => {
+        contactPopup.hidden = true;
+        isAnimating = false;
+      }, 500); // Match CSS transition duration
+    };
+
+    const togglePopup = () => {
       const isExpanded = contactCtaBtn.getAttribute('aria-expanded') === 'true';
-      contactCtaBtn.setAttribute('aria-expanded', String(!isExpanded));
-      contactPopup.hidden = isExpanded;
+      if (isExpanded) {
+        hidePopup();
+      } else {
+        showPopup();
+      }
+    };
+
+    // Button click handler
+    contactCtaBtn.addEventListener('click', (event) => {
+      event.stopPropagation();
+      togglePopup();
     });
 
+    // Close popup when clicking outside
     document.addEventListener('click', (event) => {
-      if (!contactCtaBtn.contains(event.target) && !contactPopup.contains(event.target) && contactCtaBtn.getAttribute('aria-expanded') === 'true') {
-        contactCtaBtn.setAttribute('aria-expanded', 'false');
-        contactPopup.hidden = true;
+      const isExpanded = contactCtaBtn.getAttribute('aria-expanded') === 'true';
+      if (isExpanded && !contactCtaBtn.contains(event.target) && !contactPopup.contains(event.target)) {
+        hidePopup();
       }
+    });
+
+    // Close popup on Escape key
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && contactCtaBtn.getAttribute('aria-expanded') === 'true') {
+        hidePopup();
+        contactCtaBtn.focus(); // Return focus to button for accessibility
+      }
+    });
+
+    // Add smooth hover effects for contact links
+    const contactLinks = contactPopup.querySelectorAll('a[data-contact-link]');
+    contactLinks.forEach(link => {
+      link.addEventListener('mouseenter', () => {
+        if (!isAnimating) {
+          link.style.transform = 'translateX(4px)';
+        }
+      });
+
+      link.addEventListener('mouseleave', () => {
+        if (!isAnimating) {
+          link.style.transform = 'translateX(0)';
+        }
+      });
     });
   };
 
@@ -436,6 +506,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const setupNavColorInversion = () => {
     const bottomNav = document.querySelector('.header-container nav');
     const footerElement = document.querySelector('footer');
+    const buildGalleryElement = document.querySelector('#build-gallery');
 
     if (!bottomNav || !footerElement) {
       console.warn('Bottom navigation or footer element not found for IntersectionObserver setup. Skipping nav inversion setup.');
@@ -444,10 +515,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const evaluateAndSetNavInversion = () => {
       const isCvPage = document.body.classList.contains('cv-dark-mode');
-      const rect = footerElement.getBoundingClientRect();
-      const footerIsVisible = rect.top < window.innerHeight && rect.bottom >= 0;
+      const isMobile = window.innerWidth <= 768;
 
-      const shouldInvert = isCvPage || footerIsVisible;
+      // Check footer visibility
+      const footerRect = footerElement.getBoundingClientRect();
+      const footerIsVisible = footerRect.top < window.innerHeight && footerRect.bottom >= 0;
+
+      // Check build gallery visibility (only on mobile)
+      let buildGalleryIsVisible = false;
+      if (buildGalleryElement && isMobile) {
+        const buildGalleryRect = buildGalleryElement.getBoundingClientRect();
+        buildGalleryIsVisible = buildGalleryRect.top < window.innerHeight && buildGalleryRect.bottom >= 0;
+      }
+
+      const shouldInvert = isCvPage || footerIsVisible || buildGalleryIsVisible;
       const isCurrentlyInverted = bottomNav.classList.contains('nav-inverted');
 
       // Only apply changes if the state actually needs to change
@@ -475,10 +556,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const observer = new IntersectionObserver(intersectionCallback, observerOptions);
     observer.observe(footerElement);
 
+    // Also observe build gallery if it exists
+    if (buildGalleryElement) {
+      observer.observe(buildGalleryElement);
+    }
+
     evaluateAndSetNavInversion();
 
     // Attach to custom event for SPA to re-evaluate
     document.addEventListener('navInversionCheck', evaluateAndSetNavInversion);
+
+    // Re-evaluate on window resize to handle mobile/desktop transitions
+    window.addEventListener('resize', evaluateAndSetNavInversion);
   };
 
   setupNavColorInversion();
@@ -697,4 +786,95 @@ document.addEventListener('DOMContentLoaded', () => {
       updateNavActive
     };
   })();
+
+  // --- CV Sections Scroll Activation for Mobile ---
+  const setupCVScrollActivation = () => {
+    // Only activate on mobile/tablet devices or when hover is not available
+    const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches ||
+      window.matchMedia('(max-width: 1024px)').matches;
+
+    if (!isTouchDevice) {
+      return; // Exit early on desktop devices with hover capability
+    }
+
+    const cvSections = document.querySelectorAll('#cv-content .cv-section');
+
+    if (cvSections.length === 0) {
+      return; // No CV sections found
+    }
+
+    // Configuration for the intersection observer
+    const observerOptions = {
+      root: null, // Use viewport as root
+      rootMargin: '-20% 0px -20% 0px', // Trigger when section is 20% visible from top and bottom
+      threshold: [0.3, 0.7] // Trigger at 30% and 70% visibility
+    };
+
+    // Track currently active sections to avoid unnecessary DOM manipulations
+    const activeSections = new Set();
+
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const section = entry.target;
+        const isVisible = entry.isIntersecting && entry.intersectionRatio >= 0.3;
+
+        if (isVisible && !activeSections.has(section)) {
+          // Section is becoming visible - activate it
+          section.classList.add('cv-section-active');
+          activeSections.add(section);
+
+          // Add a subtle vibration feedback on mobile if supported
+          if (navigator.vibrate && window.DeviceMotionEvent) {
+            navigator.vibrate(50);
+          }
+        } else if (!isVisible && activeSections.has(section)) {
+          // Section is becoming hidden - deactivate it
+          section.classList.remove('cv-section-active');
+          activeSections.delete(section);
+        }
+      });
+    }, observerOptions);
+
+    // Start observing all CV sections
+    cvSections.forEach(section => {
+      sectionObserver.observe(section);
+    });
+
+    // Clean up observer when navigating away from CV
+    document.addEventListener('navInversionCheck', () => {
+      const isCvPage = document.body.classList.contains('cv-dark-mode');
+      if (!isCvPage) {
+        // Clean up active states when leaving CV page
+        activeSections.clear();
+        cvSections.forEach(section => {
+          section.classList.remove('cv-section-active');
+        });
+      }
+    });
+
+    // Handle orientation changes and resize events
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        // Re-trigger intersection checks after resize
+        cvSections.forEach(section => {
+          sectionObserver.unobserve(section);
+          sectionObserver.observe(section);
+        });
+      }, 250);
+    });
+  };
+
+  // Initialize CV scroll activation
+  setupCVScrollActivation();
+
+  // Re-initialize when navigating to CV page
+  document.addEventListener('navInversionCheck', () => {
+    const isCvPage = document.body.classList.contains('cv-dark-mode');
+    if (isCvPage) {
+      // Small delay to ensure DOM is ready
+      setTimeout(setupCVScrollActivation, 100);
+    }
+  });
 });

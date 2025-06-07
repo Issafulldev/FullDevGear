@@ -52,7 +52,7 @@ iSaaStack/
 ## 🎯 Key Technologies
 
 - **Vanilla JavaScript**: Clean, dependency-free code
-- **CSS3**: Modern styling with CSS Grid & Flexbox
+- **CSS**: Modern styling with CSS Grid & Flexbox
 - **HTML5**: Semantic markup
 - **Live Server**: Development environment
 
