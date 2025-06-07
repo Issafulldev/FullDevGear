@@ -502,75 +502,200 @@ document.addEventListener('DOMContentLoaded', () => {
 
   setupContactPopup();
 
-  // --- Navigation Color Inversion Logic ---
-  const setupNavColorInversion = () => {
+  // --- Navigation Dynamic Color Logic ---
+  const setupNavDynamicColor = () => {
     const bottomNav = document.querySelector('.header-container nav');
-    const footerElement = document.querySelector('footer');
-    const buildGalleryElement = document.querySelector('#build-gallery');
 
-    if (!bottomNav || !footerElement) {
-      console.warn('Bottom navigation or footer element not found for IntersectionObserver setup. Skipping nav inversion setup.');
+    if (!bottomNav) {
+      console.warn('Bottom navigation not found for dynamic color setup. Skipping nav color setup.');
       return;
     }
 
-    const evaluateAndSetNavInversion = () => {
-      const isCvPage = document.body.classList.contains('cv-dark-mode');
-      const isMobile = window.innerWidth <= 768;
+    let currentBrightness = null;
+    let animationFrame = null;
+    let canvas, ctx;
 
-      // Check footer visibility
-      const footerRect = footerElement.getBoundingClientRect();
-      const footerIsVisible = footerRect.top < window.innerHeight && footerRect.bottom >= 0;
+    // Créer un canvas caché pour la détection de couleur
+    const initCanvas = () => {
+      canvas = document.createElement('canvas');
+      ctx = canvas.getContext('2d');
+      canvas.width = 1;
+      canvas.height = 1;
+      canvas.style.position = 'absolute';
+      canvas.style.top = '-9999px';
+      canvas.style.left = '-9999px';
+      canvas.style.pointerEvents = 'none';
+      document.body.appendChild(canvas);
+    };
 
-      // Check build gallery visibility (only on mobile)
-      let buildGalleryIsVisible = false;
-      if (buildGalleryElement && isMobile) {
-        const buildGalleryRect = buildGalleryElement.getBoundingClientRect();
-        buildGalleryIsVisible = buildGalleryRect.top < window.innerHeight && buildGalleryRect.bottom >= 0;
-      }
+    const getNavPosition = () => {
+      const navRect = bottomNav.getBoundingClientRect();
+      return {
+        x: navRect.left + navRect.width / 2,
+        y: navRect.top + navRect.height / 2,
+        width: navRect.width,
+        height: navRect.height
+      };
+    };
 
-      const shouldInvert = isCvPage || footerIsVisible || buildGalleryIsVisible;
-      const isCurrentlyInverted = bottomNav.classList.contains('nav-inverted');
+    const calculateBrightness = (r, g, b) => {
+      // Formule de luminance perceptuelle
+      return (r * 299 + g * 587 + b * 114) / 1000;
+    };
 
-      // Only apply changes if the state actually needs to change
-      if (shouldInvert && !isCurrentlyInverted) {
-        bottomNav.classList.add('nav-inverted');
-      } else if (!shouldInvert && isCurrentlyInverted) {
-        bottomNav.classList.remove('nav-inverted');
+    const capturePixelColor = (x, y) => {
+      try {
+        // Temporairement cacher la nav pour capturer ce qui est en dessous
+        const originalVisibility = bottomNav.style.visibility;
+        const originalPointerEvents = bottomNav.style.pointerEvents;
+
+        bottomNav.style.visibility = 'hidden';
+        bottomNav.style.pointerEvents = 'none';
+
+        // Forcer un reflow
+        bottomNav.offsetHeight;
+
+        // Utiliser html2canvas ou une approche alternative
+        // Comme html2canvas n'est pas disponible, on va utiliser une approche différente
+
+        // Trouver l'élément sous la position donnée
+        const elementUnder = document.elementFromPoint(x, y);
+
+        // Restaurer la nav
+        bottomNav.style.visibility = originalVisibility;
+        bottomNav.style.pointerEvents = originalPointerEvents;
+
+        if (!elementUnder) {
+          return { r: 230, g: 230, b: 230 }; // Couleur par défaut
+        }
+
+        // Obtenir la couleur de fond calculée
+        const computedStyle = window.getComputedStyle(elementUnder);
+        let bgColor = computedStyle.backgroundColor;
+
+        // Si transparent, remonter dans la hiérarchie
+        let currentElement = elementUnder;
+        while ((bgColor === 'rgba(0, 0, 0, 0)' || bgColor === 'transparent') && currentElement.parentElement) {
+          currentElement = currentElement.parentElement;
+          bgColor = window.getComputedStyle(currentElement).backgroundColor;
+        }
+
+        // Parser la couleur RGB
+        if (bgColor.startsWith('rgb')) {
+          const matches = bgColor.match(/\d+/g);
+          if (matches && matches.length >= 3) {
+            return {
+              r: parseInt(matches[0]),
+              g: parseInt(matches[1]),
+              b: parseInt(matches[2])
+            };
+          }
+        }
+
+        // Couleur par défaut si parsing échoue
+        return { r: 230, g: 230, b: 230 };
+
+      } catch (error) {
+        console.warn('Erreur lors de la capture de couleur:', error);
+        return { r: 230, g: 230, b: 230 };
       }
     };
 
-    const observerOptions = {
-      root: null,
-      rootMargin: '0px',
-      threshold: 0.01
+    const detectBackgroundBrightness = () => {
+      const navPos = getNavPosition();
+
+      // Capturer la couleur au centre de la nav
+      const { r, g, b } = capturePixelColor(navPos.x, navPos.y);
+
+      return calculateBrightness(r, g, b);
     };
 
-    let lastIsIntersecting = false;
-    const intersectionCallback = (entries) => {
-      if (entries.some(entry => entry.isIntersecting !== lastIsIntersecting)) {
-        evaluateAndSetNavInversion();
-        lastIsIntersecting = entries.some(entry => entry.isIntersecting);
+    const applyNavColorBasedOnBrightness = (brightness) => {
+      // Utiliser une tolérance pour éviter les changements trop fréquents
+      const TOLERANCE = 10;
+      if (currentBrightness !== null && Math.abs(currentBrightness - brightness) < TOLERANCE) {
+        return;
+      }
+
+      currentBrightness = brightness;
+
+      // Seuil de luminosité pour déterminer si le fond est clair ou sombre
+      const BRIGHTNESS_THRESHOLD = 125;
+
+      if (brightness > BRIGHTNESS_THRESHOLD) {
+        // Fond clair -> nav sombre (enlever nav-inverted pour avoir nav noire)
+        if (bottomNav.classList.contains('nav-inverted')) {
+          bottomNav.classList.remove('nav-inverted');
+        }
+      } else {
+        // Fond sombre -> nav claire (ajouter nav-inverted pour avoir nav blanche)
+        if (!bottomNav.classList.contains('nav-inverted')) {
+          bottomNav.classList.add('nav-inverted');
+        }
       }
     };
 
-    const observer = new IntersectionObserver(intersectionCallback, observerOptions);
-    observer.observe(footerElement);
+    const updateNavColor = () => {
+      const brightness = detectBackgroundBrightness();
+      applyNavColorBasedOnBrightness(brightness);
+    };
 
-    // Also observe build gallery if it exists
-    if (buildGalleryElement) {
-      observer.observe(buildGalleryElement);
-    }
+    // Optimisation avec requestAnimationFrame pour les performances
+    const scheduleUpdate = () => {
+      if (animationFrame) return;
 
-    evaluateAndSetNavInversion();
+      animationFrame = requestAnimationFrame(() => {
+        updateNavColor();
+        animationFrame = null;
+      });
+    };
 
-    // Attach to custom event for SPA to re-evaluate
-    document.addEventListener('navInversionCheck', evaluateAndSetNavInversion);
+    // Event listeners optimisés
+    const setupEventListeners = () => {
+      // Scroll avec throttling
+      let scrollTimeout;
+      window.addEventListener('scroll', () => {
+        if (scrollTimeout) return;
+        scrollTimeout = setTimeout(() => {
+          scheduleUpdate();
+          scrollTimeout = null;
+        }, 32); // ~30fps pour éviter trop de calculs
+      }, { passive: true });
 
-    // Re-evaluate on window resize to handle mobile/desktop transitions
-    window.addEventListener('resize', evaluateAndSetNavInversion);
+      // Resize avec debouncing
+      let resizeTimeout;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+          scheduleUpdate();
+        }, 150);
+      });
+
+      // Événements personnalisés pour SPA
+      document.addEventListener('navColorCheck', scheduleUpdate);
+    };
+
+    // Initialisation
+    initCanvas();
+    setupEventListeners();
+
+    // Première détection après un court délai pour s'assurer que tout est rendu
+    setTimeout(() => {
+      updateNavColor();
+    }, 200);
+
+    // Retourner une fonction de nettoyage si nécessaire
+    return () => {
+      if (animationFrame) {
+        cancelAnimationFrame(animationFrame);
+      }
+      if (canvas && canvas.parentNode) {
+        canvas.parentNode.removeChild(canvas);
+      }
+    };
   };
 
-  setupNavColorInversion();
+  setupNavDynamicColor();
 
   // --- SPA Routing & Transitions ---
   const SPA_ROUTING = (() => {
@@ -642,7 +767,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Add a slight delay for smoother header transition
         setTimeout(() => {
-          document.dispatchEvent(new Event('navInversionCheck'));
+          document.dispatchEvent(new Event('navColorCheck'));
         }, 50);
       };
 
