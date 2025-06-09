@@ -140,6 +140,7 @@ h2 {
   border: none;
   border-radius: 1.875rem;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 /* --- Navigation --- */
@@ -557,9 +558,9 @@ form[data-form-submit="contact"] button[type="submit"]:hover {
   top: calc(100% + 0.75rem);
   right: 0;
   background: var(--color-text-dark);
-  border: 1px solid var(--color-border-medium);
+  border: 2px solid var(--color-accent-yellow);
   border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25), 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25), 0 2px 8px rgba(0, 0, 0, 0.15), 0 0 20px rgba(255, 241, 0, 0.3);
   min-width: 200px;
   z-index: 1100;
   opacity: 0;
@@ -572,13 +573,13 @@ form[data-form-submit="contact"] button[type="submit"]:hover {
 .contact-popup::before {
   content: '';
   position: absolute;
-  top: -8px;
+  top: -10px;
   right: 20px;
   width: 0;
   height: 0;
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
-  border-bottom: 8px solid var(--color-text-dark);
+  border-bottom: 8px solid var(--color-accent-yellow);
   filter: drop-shadow(0 -2px 4px rgba(0, 0, 0, 0.2));
 }
 
@@ -603,7 +604,7 @@ form[data-form-submit="contact"] button[type="submit"]:hover {
   align-items: center;
   justify-content: space-between;
   padding: 0.75rem 1rem;
-  color: var(--color-text-light);
+  color: var(--color-accent-yellow);
   text-decoration: none;
   font-weight: 500;
   font-size: 0.9rem;
@@ -626,8 +627,8 @@ form[data-form-submit="contact"] button[type="submit"]:hover {
 }
 
 .contact-popup ul li a:hover {
-  background: rgba(255, 241, 0, 0.1);
-  color: var(--color-accent-yellow);
+  background: rgba(255, 241, 0, 0.15);
+  color: #ffffff;
   padding-left: 1.25rem;
 }
 
@@ -645,40 +646,42 @@ form[data-form-submit="contact"] button[type="submit"]:hover {
   background-position: center;
   transition: all 0.2s ease;
   flex-shrink: 0;
+  filter: invert(0.9) sepia(1) saturate(5) hue-rotate(45deg) brightness(1.2);
 }
 
 .contact-popup ul li a[data-contact-link="calendly"]::after {
   background-image: url('../assets/icons/calendly.svg');
-  filter: invert(0.8) brightness(1.2);
 }
 
 .contact-popup ul li a[data-contact-link="telegram"]::after {
   background-image: url('../assets/icons/telegram.svg');
-  filter: invert(0.8) brightness(1.2);
 }
 
 .contact-popup ul li a[data-contact-link="whatsapp"]::after {
   background-image: url('../assets/icons/whatsapp.svg');
-  filter: invert(0.8) brightness(1.2);
 }
 
 .contact-popup ul li a[data-contact-link="email"]::after {
   background-image: url('../assets/icons/email.svg');
-  filter: invert(0.8) brightness(1.2);
 }
 
 /* Hover effects for icons */
 .contact-popup ul li a:hover::after {
-  filter: invert(0.9) sepia(1) saturate(5) hue-rotate(45deg) brightness(1.5);
+  filter: invert(1) brightness(1.2);
   transform: scale(1.1);
 }
 
 /* Contact button active state */
 #contact-cta-btn.active {
   background: var(--color-text-dark);
-  color: var(--color-text-light);
+  color: var(--color-accent-yellow);
   transform: scale(1.05);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+#contact-cta-btn:hover {
+  transform: scale(1.02);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 #contact-cta-btn {
@@ -1760,6 +1763,7 @@ body.cv-dark-mode #cv-content ul[data-cv-section] li:hover::before {
   gap: 2rem;
   margin-top: 2rem;
   padding: 0.5rem;
+  align-items: stretch;
 }
 
 #build-gallery .project-card {
@@ -1771,6 +1775,9 @@ body.cv-dark-mode #cv-content ul[data-cv-section] li:hover::before {
   position: relative;
   cursor: pointer;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 #build-gallery .project-card::before {
@@ -1799,7 +1806,7 @@ body.cv-dark-mode #cv-content ul[data-cv-section] li:hover::before {
 
 #build-gallery .project-preview {
   position: relative;
-  height: 200px;
+  height: 260px;
   background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
   display: flex;
   align-items: center;
@@ -1824,21 +1831,47 @@ body.cv-dark-mode #cv-content ul[data-cv-section] li:hover::before {
   align-items: center;
   gap: 1rem;
   color: var(--color-text-subtle);
+  transition: all 0.3s ease;
 }
 
 #build-gallery .project-preview-placeholder .preview-icon {
-  font-size: 3rem;
-  opacity: 0.6;
+  font-size: 4rem;
+  opacity: 0.8;
+  transition: all 0.3s ease;
 }
 
 #build-gallery .project-preview-placeholder .preview-text {
-  font-size: 0.9rem;
-  font-weight: 500;
+  font-size: 1rem;
+  font-weight: 600;
   text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
+
+#build-gallery .project-card:hover .project-preview-placeholder .preview-icon {
+  transform: scale(1.1);
+  opacity: 1;
+}
+
+/* Project preview images */
+#build-gallery .project-preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+#build-gallery .project-card:hover .project-preview-image {
+  transform: scale(1.05);
+}
+
+
 
 #build-gallery .project-info {
   padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
 #build-gallery .project-header {
@@ -1882,6 +1915,7 @@ body.cv-dark-mode #cv-content ul[data-cv-section] li:hover::before {
   font-size: 0.95rem;
   line-height: 1.6;
   margin-bottom: 1.5rem;
+  flex-grow: 1;
 }
 
 #build-gallery .project-tech-stack {
@@ -1892,25 +1926,100 @@ body.cv-dark-mode #cv-content ul[data-cv-section] li:hover::before {
 }
 
 #build-gallery .tech-badge {
-  background: var(--color-background-light);
-  color: var(--color-text-medium);
-  padding: 0.25rem 0.75rem;
-  border-radius: 12px;
-  font-size: 0.8rem;
+  background: #222222;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  border-radius: 25px;
+  font-size: 0.85rem;
   font-weight: 500;
-  border: 1px solid var(--color-border-light);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: none;
+}
+
+#build-gallery .tech-badge .tech-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
   transition: all 0.3s ease;
 }
 
-#build-gallery .project-card:hover .tech-badge {
-  background: rgba(0, 123, 255, 0.1);
-  border-color: var(--color-primary);
-  color: var(--color-primary);
+/* Icon Colors - Base state is colored */
+#build-gallery .tech-badge[data-tech="html5"] .tech-icon {
+  filter: invert(35%) sepia(89%) saturate(1464%) hue-rotate(8deg) brightness(96%) contrast(93%);
+}
+
+#build-gallery .tech-badge[data-tech="css"] .tech-icon {
+  filter: none;
+}
+
+#build-gallery .tech-badge[data-tech="javascript"] .tech-icon {
+  filter: invert(89%) sepia(58%) saturate(2834%) hue-rotate(359deg) brightness(104%) contrast(97%);
+}
+
+#build-gallery .tech-badge[data-tech="react"] .tech-icon {
+  filter: invert(74%) sepia(23%) saturate(1647%) hue-rotate(170deg) brightness(103%) contrast(96%);
+}
+
+#build-gallery .tech-badge[data-tech="nodejs"] .tech-icon {
+  filter: invert(42%) sepia(98%) saturate(1352%) hue-rotate(87deg) brightness(119%) contrast(119%);
+}
+
+#build-gallery .tech-badge[data-tech="vite"] .tech-icon {
+  filter: none;
+}
+
+/* --- Hover-capable devices (Desktop) --- */
+@media (hover: hover) and (pointer: fine) {
+  #build-gallery .tech-badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  }
+
+  #build-gallery .tech-badge:hover .tech-icon {
+    transform: scale(1.1);
+  }
+
+  /* Add colored glow on individual icon hover */
+  #build-gallery .tech-badge[data-tech="html5"]:hover .tech-icon {
+    filter: invert(35%) sepia(89%) saturate(1464%) hue-rotate(8deg) brightness(96%) contrast(93%) drop-shadow(0 0 6px rgba(227, 79, 38, 0.6));
+  }
+
+  #build-gallery .tech-badge[data-tech="css"]:hover .tech-icon {
+    filter: drop-shadow(0 0 6px rgba(102, 51, 153, 0.6));
+  }
+
+  #build-gallery .tech-badge[data-tech="javascript"]:hover .tech-icon {
+    filter: invert(89%) sepia(58%) saturate(2834%) hue-rotate(359deg) brightness(104%) contrast(97%) drop-shadow(0 0 6px rgba(247, 223, 30, 0.6));
+  }
+
+  #build-gallery .tech-badge[data-tech="react"]:hover .tech-icon {
+    filter: invert(74%) sepia(23%) saturate(1647%) hue-rotate(170deg) brightness(103%) contrast(96%) drop-shadow(0 0 6px rgba(97, 218, 251, 0.6));
+  }
+
+  #build-gallery .tech-badge[data-tech="nodejs"]:hover .tech-icon {
+    filter: invert(42%) sepia(98%) saturate(1352%) hue-rotate(87deg) brightness(119%) contrast(119%) drop-shadow(0 0 6px rgba(104, 160, 99, 0.6));
+  }
+
+  #build-gallery .tech-badge[data-tech="vite"]:hover .tech-icon {
+    filter: drop-shadow(0 0 8px rgba(65, 209, 255, 0.6)) drop-shadow(0 0 12px rgba(255, 234, 131, 0.4));
+  }
+}
+
+/* --- Touch devices (Mobile) --- */
+@media (hover: none) and (pointer: coarse) {
+  #build-gallery .tech-badge:active {
+    transform: scale(0.95);
+  }
 }
 
 #build-gallery .project-links {
   display: flex;
   gap: 1rem;
+  margin-top: auto;
 }
 
 #build-gallery .project-link {
@@ -1984,11 +2093,17 @@ body.cv-dark-mode #cv-content ul[data-cv-section] li:hover::before {
 
   #build-gallery .tech-badge {
     font-size: 0.75rem;
-    padding: 0.2rem 0.6rem;
+    padding: 0.4rem 0.8rem;
+    gap: 0.4rem;
+  }
+
+  #build-gallery .tech-badge .tech-icon {
+    width: 18px;
+    height: 18px;
   }
 
   #build-gallery .project-preview {
-    height: 160px;
+    height: 200px;
   }
 
   #build-gallery .project-preview-placeholder .preview-icon {

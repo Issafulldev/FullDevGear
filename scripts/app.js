@@ -15,51 +15,195 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const BASE_TECHNOLOGIES = [
+      // Core Web Technologies
       { name: 'HTML5', path: 'assets/icons/html5.svg' }, { name: 'CSS', path: 'assets/icons/css.svg' },
       { name: 'JavaScript', path: 'assets/icons/javascript.svg' }, { name: 'TypeScript', path: 'assets/icons/typescript.svg' },
+
+      // Frontend Frameworks & Libraries
       { name: 'React', path: 'assets/icons/react.svg' }, { name: 'Vue.js', path: 'assets/icons/vuedotjs.svg' },
-      { name: 'Next.js', path: 'assets/icons/nextdotjs.svg' }, { name: 'Node.js', path: 'assets/icons/nodedotjs.svg' },
-      { name: 'Bun', path: 'assets/icons/bun.svg' }, { name: 'Deno', path: 'assets/icons/deno.svg' },
-      { name: 'Express', path: 'assets/icons/express.svg' }, { name: 'Fastify', path: 'assets/icons/fastify.svg' },
-      { name: 'PHP', path: 'assets/icons/php.svg' }, { name: 'GraphQL', path: 'assets/icons/graphql.svg' },
+      { name: 'Angular', path: 'assets/icons/angular.svg' }, { name: 'Svelte', path: 'assets/icons/svelte.svg' },
+      { name: 'Next.js', path: 'assets/icons/nextdotjs.svg' },
+
+      // CSS Frameworks & Tools
+      { name: 'Tailwind', path: 'assets/icons/tailwindcss.svg' }, { name: 'Bootstrap', path: 'assets/icons/bootstrap.svg' },
+      { name: 'Sass', path: 'assets/icons/sass.svg' }, { name: 'SCSS', path: 'assets/icons/scss.svg' },
+
+      // Backend Technologies
+      { name: 'Node.js', path: 'assets/icons/nodedotjs.svg' }, { name: 'Express', path: 'assets/icons/express.svg' },
+      { name: 'Fastify', path: 'assets/icons/fastify.svg' }, { name: 'Bun', path: 'assets/icons/bun.svg' },
+      { name: 'Deno', path: 'assets/icons/deno.svg' }, { name: 'PHP', path: 'assets/icons/php.svg' },
+      { name: 'Django', path: 'assets/icons/django.svg' }, { name: 'Python', path: 'assets/icons/python.svg' },
+
+      // Databases & Storage
       { name: 'PostgreSQL', path: 'assets/icons/postgresql.svg' }, { name: 'MySQL', path: 'assets/icons/mysql.svg' },
       { name: 'MongoDB', path: 'assets/icons/mongodb.svg' }, { name: 'SQLite', path: 'assets/icons/sqlite.svg' },
-      { name: 'Supabase', path: 'assets/icons/supabase.svg' }, { name: 'Git', path: 'assets/icons/git.svg' },
-      { name: 'GitHub', path: 'assets/icons/github.svg' }, { name: 'Vite', path: 'assets/icons/vite.svg' },
+      { name: 'Redis', path: 'assets/icons/redis.svg' }, { name: 'Supabase', path: 'assets/icons/supabase.svg' },
+
+      // APIs & GraphQL
+      { name: 'GraphQL', path: 'assets/icons/graphql.svg' },
+
+      // DevOps & Tools
+      { name: 'Docker', path: 'assets/icons/docker.svg' }, { name: 'Kubernetes', path: 'assets/icons/kubernetes.svg' },
+      { name: 'Git', path: 'assets/icons/git.svg' }, { name: 'GitHub', path: 'assets/icons/github.svg' },
+      { name: 'Vite', path: 'assets/icons/vite.svg' },
+
+      // CMS & E-commerce
       { name: 'WordPress', path: 'assets/icons/wordpress.svg' }, { name: 'Shopify', path: 'assets/icons/shopify.svg' },
-      { name: 'Joomla', path: 'assets/icons/joomla.svg' }, { name: 'OpenAI', path: 'assets/icons/openai.svg' },
-      { name: 'Claude', path: 'assets/icons/claude.svg' }, { name: 'Gemini', path: 'assets/icons/googlegemini.svg' }
+      { name: 'Joomla', path: 'assets/icons/joomla.svg' },
+
+      // AI & Machine Learning
+      { name: 'OpenAI', path: 'assets/icons/openai.svg' }, { name: 'Claude', path: 'assets/icons/claude.svg' },
+      { name: 'Gemini', path: 'assets/icons/googlegemini.svg' }
     ];
 
     const TECH_BRAND_COLORS_FOR_TILES = [
-      { name: "bun", tileBackground: "#FFF000", iconColor: "#000000", textColor: "#000000", description: "An incredibly fast JavaScript runtime.", featured: true },
-      { name: "claude", tileBackground: "#8A2BE2", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Anthropic's conversational and safe AI." },
-      { name: "css", tileBackground: "#4A148C", iconColor: "original", textColor: "#FFFFFF", description: "Styling the web since 1996." },
-      { name: "deno", tileBackground: "#3AA3A4", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Secure-by-default JavaScript runtime." },
-      { name: "express", tileBackground: "#68A063", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "The minimalist Node.js web framework." },
-      { name: "fastify", tileBackground: "#F40050", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Super-fast, lightweight Node.js web framework." },
-      { name: "git", tileBackground: "#F05033", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Created by Linus Torvalds in 2005." },
-      { name: "github", tileBackground: "#6e5494", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Hosts the world's largest open-source code." },
-      { name: "gemini", tileBackground: "#4A0082", iconColor: "original", textColor: "#FFFFFF", description: "Google's most advanced multimodal AI model." },
-      { name: "graphql", tileBackground: "#E10098", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "One query, multiple resources, very efficient." },
-      { name: "html5", tileBackground: "#E34F26", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "The ubiquitous foundation of modern web." },
-      { name: "javascript", tileBackground: "#F7DF1E", iconColor: "#000000", textColor: "#000000", description: "Was created in just 10 days." },
-      { name: "joomla", tileBackground: "#5091CD", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Popular CMS, a strong WordPress competitor." },
-      { name: "mongodb", tileBackground: "#47A248", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "A flexible NoSQL database." },
-      { name: "mysql", tileBackground: "#4479A1", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "A widely used open-source relational database." },
-      { name: "next.js", tileBackground: "#0070F3", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Makes React fast with SSR.", featured: true },
-      { name: "node.js", tileBackground: "#339933", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Allows JavaScript on the server-side.", featured: true },
-      { name: "openai", tileBackground: "#00A78F", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "AI pioneer, creator of GPT models." },
-      { name: "php", tileBackground: "#777BB4", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Powers over 78% of existing websites." },
-      { name: "postgresql", tileBackground: "#336791", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Robust, extensible open-source relational database." },
-      { name: "react", tileBackground: "#61DAFB", iconColor: "#000000", textColor: "#000000", description: "JavaScript library for interactive UIs.", featured: true },
-      { name: "shopify", tileBackground: "#96BF48", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Simplified e-commerce platform for everyone." },
-      { name: "sqlite", tileBackground: "#003B57", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "The world's most widely deployed database." },
-      { name: "supabase", tileBackground: "#3ECF8E", iconColor: "#000000", textColor: "#000000", description: "The open-source Firebase alternative." },
-      { name: "typescript", tileBackground: "#3178C6", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Adds typing to JavaScript for reliable projects." },
-      { name: "vite", tileBackground: "#1a1a2e", iconColor: "original", textColor: "#FFFFFF", description: "An incredibly fast web build tool." },
-      { name: "vue.js", tileBackground: "#4FC08D", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "A progressive framework, easy to learn." },
-      { name: "wordpress", tileBackground: "#21759B", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Powers over 43% of the web." },
+      // Programming Languages - Featured
+      { name: "javascript", tileBackground: "#F7DF1E", iconColor: "#000000", textColor: "#000000", description: "Created in just 10 days!", featured: true },
+      { name: "typescript", tileBackground: "#3178C6", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Reduces bugs by 15%", featured: true },
+      { name: "python", tileBackground: "#3776AB", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Named after Monty Python!", featured: true },
+      { name: "php", tileBackground: "#777BB4", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Powers 79% of websites" },
+      { name: "ruby", tileBackground: "#CC342D", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Designed for happiness" },
+      { name: "go", tileBackground: "#00ADD8", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Compiles lightning fast" },
+      { name: "rust", tileBackground: "#DEA584", iconColor: "#000000", textColor: "#000000", description: "Prevents 70% of security bugs" },
+      { name: "kotlin", tileBackground: "#7F52FF", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Google's preferred for Android" },
+      { name: "swift", tileBackground: "#FA7343", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "2.6x faster than Objective-C" },
+      { name: "sql", tileBackground: "#CC3333", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Essential since 1974" },
+
+      // Web Fundamentals
+      { name: "html5", tileBackground: "#E34C26", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Invented in 1990" },
+      { name: "css", tileBackground: "#663399", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Creates 3D without JS" },
+
+      // Frontend Frameworks - Featured
+      { name: "react", tileBackground: "#61DAFB", iconColor: "#000000", textColor: "#000000", description: "Uses Virtual DOM", featured: true },
+      { name: "angular", tileBackground: "#DD0031", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "TypeScript by default", featured: true },
+      { name: "vue.js", tileBackground: "#4FC08D", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Created by ex-Googler" },
+      { name: "svelte", tileBackground: "#FF3E00", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "No runtime needed" },
+      { name: "next.js", tileBackground: "#0070F3", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "SSR & static generation", featured: true },
+      { name: "nuxt.js", tileBackground: "#00C58E", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Next.js for Vue" },
+      { name: "gatsby", tileBackground: "#663399", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Blazing fast static sites" },
+      { name: "astro", tileBackground: "#FF5D01", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Mix React, Vue & Svelte" },
+      { name: "solid.js", tileBackground: "#2C4F7C", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "2x faster than React" },
+      { name: "qwik", tileBackground: "#BC2525", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Instant loading" },
+      { name: "jquery", tileBackground: "#0769AD", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "95% of sites in 2015" },
+
+      // State Management
+      { name: "redux", tileBackground: "#764ABC", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Facebook's Flux architecture" },
+      { name: "zustand", tileBackground: "#2D3748", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Only 3KB, replaces Redux" },
+      { name: "jotai", tileBackground: "#6366F1", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Atomic state management" },
+      { name: "recoil", tileBackground: "#336699", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Facebook's React state" },
+      { name: "pinia", tileBackground: "#FDCF39", iconColor: "#000000", textColor: "#000000", description: "Official Vuex successor" },
+      { name: "vuex", tileBackground: "#4FC08D", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Inspired by Redux" },
+      { name: "rxjs", tileBackground: "#B724C4", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Observable streams" },
+
+      // CSS Frameworks & Tools - Featured
+      { name: "tailwind", tileBackground: "#06B6D4", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "500+ utility classes", featured: true },
+      { name: "bootstrap", tileBackground: "#7952B3", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Created by Twitter 2011", featured: true },
+      { name: "sass", tileBackground: "#CC6699", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "First CSS preprocessor" },
+      { name: "scss", tileBackground: "#CC6699", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Modern Sass syntax" },
+      { name: "less", tileBackground: "#1D365D", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "JavaScript compilation" },
+      { name: "styled-components", tileBackground: "#DB7093", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "CSS-in-JS for React" },
+      { name: "emotion", tileBackground: "#DD0031", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Better than styled-comp" },
+
+      // Build Tools
+      { name: "vite", tileBackground: "#41d1ff", iconColor: "original", textColor: "#FFFFFF", description: "100x faster than Webpack" },
+      { name: "webpack", tileBackground: "#8DD6F9", iconColor: "#000000", textColor: "#000000", description: "Bundles 200+ file types" },
+      { name: "babel", tileBackground: "#F9DC3E", iconColor: "#000000", textColor: "#000000", description: "JS for all browsers" },
+      { name: "eslint", tileBackground: "#4B32C3", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Detects 200+ errors" },
+      { name: "prettier", tileBackground: "#F7B93E", iconColor: "#000000", textColor: "#000000", description: "Auto code formatting" },
+
+      // Backend & Runtime - Featured
+      { name: "node.js", tileBackground: "#339933", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Uses Chrome's V8 engine", featured: true },
+      { name: "express", tileBackground: "#404040", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Most popular Node.js framework" },
+      { name: "nestjs", tileBackground: "#EA2845", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Angular for backend" },
+      { name: "koa", tileBackground: "#4A4A4A", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Created by Express team" },
+      { name: "fastify", tileBackground: "#202020", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "76,000 requests/second" },
+      { name: "django", tileBackground: "#092E20", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Don't Repeat Yourself" },
+      { name: "flask", tileBackground: "#1F1F1F", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Micro-framework, 1000 lines" },
+      { name: "fastapi", tileBackground: "#009688", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Auto OpenAPI docs" },
+      { name: "laravel", tileBackground: "#FF2D20", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Most popular PHP" },
+      { name: "symfony", tileBackground: "#1A1A1A", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Reusable components" },
+      { name: "ruby on rails", tileBackground: "#CC0000", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Convention over config" },
+      { name: "gin", tileBackground: "#00ADD8", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "40x faster than others" },
+      { name: "echo", tileBackground: "#4CAF50", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Performant Go framework" },
+      { name: "spring boot", tileBackground: "#6DB33F", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Simplifies Java dev" },
+      { name: "ktor", tileBackground: "#007F52", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Built by JetBrains" },
+      { name: "asp.net core", tileBackground: "#512BD4", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Cross-platform .NET" },
+      { name: "bun", tileBackground: "#FFF000", iconColor: "#000000", textColor: "#000000", description: "4x faster than Node.js" },
+      { name: "deno", tileBackground: "#2F2F2F", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "By Node.js creator" },
+
+      // Databases - Featured
+      { name: "postgresql", tileBackground: "#336791", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "30+ years, native JSON", featured: true },
+      { name: "mysql", tileBackground: "#4479A1", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Used by FB, Google, Twitter" },
+      { name: "mariadb", tileBackground: "#003545", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "MySQL fork by creator" },
+      { name: "sqlite", tileBackground: "#003B57", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Most deployed database" },
+      { name: "mongodb", tileBackground: "#47A248", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "BSON data storage" },
+      { name: "redis", tileBackground: "#DC382D", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "1M+ operations/second" },
+      { name: "elasticsearch", tileBackground: "#005571", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Real-time TB indexing" },
+      { name: "dynamodb", tileBackground: "#23354E", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Millions requests/second" },
+      { name: "firestore", tileBackground: "#FFCA28", iconColor: "#000000", textColor: "#000000", description: "Real-time sync" },
+      { name: "supabase", tileBackground: "#3ECF8E", iconColor: "#000000", textColor: "#000000", description: "Open-source Firebase" },
+      { name: "planetscale", tileBackground: "#1C1C1C", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Uses YouTube's Vitess" },
+      { name: "cockroachdb", tileBackground: "#697A8D", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Survives datacenter fails" },
+      { name: "faunadb", tileBackground: "#6633CC", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Global ACID transactions" },
+      { name: "oracle database", tileBackground: "#F80000", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Since 1979" },
+
+      // APIs & GraphQL
+      { name: "rest", tileBackground: "#669900", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Defined by Roy Fielding 2000" },
+      { name: "graphql", tileBackground: "#E10098", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Developed by Facebook 2012" },
+      { name: "grpc", tileBackground: "#00B0D1", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "HTTP/2 + Protocol Buffers" },
+      { name: "trpc", tileBackground: "#2585FF", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "End-to-end type safety" },
+      { name: "stripe api", tileBackground: "#635BFF", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Billions processed annually" },
+      { name: "twilio api", tileBackground: "#F22F46", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "SMS to 180+ countries" },
+      { name: "google maps api", tileBackground: "#4285F4", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Used by Uber & Airbnb" },
+      { name: "openai api", tileBackground: "#4CAF50", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Powers 1000s AI apps" },
+      { name: "apollo", tileBackground: "#3F20BA", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Simplifies GraphQL" },
+
+      // DevOps & Tools - Featured
+      { name: "git", tileBackground: "#F05032", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "By Linux creator" },
+      { name: "github", tileBackground: "#181717", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "200M+ repositories" },
+      { name: "gitlab", tileBackground: "#FC6D26", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Integrated CI/CD" },
+      { name: "bitbucket", tileBackground: "#2684FF", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Atlassian since 2010" },
+      { name: "docker", tileBackground: "#2496ED", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Revolutionized deployment", featured: true },
+      { name: "kubernetes", tileBackground: "#326CE5", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Millions of containers", featured: true },
+      { name: "jenkins", tileBackground: "#D24939", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "1800+ plugins" },
+      { name: "github actions", tileBackground: "#2088FF", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Win, Mac, Linux builds" },
+      { name: "circleci", tileBackground: "#343434", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Infinite test parallelization" },
+
+      // Cloud Platforms
+      { name: "vercel", tileBackground: "#1A1A1A", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "10 second deploys" },
+      { name: "netlify", tileBackground: "#00C7B7", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Popularized JAMstack" },
+      { name: "aws", tileBackground: "#FF9900", iconColor: "#000000", textColor: "#000000", description: "70% cloud market" },
+      { name: "gcp", tileBackground: "#4285F4", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Google Search infrastructure" },
+      { name: "azure", tileBackground: "#0078D4", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "50% annual growth" },
+      { name: "heroku", tileBackground: "#430098", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Invented PaaS" },
+      { name: "digitalocean", tileBackground: "#008BFF", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Focuses on simplicity" },
+      { name: "firebase", tileBackground: "#FFCA28", iconColor: "#000000", textColor: "#000000", description: "0 to millions scaling" },
+
+      // Design & Testing Tools
+      { name: "figma", tileBackground: "#F24E1E", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Runs in browser" },
+      { name: "storybook", tileBackground: "#FF4785", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Isolates components" },
+      { name: "cypress", tileBackground: "#04C38E", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Tests like real user" },
+      { name: "playwright", tileBackground: "#2E8F01", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Chrome, Firefox, Safari" },
+      { name: "jest", tileBackground: "#C21325", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Maintained by Meta" },
+      { name: "vitest", tileBackground: "#6DAB22", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Jest compatible, faster" },
+      { name: "postman", tileBackground: "#FF6C37", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "20M+ users" },
+      { name: "insomnia", tileBackground: "#584984", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "GraphQL & REST focus" },
+
+      // Web Servers & Infrastructure
+      { name: "nginx", tileBackground: "#269539", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "400M+ websites" },
+      { name: "apache", tileBackground: "#D22128", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Since 1995" },
+      { name: "terraform", tileBackground: "#7B42BC", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Manages any infrastructure" },
+      { name: "ansible", tileBackground: "#EE0000", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Agentless automation" },
+
+      // CMS & E-commerce
+      { name: "wordpress", tileBackground: "#21759B", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "40% of all websites" },
+      { name: "shopify", tileBackground: "#7AB55C", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "$200B+ sales annually" },
+      { name: "joomla", tileBackground: "#5091CD", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "3% of global websites" },
+
+      // AI & Machine Learning
+      { name: "openai", tileBackground: "#412991", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "100M users in 2 months" },
+      { name: "claude", tileBackground: "#CC785C", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "150K+ word analysis" },
+      { name: "gemini", tileBackground: "#4285F4", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Multimodal AI" },
     ];
 
     const techStyleMap = TECH_BRAND_COLORS_FOR_TILES.reduce((acc, tech) => {
@@ -113,58 +257,134 @@ document.addEventListener('DOMContentLoaded', () => {
       return technologiesForOneSet;
     };
 
-    // Fonction pour mélanger aléatoirement un tableau (Fisher-Yates shuffle)
-    // avec évitement des doublons adjacents
+    // Fonction robuste pour distribuer les technologies sans doublons adjacents
     const shuffleArray = (array) => {
-      const shuffled = [...array]; // Créer une copie pour ne pas modifier l'original
+      if (array.length <= 1) return [...array];
 
-      // Premier mélange standard
-      for (let i = shuffled.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      // Étape 1: Analyser la fréquence de chaque technologie
+      const techCounts = {};
+      array.forEach(item => {
+        techCounts[item.name] = (techCounts[item.name] || 0) + 1;
+      });
+
+      // Étape 2: Détecter si nous avons trop de répétitions pour certaines technologies
+      const maxCount = Math.max(...Object.values(techCounts));
+      const totalTechs = Object.keys(techCounts).length;
+
+      // Si une technologie apparaît plus de la moitié du nombre total de types,
+      // nous devons utiliser une distribution forcée
+      if (maxCount > Math.ceil(totalTechs / 2)) {
+        console.log('TechWave: Distribution forcée nécessaire - trop de répétitions détectées');
+        return distributeWithForcedSpacing(array, techCounts);
       }
 
-      // Deuxième passe : éliminer les doublons adjacents
-      const maxAttempts = shuffled.length * 2; // Limite pour éviter les boucles infinies
-      let attempts = 0;
+      // Étape 3: Distribution round-robin optimisée pour cas normaux
+      const groups = {};
+      array.forEach(item => {
+        if (!groups[item.name]) groups[item.name] = [];
+        groups[item.name].push(item);
+      });
 
-      for (let i = 0; i < shuffled.length - 1 && attempts < maxAttempts; i++) {
-        if (shuffled[i].name === shuffled[i + 1].name) {
-          // Trouver une position différente pour échanger
-          let swapIndex = -1;
+      // Mélanger individuellement chaque groupe
+      Object.keys(groups).forEach(name => {
+        for (let i = groups[name].length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [groups[name][i], groups[name][j]] = [groups[name][j], groups[name][i]];
+        }
+      });
 
-          // Chercher un élément différent à échanger
-          for (let j = i + 2; j < shuffled.length; j++) {
-            if (shuffled[j].name !== shuffled[i].name &&
-              (j === shuffled.length - 1 || shuffled[j].name !== shuffled[j + 1].name) &&
-              (i === 0 || shuffled[j].name !== shuffled[i - 1].name)) {
-              swapIndex = j;
-              break;
-            }
+      // Distribution intelligente par vagues
+      const result = [];
+      const groupNames = Object.keys(groups);
+      const maxGroupSize = Math.max(...Object.values(groups).map(g => g.length));
+
+      // Mélanger l'ordre des groupes
+      for (let i = groupNames.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [groupNames[i], groupNames[j]] = [groupNames[j], groupNames[i]];
+      }
+
+      // Distribution par rounds avec variation d'ordre
+      for (let round = 0; round < maxGroupSize; round++) {
+        const roundOrder = [...groupNames];
+
+        // Varier l'ordre à chaque round pour plus de diversité
+        if (round % 3 === 1) {
+          roundOrder.reverse();
+        } else if (round % 3 === 2) {
+          // Mélange partiel
+          for (let i = 0; i < roundOrder.length - 1; i += 2) {
+            [roundOrder[i], roundOrder[i + 1]] = [roundOrder[i + 1], roundOrder[i]];
           }
+        }
 
-          // Si on n'a pas trouvé vers la droite, chercher vers la gauche
-          if (swapIndex === -1) {
-            for (let j = 0; j < i; j++) {
-              if (shuffled[j].name !== shuffled[i + 1].name &&
-                (j === 0 || shuffled[j].name !== shuffled[j - 1].name) &&
-                (j === shuffled.length - 1 || shuffled[j].name !== shuffled[j + 1].name)) {
-                swapIndex = j;
-                break;
-              }
-            }
+        roundOrder.forEach(name => {
+          if (groups[name][round]) {
+            result.push(groups[name][round]);
           }
+        });
+      }
 
-          // Effectuer l'échange si possible
-          if (swapIndex !== -1) {
-            [shuffled[i + 1], shuffled[swapIndex]] = [shuffled[swapIndex], shuffled[i + 1]];
-          }
+      return result;
+    };
 
-          attempts++;
+    // Fonction de distribution avec espacement forcé pour les cas difficiles
+    const distributeWithForcedSpacing = (array, techCounts) => {
+      const result = [];
+      const groups = {};
+
+      // Regrouper par technologie
+      array.forEach(item => {
+        if (!groups[item.name]) groups[item.name] = [];
+        groups[item.name].push(item);
+      });
+
+      // Identifier la technologie la plus fréquente
+      const mostFrequentTech = Object.keys(techCounts).reduce((a, b) =>
+        techCounts[a] > techCounts[b] ? a : b
+      );
+
+      const mostFrequentItems = groups[mostFrequentTech];
+      delete groups[mostFrequentTech];
+
+      // Créer un pool avec les autres technologies
+      const otherItems = [];
+      Object.values(groups).forEach(group => {
+        otherItems.push(...group);
+      });
+
+      // Mélanger le pool d'autres technologies
+      for (let i = otherItems.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [otherItems[i], otherItems[j]] = [otherItems[j], otherItems[i]];
+      }
+
+      // Distribution alternée: insérer les éléments fréquents entre les autres
+      let otherIndex = 0;
+      let frequentIndex = 0;
+
+      // Calculer l'espacement idéal
+      const spacing = Math.max(2, Math.floor(otherItems.length / mostFrequentItems.length));
+
+      while (frequentIndex < mostFrequentItems.length || otherIndex < otherItems.length) {
+        // Ajouter plusieurs éléments "autres" avant chaque élément fréquent
+        for (let i = 0; i < spacing && otherIndex < otherItems.length; i++) {
+          result.push(otherItems[otherIndex++]);
+        }
+
+        // Ajouter un élément de la technologie fréquente
+        if (frequentIndex < mostFrequentItems.length) {
+          result.push(mostFrequentItems[frequentIndex++]);
         }
       }
 
-      return shuffled;
+      // Ajouter les éléments restants
+      while (otherIndex < otherItems.length) {
+        result.push(otherItems[otherIndex++]);
+      }
+
+      console.log(`TechWave: Distribution forcée appliquée - ${mostFrequentTech} espacé avec ratio ${spacing}:1`);
+      return result;
     };
 
     // Calculer les technologies de base (sans mélange pour réutilisation)
@@ -841,6 +1061,13 @@ document.addEventListener('DOMContentLoaded', () => {
         console.warn(`Route not found for path: ${path}. Defaulting to freelance-content.`);
         path = '/';
       }
+
+      // Scroll to top of the page
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+      });
 
       showSection(ROUTES[path], useTransition); // Pass useTransition flag
       updateNavActive(path);
