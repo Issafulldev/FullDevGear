@@ -1388,7 +1388,7 @@ body.cv-dark-mode .header-logo p {
 }
 
 .skill-tag[title="CSS"] .skill-icon {
-  filter: none;
+  filter: invert(23%) sepia(89%) saturate(2851%) hue-rotate(269deg) brightness(71%) contrast(107%);
 }
 
 .skill-tag[title="JavaScript"] .skill-icon {
@@ -1564,7 +1564,7 @@ body.cv-dark-mode #cv-content ul[data-cv-section] li:hover::before {
   }
 
   .skill-tag[title="CSS"]:hover .skill-icon {
-    filter: drop-shadow(0 0 6px rgba(102, 51, 153, 0.6));
+    filter: invert(23%) sepia(89%) saturate(2851%) hue-rotate(269deg) brightness(71%) contrast(107%) drop-shadow(0 0 6px rgba(102, 51, 153, 0.8));
   }
 
   .skill-tag[title="JavaScript"]:hover .skill-icon {
@@ -1953,7 +1953,7 @@ body.cv-dark-mode #cv-content ul[data-cv-section] li:hover::before {
 }
 
 #build-gallery .tech-badge[data-tech="css"] .tech-icon {
-  filter: none;
+  filter: invert(23%) sepia(89%) saturate(2851%) hue-rotate(269deg) brightness(71%) contrast(107%);
 }
 
 #build-gallery .tech-badge[data-tech="javascript"] .tech-icon {
@@ -1989,7 +1989,7 @@ body.cv-dark-mode #cv-content ul[data-cv-section] li:hover::before {
   }
 
   #build-gallery .tech-badge[data-tech="css"]:hover .tech-icon {
-    filter: drop-shadow(0 0 6px rgba(102, 51, 153, 0.6));
+    filter: invert(23%) sepia(89%) saturate(2851%) hue-rotate(269deg) brightness(71%) contrast(107%) drop-shadow(0 0 6px rgba(102, 51, 153, 0.6));
   }
 
   #build-gallery .tech-badge[data-tech="javascript"]:hover .tech-icon {
