@@ -226,37 +226,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let sharedPongDirection = 1;
     let globalSpeedMultiplier = 1.0;
 
-    const calculateTechnologiesForSet = (baseTechList, containerPxWidth, unitPxWidth) => {
-      let technologiesForOneSet = [];
-      if (baseTechList.length === 0) {
-        console.warn('TechWave: baseTechnologies is empty. Wave will be empty.');
-      } else if (containerPxWidth <= 0 || unitPxWidth <= 0) {
-        console.warn(`TechWave: containerWidthPx (${containerPxWidth}) or effectiveUnitWidthPx (${unitPxWidth.toFixed(2)}) is invalid. Using fallback tile count.`);
-        const FALLBACK_MIN_TILES = 20;
-        let repeatsForFallback = Math.max(3, Math.ceil(FALLBACK_MIN_TILES / baseTechList.length));
-        for (let i = 0; i < repeatsForFallback; i++) {
-          technologiesForOneSet = technologiesForOneSet.concat(baseTechList);
-        }
-      } else {
-        const BUFFER_UNITS_PERCENTAGE = 0.20; // 20% buffer
-        const MIN_BUFFER_UNITS = 5;
-        const MIN_REPEATS_FOR_LOOPING = 2;
-        const MIN_TILES_OVERALL = 20;
-
-        const numUnitsEstimate = Math.ceil(containerPxWidth / unitPxWidth);
-        const bufferUnits = Math.max(MIN_BUFFER_UNITS, Math.ceil(numUnitsEstimate * BUFFER_UNITS_PERCENTAGE));
-        const totalUnitsTarget = numUnitsEstimate + bufferUnits;
-        let repeatsNeeded = Math.ceil(totalUnitsTarget / baseTechList.length);
-        const minRepeatsForMinTiles = Math.ceil(MIN_TILES_OVERALL / baseTechList.length);
-        repeatsNeeded = Math.max(repeatsNeeded, MIN_REPEATS_FOR_LOOPING, minRepeatsForMinTiles);
-
-        for (let i = 0; i < repeatsNeeded; i++) {
-          technologiesForOneSet = technologiesForOneSet.concat(baseTechList);
-        }
-      }
-      return technologiesForOneSet;
-    };
-
     // Fonction robuste pour distribuer les technologies sans doublons adjacents
     const shuffleArray = (array) => {
       if (array.length <= 1) return [...array];
@@ -387,9 +356,6 @@ document.addEventListener('DOMContentLoaded', () => {
       return result;
     };
 
-    // Calculer les technologies de base (sans mélange pour réutilisation)
-    const baseTechnologiesForOneSet = calculateTechnologiesForSet(BASE_TECHNOLOGIES, waveContainer.clientWidth, EFFECTIVE_UNIT_WIDTH_PX);
-
     const createTechTile = (tech, currentAnimState) => {
       const tile = document.createElement('div');
       tile.classList.add('tech-tile');
@@ -464,7 +430,7 @@ document.addEventListener('DOMContentLoaded', () => {
       return tile;
     };
 
-    const createAndAttachScroller = (techList, animState, containerElement) => {
+    const createAndAttachScroller = (uniqueTechListPart, animState, containerElement) => {
       const scroller = document.createElement('div');
       scroller.classList.add('tech-tiles-scroller');
       scroller.setAttribute('tabindex', '0');
@@ -478,20 +444,34 @@ document.addEventListener('DOMContentLoaded', () => {
         return fragment;
       };
 
-      let contentTotalWidth = 0;
-      const offscreenContainer = document.createElement('div');
-      offscreenContainer.style.position = 'absolute';
-      offscreenContainer.style.visibility = 'hidden';
-      offscreenContainer.style.pointerEvents = 'none';
-      const scrollerCloneForMeasurement = scroller.cloneNode(false);
-      scrollerCloneForMeasurement.appendChild(populateFragment(techList));
-      offscreenContainer.appendChild(scrollerCloneForMeasurement);
-      document.body.appendChild(offscreenContainer);
-      contentTotalWidth = scrollerCloneForMeasurement.scrollWidth;
-      document.body.removeChild(offscreenContainer);
+      // Measure the width of one set of the unique technology part
+      const tempScroller = document.createElement('div');
+      tempScroller.style.visibility = 'hidden';
+      tempScroller.style.position = 'absolute';
+      tempScroller.style.whiteSpace = 'nowrap'; // Ensure tiles don't wrap
+      tempScroller.style.display = 'flex'; // Mimic scroller's display
+      tempScroller.style.gap = `${GAP_REM}rem`; // Mimic scroller's gap
+      tempScroller.appendChild(populateFragment(uniqueTechListPart));
+      document.body.appendChild(tempScroller);
+      const singleSetWidth = tempScroller.scrollWidth;
+      document.body.removeChild(tempScroller);
 
-      scroller.appendChild(populateFragment(techList));
+      const containerWidth = containerElement.clientWidth;
+      let copiesToAppend = 1;
+
+      // To ensure no black spaces appear, we will be extremely generous with copies.
+      // This creates a very long strip of tiles, ensuring content is always available.
+      // We aim for at least 10-15 full sets of the unique technologies.
+      copiesToAppend = Math.max(15, Math.ceil((containerWidth * 2) / singleSetWidth)); // Ensure at least 15 copies or enough to cover container twice.
+
+      console.log(`Debug Scroller: uniqueTechListPart.length=${uniqueTechListPart.length}, singleSetWidth=${singleSetWidth.toFixed(2)}px, containerWidth=${containerWidth}px, copiesToAppend=${copiesToAppend}`);
+
+      for (let i = 0; i < copiesToAppend; i++) {
+        scroller.appendChild(populateFragment(uniqueTechListPart));
+      }
+
       containerElement.appendChild(scroller);
+      const contentTotalWidth = scroller.scrollWidth; // Get the full width of the scroller with all copies
 
       return { scrollerElement: scroller, contentTotalWidth: contentTotalWidth };
     };
@@ -505,23 +485,18 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      const INITIAL_OFFSET_TILE_INDEX = 9;
-      let currentX = 0;
-      if (baseTechnologiesForOneSet && baseTechnologiesForOneSet.length > INITIAL_OFFSET_TILE_INDEX && EFFECTIVE_UNIT_WIDTH_PX > 0) {
-        currentX = -(INITIAL_OFFSET_TILE_INDEX * EFFECTIVE_UNIT_WIDTH_PX);
-      } else {
-        console.warn(`TechWave: Not enough tiles in set (${baseTechnologiesForOneSet ? baseTechnologiesForOneSet.length : 'undefined'}) or invalid effectiveUnitWidthPx (${EFFECTIVE_UNIT_WIDTH_PX}). Starting at default position (0).`);
-      }
+      // Calculate initial position to center the content
+      // This ensures the animation starts from a middle point, far from actual DOM ends
+      let currentX = -(contentWidth / 2 - containerWidth / 2);
 
       const SCROLL_SPEED_FACTOR = 0.5;
-      const TRIGGER_OFFSET_FROM_EDGE_UNITS = 2;
-      const triggerOffsetFromEdge = TRIGGER_OFFSET_FROM_EDGE_UNITS * EFFECTIVE_UNIT_WIDTH_PX;
+      // Removed TRIGGER_OFFSET_FROM_EDGE_PX as it's no longer needed with large content
 
       const leftScrollLimit = 0;
       const rightScrollLimit = -(contentWidth - containerWidth);
 
-      if (currentX > leftScrollLimit) currentX = leftScrollLimit;
-      if (currentX < rightScrollLimit) currentX = rightScrollLimit;
+      // Ensure initial currentX is within the actual valid range of motion
+      currentX = Math.max(rightScrollLimit, Math.min(leftScrollLimit, currentX));
 
       if (scrollerData.element) {
         scrollerData.element.style.transform = `translateX(${currentX}px)`;
@@ -535,25 +510,21 @@ document.addEventListener('DOMContentLoaded', () => {
           const currentAppliedSpeed = scrollerData.baseSign * sharedPongDirection * SCROLL_SPEED_FACTOR * globalSpeedMultiplier;
           currentX += currentAppliedSpeed;
 
-          let limitReached = false;
-          if (currentAppliedSpeed < 0) {
-            if (currentX <= rightScrollLimit + triggerOffsetFromEdge) {
-              currentX = rightScrollLimit + triggerOffsetFromEdge;
-              limitReached = true;
+          // Simple ping-pong logic: reverse direction when hitting absolute limits
+          if (sharedPongDirection < 0) { // Moving left
+            if (currentX <= rightScrollLimit) {
+              currentX = rightScrollLimit; // Snap to limit
+              sharedPongDirection *= -1; // Reverse direction
             }
-          } else {
-            if (currentX >= leftScrollLimit - triggerOffsetFromEdge) {
-              currentX = leftScrollLimit - triggerOffsetFromEdge;
-              limitReached = true;
+          } else { // Moving right
+            if (currentX >= leftScrollLimit) {
+              currentX = leftScrollLimit; // Snap to limit
+              sharedPongDirection *= -1; // Reverse direction
             }
           }
 
-          if (limitReached) {
-            sharedPongDirection *= -1;
-          }
-
-          if (currentX > leftScrollLimit) currentX = leftScrollLimit;
-          if (currentX < rightScrollLimit) currentX = rightScrollLimit;
+          // Ensure currentX never goes beyond absolute limits (safety net)
+          currentX = Math.max(rightScrollLimit, Math.min(leftScrollLimit, currentX));
 
           scrollerData.element.style.transform = `translateX(${currentX}px)`;
         }
@@ -584,11 +555,19 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     animationStates.push(animState2);
 
-    const scrollerData1 = createAndAttachScroller(shuffleArray(baseTechnologiesForOneSet), animState1, waveContainer);
+    // Shuffle the BASE_TECHNOLOGIES once to get a truly random and unique order
+    const shuffledUniqueTechnologies = shuffleArray(BASE_TECHNOLOGIES);
+
+    // Split the shuffled unique technologies for the two rows
+    const midPoint = Math.ceil(shuffledUniqueTechnologies.length / 2);
+    const shuffledPart1 = shuffledUniqueTechnologies.slice(0, midPoint);
+    const shuffledPart2 = shuffledUniqueTechnologies.slice(midPoint);
+
+    const scrollerData1 = createAndAttachScroller(shuffledPart1, animState1, waveContainer);
     animState1.element = scrollerData1.scrollerElement;
     animState1.contentTotalWidth = scrollerData1.contentTotalWidth;
 
-    const scrollerData2 = createAndAttachScroller(shuffleArray(baseTechnologiesForOneSet), animState2, waveContainer);
+    const scrollerData2 = createAndAttachScroller(shuffledPart2, animState2, waveContainer);
     animState2.element = scrollerData2.scrollerElement;
     animState2.contentTotalWidth = scrollerData2.contentTotalWidth;
 
