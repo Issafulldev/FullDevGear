@@ -40,44 +40,44 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const BASE_TECHNOLOGIES = [
       // Core Web Technologies
-      { name: 'HTML5', path: 'assets/icons/html5.svg' }, { name: 'CSS', path: 'assets/icons/css.svg' },
-      { name: 'JavaScript', path: 'assets/icons/javascript.svg' }, { name: 'TypeScript', path: 'assets/icons/typescript.svg' },
+      { name: 'HTML5', path: './assets/icons/html5.svg' }, { name: 'CSS', path: './assets/icons/css.svg' },
+      { name: 'JavaScript', path: './assets/icons/javascript.svg' }, { name: 'TypeScript', path: './assets/icons/typescript.svg' },
 
       // Frontend Frameworks & Libraries
-      { name: 'React', path: 'assets/icons/react.svg' }, { name: 'Vue.js', path: 'assets/icons/vuedotjs.svg' },
-      { name: 'Angular', path: 'assets/icons/angular.svg' }, { name: 'Svelte', path: 'assets/icons/svelte.svg' },
-      { name: 'Next.js', path: 'assets/icons/nextdotjs.svg' },
+      { name: 'React', path: './assets/icons/react.svg' }, { name: 'Vue.js', path: './assets/icons/vuedotjs.svg' },
+      { name: 'Angular', path: './assets/icons/angular.svg' }, { name: 'Svelte', path: './assets/icons/svelte.svg' },
+      { name: 'Next.js', path: './assets/icons/nextdotjs.svg' },
 
       // CSS Frameworks & Tools
-      { name: 'Tailwind', path: 'assets/icons/tailwindcss.svg' }, { name: 'Bootstrap', path: 'assets/icons/bootstrap.svg' },
-      { name: 'Sass', path: 'assets/icons/sass.svg' }, { name: 'SCSS', path: 'assets/icons/scss.svg' },
+      { name: 'Tailwind', path: './assets/icons/tailwindcss.svg' }, { name: 'Bootstrap', path: './assets/icons/bootstrap.svg' },
+      { name: 'Sass', path: './assets/icons/sass.svg' }, { name: 'SCSS', path: './assets/icons/scss.svg' },
 
       // Backend Technologies
-      { name: 'Node.js', path: 'assets/icons/nodedotjs.svg' }, { name: 'Express', path: 'assets/icons/express.svg' },
-      { name: 'Fastify', path: 'assets/icons/fastify.svg' }, { name: 'Bun', path: 'assets/icons/bun.svg' },
-      { name: 'Deno', path: 'assets/icons/deno.svg' }, { name: 'PHP', path: 'assets/icons/php.svg' },
-      { name: 'Django', path: 'assets/icons/django.svg' }, { name: 'Python', path: 'assets/icons/python.svg' },
+      { name: 'Node.js', path: './assets/icons/nodedotjs.svg' }, { name: 'Express', path: './assets/icons/express.svg' },
+      { name: 'Fastify', path: './assets/icons/fastify.svg' }, { name: 'Bun', path: './assets/icons/bun.svg' },
+      { name: 'Deno', path: './assets/icons/deno.svg' }, { name: 'PHP', path: './assets/icons/php.svg' },
+      { name: 'Django', path: './assets/icons/django.svg' }, { name: 'Python', path: './assets/icons/python.svg' },
 
       // Databases & Storage
-      { name: 'PostgreSQL', path: 'assets/icons/postgresql.svg' }, { name: 'MySQL', path: 'assets/icons/mysql.svg' },
-      { name: 'MongoDB', path: 'assets/icons/mongodb.svg' }, { name: 'SQLite', path: 'assets/icons/sqlite.svg' },
-      { name: 'Redis', path: 'assets/icons/redis.svg' }, { name: 'Supabase', path: 'assets/icons/supabase.svg' },
+      { name: 'PostgreSQL', path: './assets/icons/postgresql.svg' }, { name: 'MySQL', path: './assets/icons/mysql.svg' },
+      { name: 'MongoDB', path: './assets/icons/mongodb.svg' }, { name: 'SQLite', path: './assets/icons/sqlite.svg' },
+      { name: 'Redis', path: './assets/icons/redis.svg' }, { name: 'Supabase', path: './assets/icons/supabase.svg' },
 
       // APIs & GraphQL
-      { name: 'GraphQL', path: 'assets/icons/graphql.svg' },
+      { name: 'GraphQL', path: './assets/icons/graphql.svg' },
 
       // DevOps & Tools
-      { name: 'Docker', path: 'assets/icons/docker.svg' }, { name: 'Kubernetes', path: 'assets/icons/kubernetes.svg' },
-      { name: 'Git', path: 'assets/icons/git.svg' }, { name: 'GitHub', path: 'assets/icons/github.svg' },
-      { name: 'Vite', path: 'assets/icons/vite.svg' },
+      { name: 'Docker', path: './assets/icons/docker.svg' }, { name: 'Kubernetes', path: './assets/icons/kubernetes.svg' },
+      { name: 'Git', path: './assets/icons/git.svg' }, { name: 'GitHub', path: './assets/icons/github.svg' },
+      { name: 'Vite', path: './assets/icons/vite.svg' },
 
       // CMS & E-commerce
-      { name: 'WordPress', path: 'assets/icons/wordpress.svg' }, { name: 'Shopify', path: 'assets/icons/shopify.svg' },
-      { name: 'Joomla', path: 'assets/icons/joomla.svg' },
+      { name: 'WordPress', path: './assets/icons/wordpress.svg' }, { name: 'Shopify', path: './assets/icons/shopify.svg' },
+      { name: 'Joomla', path: './assets/icons/joomla.svg' },
 
       // AI & Machine Learning
-      { name: 'OpenAI', path: 'assets/icons/openai.svg' }, { name: 'Claude', path: 'assets/icons/claude.svg' },
-      { name: 'Gemini', path: 'assets/icons/googlegemini.svg' }
+      { name: 'OpenAI', path: './assets/icons/openai.svg' }, { name: 'Claude', path: './assets/icons/claude.svg' },
+      { name: 'Gemini', path: './assets/icons/googlegemini.svg' }
     ];
 
     const TECH_BRAND_COLORS_FOR_TILES = [
