@@ -14,6 +14,30 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
+    // Intersection Observer pour optimiser les animations des tuiles
+    // TOUTES les tuiles visibles auront l'animation, aucune limitation
+    const tileVisibilityObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const tile = entry.target;
+        if (entry.isIntersecting) {
+          // Tuile visible - activer l'animation (TOUTES les tuiles visibles)
+          tile.classList.add('visible');
+        } else {
+          // Tuile non visible - désactiver l'animation
+          tile.classList.remove('visible');
+        }
+      });
+
+      // Debug: compter les tuiles animées
+      const visibleTiles = waveContainer.querySelectorAll('.tech-tile.visible').length;
+      const totalTiles = waveContainer.querySelectorAll('.tech-tile').length;
+      console.log(`TechWave Performance: ${visibleTiles}/${totalTiles} tuiles animées`);
+    }, {
+      root: null, // Observer par rapport à la fenêtre du navigateur (viewport)
+      rootMargin: '0px', // Pas de marge - animation exactement quand visible dans la fenêtre
+      threshold: 0.1 // Déclencher quand 10% de la tuile est visible dans la fenêtre
+    });
+
     const BASE_TECHNOLOGIES = [
       // Core Web Technologies
       { name: 'HTML5', path: 'assets/icons/html5.svg' }, { name: 'CSS', path: 'assets/icons/css.svg' },
@@ -370,6 +394,9 @@ document.addEventListener('DOMContentLoaded', () => {
       tile.style.backgroundColor = styleInfo.tileBackground;
       tile.style.setProperty('--tile-glow-color', styleInfo.tileBackground);
 
+      // Enregistrer la tuile avec l'Intersection Observer
+      tileVisibilityObserver.observe(tile);
+
       const frontFace = document.createElement('div');
       frontFace.classList.add('tile-face', 'tile-front');
 
@@ -601,6 +628,13 @@ document.addEventListener('DOMContentLoaded', () => {
         globalSpeedMultiplier = 1.0;
       });
     }
+
+    // Fonction de nettoyage pour l'observer
+    window.cleanupTechWaveObserver = () => {
+      if (tileVisibilityObserver) {
+        tileVisibilityObserver.disconnect();
+      }
+    };
   };
 
   initializeTechWave();

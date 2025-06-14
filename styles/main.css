@@ -412,7 +412,18 @@ footer {
   transform-style: preserve-3d;
   perspective: 1000px;
   cursor: pointer;
+  /* Animation désactivée par défaut - activée seulement quand visible */
+}
+
+.tech-tile.visible {
   animation: halo-pulse 2.5s infinite ease-in-out;
+}
+
+/* Support pour prefers-reduced-motion uniquement */
+@media (prefers-reduced-motion: reduce) {
+  .tech-tile.visible {
+    animation: none !important;
+  }
 }
 
 .tech-tile.is-flipped {
