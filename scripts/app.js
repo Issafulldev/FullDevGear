@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Web Fundamentals
       { name: "html5", tileBackground: "#E34C26", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Invented in 1990" },
-      { name: "css", tileBackground: "#663399", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Creates 3D without JS" },
+      { name: "css", tileBackground: "#663399", iconColor: "#FFFFFF", textColor: "#FFFFFF", description: "Styles everything beautifully" },
 
       // Frontend Frameworks - Featured
       { name: "react", tileBackground: "#61DAFB", iconColor: "#000000", textColor: "#000000", description: "Uses Virtual DOM", featured: true },
