@@ -1,0 +1,74 @@
+/* ==========================================================================
+   iSaaStack - Main CSS Entry Point (Modular)
+   ========================================================================== */
+
+/* --- Base Styles --- */
+@import url('./base/variables.css');
+@import url('./base/reset.css');
+@import url('./base/layout.css');
+
+/* --- Components --- */
+@import url('./components/header.css');
+@import url('./components/footer.css');
+@import url('./components/tech-wave.css');
+@import url('./components/forms.css');
+
+/* --- Pages --- */
+@import url('./pages/cv.css');
+@import url('./pages/build-gallery.css');
+
+/* --- Utilities --- */
+@import url('./utils/animations.css');
+
+/* --- Additional Styles --- */
+/* Contact button states */
+#contact-cta-btn.active {
+  background: var(--color-text-dark);
+  color: var(--color-accent-yellow);
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+#contact-cta-btn:hover {
+  background: var(--color-text-dark);
+  color: var(--color-accent-yellow);
+  transform: scale(1.02);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+#contact-cta-btn {
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.header-cta {
+  position: relative;
+}
+
+/* Navigation animation states */
+.header-container nav.nav-inverting {
+  animation: navInvertIn var(--animation-duration-smooth) var(--animation-timing-smooth) forwards;
+}
+
+.header-container nav.nav-reverting {
+  animation: navInvertOut var(--animation-duration-smooth) var(--animation-timing-smooth) forwards;
+}
+
+/* Page load animations */
+.header-container-logo-cta .header-logo {
+  opacity: 0;
+  animation: fadeInDown var(--animation-duration-default) var(--animation-timing-ease-out) forwards;
+  animation-delay: var(--delay-header-logo);
+}
+
+.header-container-logo-cta #contact-cta-btn {
+  opacity: 0;
+  animation: fadeInDown var(--animation-duration-default) var(--animation-timing-ease-out) forwards;
+  animation-delay: var(--delay-contact-cta);
+}
+
+.tech-wave-container {
+  opacity: 0;
+  animation: fadeInUp var(--animation-duration-smooth) var(--animation-timing-ease-out) forwards;
+  animation-delay: var(--delay-tech-wave);
+}

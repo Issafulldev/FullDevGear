@@ -1,0 +1,96 @@
+/* ==========================================================================
+   Main Layout - iSaaStack
+   ========================================================================== */
+
+/* --- Main Content --- */
+main#main-content {
+  padding-top: 5rem;
+  /* Offset for fixed header */
+}
+
+main#main-content article:not(.main-title) {
+  padding: 1rem;
+  margin-bottom: 3rem;
+}
+
+main#main-content article h2 {
+  font-size: 1.75rem;
+  color: var(--color-text-medium);
+  margin-bottom: 1rem;
+}
+
+main#main-content article p,
+main#main-content article ul li {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-text-subtle);
+  margin-bottom: 5.5rem;
+}
+
+/* Override margin-bottom only for main-title paragraph */
+main#main-content .main-title p {
+  margin-bottom: 0.231rem !important;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+@media (max-width: 768px) {
+  main#main-content .main-title p {
+    margin-bottom: 0.173rem !important;
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+}
+
+main#main-content article ul {
+  list-style-position: inside;
+  padding-left: 0.5rem;
+}
+
+main#main-content article ul li h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-text-heading3);
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+/* --- Responsive Layout --- */
+@media (min-width: 992px) {
+
+  h1,
+  .main-title h1 {
+    font-size: 5.04rem;
+    line-height: 1.1;
+    margin: 0 1rem 1.65rem;
+    padding-top: 1.1rem;
+  }
+
+  h2,
+  .main-title h2 {
+    font-size: 2.25rem;
+    line-height: 1.2;
+    margin: 1.5rem 1rem;
+  }
+
+  .main-title p {
+    max-width: 50rem;
+  }
+
+  .nowrap-desktop {
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 768px) {
+
+  h1,
+  .main-title h1 {
+    font-size: 2.4rem;
+    line-height: 1.1;
+    margin: 0 1rem 1.2rem;
+    padding-top: 0.8rem;
+  }
+
+
+}

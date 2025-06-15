@@ -1,0 +1,180 @@
+/* ==========================================================================
+   Header & Navigation - iSaaStack
+   ========================================================================== */
+
+/* --- Header --- */
+.header-container-logo-cta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  padding: 1rem;
+  background-color: var(--color-background-light);
+  z-index: var(--z-index-header-top);
+  transition: background-color var(--animation-duration-smooth) var(--animation-timing-smooth);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+.header-logo a {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.header-logo p {
+  color: var(--color-text-dark);
+  font-weight: bold;
+  font-family: 'Archivo Black', sans-serif;
+  margin: 0;
+  transition: color var(--animation-duration-smooth) var(--animation-timing-smooth);
+}
+
+#header-logo,
+#footer-logo {
+  width: 3.125rem;
+}
+
+.header-container-logo-cta .header-logo {
+  opacity: 0;
+  animation: fadeInDown var(--animation-duration-default) var(--animation-timing-ease-out) forwards;
+  animation-delay: var(--delay-header-logo);
+}
+
+.header-container-logo-cta #contact-cta-btn {
+  opacity: 0;
+  animation: fadeInDown var(--animation-duration-default) var(--animation-timing-ease-out) forwards;
+  animation-delay: var(--delay-contact-cta);
+}
+
+/* --- Navigation --- */
+.header-container nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--color-footer-bg);
+  color: var(--color-text-light);
+  padding: 1rem 1.25rem;
+  border-radius: 1.875rem;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1100;
+  opacity: 0;
+  animation: slideInFromRight var(--animation-duration-default) var(--animation-timing-ease-out) forwards;
+  animation-delay: var(--delay-nav-slide);
+  transition: background-color var(--animation-duration-smooth) var(--animation-timing-smooth),
+    color var(--animation-duration-smooth) var(--animation-timing-smooth),
+    box-shadow var(--animation-duration-smooth) var(--animation-timing-smooth);
+  will-change: transform, opacity, background-color, color, box-shadow;
+  backface-visibility: hidden;
+}
+
+/* Desktop Navigation - Top Position */
+@media (min-width: 768px) {
+  .header-container nav {
+    top: 1rem;
+    bottom: auto;
+  }
+}
+
+.header-container nav ul {
+  display: flex;
+  gap: 5rem;
+  list-style: none;
+}
+
+.header-container nav ul li a {
+  color: var(--color-text-nav-inactive);
+  font-weight: 500;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  transition: color var(--animation-duration-smooth) var(--animation-timing-smooth);
+}
+
+.header-container nav ul li a.nav-active {
+  color: var(--color-text-light);
+  font-weight: 600;
+}
+
+.header-container nav ul li a::before {
+  content: "•";
+  margin-right: 0.4em;
+  font-size: 1.1em;
+  opacity: 0;
+  transition: opacity var(--animation-duration-smooth) var(--animation-timing-smooth);
+}
+
+.header-container nav ul li a.nav-active::before {
+  opacity: 1;
+}
+
+/* Nav Inverted State */
+.header-container nav.nav-inverted {
+  background-color: var(--color-text-light);
+  color: var(--color-text-dark);
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.header-container nav.nav-inverted ul li a.nav-active {
+  color: var(--color-text-dark);
+}
+
+.header-container nav.nav-inverted ul li a.nav-active::before {
+  color: var(--color-text-dark);
+}
+
+.header-container nav.nav-inverting {
+  animation: navInvertIn var(--animation-duration-fast) var(--animation-timing-ease-in-out) forwards;
+}
+
+.header-container nav.nav-reverting {
+  animation: navInvertOut var(--animation-duration-fast) var(--animation-timing-ease-in-out) forwards;
+}
+
+/* --- Contact CTA --- */
+#contact-cta-btn {
+  background-color: var(--color-accent-yellow);
+  color: var(--color-text-dark);
+  padding: 0.75rem 1.5rem;
+  margin-right: 0.5rem;
+  border: none;
+  border-radius: 1.875rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#contact-cta-btn.active {
+  background-color: var(--color-text-dark);
+  color: var(--color-text-light);
+  transform: scale(1.05);
+}
+
+#contact-cta-btn:hover {
+  background-color: var(--color-text-dark);
+  color: var(--color-text-light);
+  transform: scale(1.05);
+}
+
+#contact-cta-btn {
+  position: relative;
+}
+
+.header-cta {
+  position: relative;
+}
+
+/* --- Responsive --- */
+@media (min-width: 992px) {
+  .header-container nav {
+    padding: 1rem 2rem;
+  }
+}

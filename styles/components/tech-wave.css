@@ -1,0 +1,137 @@
+/* ==========================================================================
+   Tech Wave Component - iSaaStack
+   ========================================================================== */
+
+.tech-wave-container {
+  width: 100%;
+  height: 17rem;
+  background-color: #000;
+  margin: 2.7rem 0 3rem 0;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 0.5rem 1.5rem;
+  opacity: 0;
+  animation: fadeInUp var(--animation-duration-smooth) var(--animation-timing-ease-out) forwards;
+  animation-delay: var(--delay-tech-wave);
+}
+
+.tech-tiles-scroller {
+  display: flex;
+  gap: 1.5rem;
+  will-change: transform;
+  width: max-content;
+}
+
+.tech-tile {
+  width: 6.5rem;
+  height: 6.5rem;
+  border-radius: 8px;
+  position: relative;
+  transition: box-shadow 0.3s ease-out;
+  cursor: pointer;
+  /* Animation désactivée par défaut - activée seulement quand visible */
+}
+
+.tech-tile.visible {
+  animation: halo-pulse 2.5s infinite ease-in-out;
+}
+
+/* Support pour prefers-reduced-motion uniquement */
+@media (prefers-reduced-motion: reduce) {
+  .tech-tile.visible {
+    animation: none !important;
+  }
+}
+
+.tile-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: inherit;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.tile-front {
+  padding: 0.75rem;
+  opacity: 1;
+}
+
+.tile-back {
+  padding: 0.75rem;
+  background-color: rgba(0, 0, 0, 0.9);
+  color: #fff;
+  font-family: 'Inter', 'Source Sans 3', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  line-height: 1.5;
+  text-align: center;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.tech-tile.is-flipped .tile-front {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.tech-tile.is-flipped .tile-back {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Effet hover simple et performant */
+@media (hover: hover) and (pointer: fine) {
+  .tech-tile:hover {
+    transform: translateY(-2px);
+    transition: transform 0.2s ease-out, box-shadow 0.3s ease-out;
+  }
+}
+
+.tile-back * {
+  color: #fff !important;
+}
+
+.tech-tile-logo {
+  max-width: 60%;
+  max-height: 50%;
+  object-fit: contain;
+  filter: grayscale(100%) brightness(0) invert(0.75);
+  /* Default gray */
+  margin-bottom: 0.5rem;
+}
+
+.tech-tile-logo.logo-use-original-colors {
+  filter: none !important;
+}
+
+.tech-tile-logo.logo-force-color-white {
+  filter: grayscale(100%) brightness(0) invert(1) !important;
+}
+
+.tech-tile-logo.logo-force-color-black {
+  filter: grayscale(100%) brightness(0) !important;
+}
+
+.tech-tile-name {
+  font-size: 0.6rem;
+  font-weight: 500;
+  color: #A0A0A0;
+  text-align: center;
+  text-transform: uppercase;
+  line-height: 1.1;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 0.25rem;
+}

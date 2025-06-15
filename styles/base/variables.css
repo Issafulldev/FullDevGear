@@ -1,0 +1,53 @@
+/* ==========================================================================
+   CSS Variables - iSaaStack
+   ========================================================================== */
+:root {
+  /* Brand Colors */
+  --color-primary: #007bff;
+  --color-accent-yellow: #FFF100;
+
+  /* Background Colors */
+  --color-background-light: #e6e6e6;
+  --color-background-form: #f9f9f9;
+  --color-background-tech-wave: #f0f0f0;
+
+  /* Border Colors */
+  --color-border-light: #ddd;
+  --color-border-medium: #444;
+
+  /* Text Colors */
+  --color-text-dark: #000;
+  --color-text-light: #fff;
+  --color-text-subtle: #555;
+  --color-text-medium: #333;
+  --color-text-heading3: #444;
+  --color-text-nav-inactive: #9E9E9E;
+  --color-text-footer-copyright: #ccc;
+
+  /* Footer Specific Colors */
+  --color-footer-bg: #000;
+  --color-footer-text: #f0f0f0;
+
+  /* Z-indexes */
+  --z-index-footer: 500;
+  --z-index-nav-bottom: 900;
+  --z-index-header-top: 1000;
+  --z-index-page-transition: 2000;
+
+  /* Animation Timings & Delays */
+  --animation-duration-fast: 0.5s;
+  --animation-duration-default: 0.8s;
+  --animation-duration-smooth: 1.2s;
+  --animation-timing-ease-out: ease-out;
+  --animation-timing-ease-in-out: ease-in-out;
+  --animation-timing-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+  --delay-fade-transition: 0.1s;
+  --delay-header-logo: 0.2s;
+  --delay-contact-cta: 0.5s;
+  --delay-article-content: 0.5s;
+  --delay-main-title: 0.8s;
+  --delay-tech-wave: 1.2s;
+  --delay-nav-slide: 1.8s;
+  --delay-late-article-content: 2.0s;
+}
