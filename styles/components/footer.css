@@ -32,18 +32,56 @@ footer {
   margin-bottom: 0.5rem;
 }
 
-.footer-logo-section .footer-logo p {
+.footer-text-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.footer-logo-section .footer-logo p:first-child {
   color: var(--color-text-light);
   font-weight: bold;
   font-family: 'Archivo Black', sans-serif;
   font-size: 1.25rem;
+  margin: 0;
 }
 
 .footer-tagline {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   color: var(--color-text-footer-copyright);
-  margin-top: 0.25rem;
+  margin: 0;
+  font-weight: normal;
 }
+
+/* Footer logo animation */
+#footer-logo {
+  animation: logoFloat 4s ease-in-out infinite, logoGlow 3s ease-in-out infinite;
+  transition: all 0.3s ease;
+}
+
+/* Desktop: Same dimensions as header */
+@media (min-width: 768px) {
+  #footer-logo {
+    width: 6rem;
+    height: 6rem;
+  }
+
+  .footer-logo-section .footer-logo p:first-child {
+    font-size: 1.3rem;
+    line-height: 1.2;
+  }
+
+  .footer-logo-section .footer-logo a {
+    gap: 1rem;
+    height: 6rem;
+  }
+
+  .footer-tagline {
+    font-size: 0.8rem;
+  }
+}
+
+
 
 .footer-section h4 {
   font-size: 1.125rem;

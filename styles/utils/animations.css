@@ -297,3 +297,33 @@ main#main-content>section#freelance-content>article.late-animation-item {
     transform: rotate(360deg);
   }
 }
+
+/* Logo Animation - Subtle floating effect */
+@keyframes logoFloat {
+
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+
+  33% {
+    transform: translateY(-3px) rotate(1deg);
+  }
+
+  66% {
+    transform: translateY(-1px) rotate(-1deg);
+  }
+}
+
+/* Logo Glow Animation */
+@keyframes logoGlow {
+
+  0%,
+  100% {
+    filter: drop-shadow(0 0 5px rgba(255, 241, 0, 0.3));
+  }
+
+  50% {
+    filter: drop-shadow(0 0 15px rgba(255, 241, 0, 0.6));
+  }
+}
