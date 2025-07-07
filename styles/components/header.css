@@ -12,7 +12,7 @@
   left: 0;
   right: 0;
   width: 100%;
-  padding: 1rem;
+  padding: 1.25rem 1rem;
   background-color: var(--color-background-light);
   z-index: var(--z-index-header-top);
   transition: background-color var(--animation-duration-smooth) var(--animation-timing-smooth);
@@ -34,9 +34,16 @@
   transition: color var(--animation-duration-smooth) var(--animation-timing-smooth);
 }
 
-#header-logo,
+#header-logo {
+  width: 5rem;
+  height: 5rem;
+  object-fit: contain;
+}
+
 #footer-logo {
   width: 3.125rem;
+  height: 3.125rem;
+  object-fit: contain;
 }
 
 .header-container-logo-cta .header-logo {

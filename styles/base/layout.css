@@ -4,8 +4,8 @@
 
 /* --- Main Content --- */
 main#main-content {
-  padding-top: 5rem;
-  /* Offset for fixed header */
+  padding-top: 6.5rem;
+  /* Offset for fixed header with larger logo */
 }
 
 main#main-content article:not(.main-title) {
