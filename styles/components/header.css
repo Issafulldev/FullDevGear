@@ -42,7 +42,7 @@
   width: 6rem;
   height: 6rem;
   object-fit: contain;
-  animation: logoFloat 4s ease-in-out infinite, logoGlow 3s ease-in-out infinite;
+  animation: logoFloat 6s ease-in-out infinite, logoGlow 5s ease-in-out infinite;
   transition: all 0.3s ease;
 }
 

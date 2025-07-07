@@ -327,3 +327,18 @@ main#main-content>section#freelance-content>article.late-animation-item {
     filter: drop-shadow(0 0 15px rgba(255, 241, 0, 0.6));
   }
 }
+
+/* Performance optimization: Pause animations during scroll */
+.scrolling * {
+  animation-play-state: paused !important;
+  transition-duration: 0s !important;
+}
+
+/* Respect user preference for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -36,7 +36,7 @@
 }
 
 .tech-tile.visible {
-  animation: halo-pulse 2.5s infinite ease-in-out;
+  animation: halo-pulse 4s infinite ease-in-out;
 }
 
 /* Support pour prefers-reduced-motion uniquement */

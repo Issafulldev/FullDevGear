@@ -1242,4 +1242,33 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(setupCVScrollActivation, 100);
     }
   });
+
+  // --- Performance Optimization: Pause animations during scroll ---
+  let scrollTimeout;
+  let isScrolling = false;
+
+  const handleScrollStart = () => {
+    if (!isScrolling) {
+      document.body.classList.add('scrolling');
+      isScrolling = true;
+    }
+
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
+      document.body.classList.remove('scrolling');
+      isScrolling = false;
+    }, 150); // Resume animations 150ms after scroll stops
+  };
+
+  // Throttled scroll listener for better performance
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        handleScrollStart();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
 });
