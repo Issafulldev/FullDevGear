@@ -92,8 +92,9 @@
 /* Desktop Navigation - Top Position */
 @media (min-width: 768px) {
   .header-container nav {
-    top: 1rem;
+    top: 2.5rem;
     bottom: auto;
+    transform: translateX(-50%);
   }
 }
 
@@ -193,8 +194,34 @@
 
 /* --- Responsive --- */
 @media (max-width: 768px) {
-  .header-logo p {
-    margin-left: 2rem;
+  .header-container-logo-cta {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    justify-items: center;
+  }
+
+  .header-logo {
+    justify-self: start;
+    display: contents;
+  }
+
+  .header-logo a {
+    display: contents;
+  }
+
+  .header-logo a img {
+    justify-self: start;
+  }
+
+  .header-logo a p {
+    justify-self: center;
+    margin: 0;
+    grid-column: 2;
+  }
+
+  .header-cta {
+    justify-self: end;
   }
 }
 
