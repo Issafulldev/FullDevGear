@@ -8,7 +8,7 @@ OLD_IMAGES=(
     "assets/images/ProPic.webp"
     "assets/projects/Kasa/Screenshot 2025-06-10 at 01.46.34.png"
     "assets/projects/Kanap/Screenshot 2025-06-10 at 01.55.09.png"
-    "assets/projects/iSaaStack/Screenshot 2025-06-10 at 02.02.18.png"
+    "assets/projects/DevAziss/Screenshot 2025-06-10 at 02.02.18.png"
 )
 
 echo "⚠️  ATTENTION: Ce script va supprimer les anciennes images volumineuses."

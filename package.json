@@ -1,7 +1,7 @@
 {
-  "name": "isaastack-portfolio",
+  "name": "devaziss-portfolio",
   "version": "1.0.0",
-  "description": "Portfolio website for iSaaStack - Code, No-Code, AI solutions",
+  "description": "Portfolio website for DevAziss - Code, No-Code, AI solutions",
   "scripts": {
     "dev": "live-server --port=3000 --open=index.html",
     "start": "live-server --port=8080"

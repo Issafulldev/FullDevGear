@@ -736,199 +736,46 @@ document.addEventListener('DOMContentLoaded', () => {
   setupContactPopup();
 
   // --- Navigation Dynamic Color Logic ---
-  const setupNavDynamicColor = () => {
-    const bottomNav = document.querySelector('.header-container nav');
+  // --- Navigation Simple Color Logic (Ultra-optimisé) ---
+  // Navigation color management removed - using fixed color like contact button
 
-    if (!bottomNav) {
-      console.warn('Bottom navigation not found for dynamic color setup. Skipping nav color setup.');
-      return;
-    }
+  // --- Header Scroll Effect ---
+  const setupHeaderScrollEffect = () => {
+    const header = document.querySelector('.header-container-logo-cta');
+    if (!header) return;
 
-    let currentBrightness = null;
-    let animationFrame = null;
-    let canvas, ctx;
+    let isScrolled = false;
+    const scrollThreshold = 50; // Pixels de scroll avant d'activer l'effet
 
-    // Créer un canvas caché pour la détection de couleur
-    const initCanvas = () => {
-      canvas = document.createElement('canvas');
-      ctx = canvas.getContext('2d');
-      canvas.width = 1;
-      canvas.height = 1;
-      canvas.style.position = 'absolute';
-      canvas.style.top = '-9999px';
-      canvas.style.left = '-9999px';
-      canvas.style.pointerEvents = 'none';
-      document.body.appendChild(canvas);
-    };
+    const handleScroll = () => {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
-    const getNavPosition = () => {
-      const navRect = bottomNav.getBoundingClientRect();
-      return {
-        x: navRect.left + navRect.width / 2,
-        y: navRect.top + navRect.height / 2,
-        width: navRect.width,
-        height: navRect.height
-      };
-    };
-
-    const calculateBrightness = (r, g, b) => {
-      // Formule de luminance perceptuelle
-      return (r * 299 + g * 587 + b * 114) / 1000;
-    };
-
-    const capturePixelColor = (x, y) => {
-      try {
-        // Temporairement cacher la nav pour capturer ce qui est en dessous
-        const originalVisibility = bottomNav.style.visibility;
-        const originalPointerEvents = bottomNav.style.pointerEvents;
-
-        bottomNav.style.visibility = 'hidden';
-        bottomNav.style.pointerEvents = 'none';
-
-        // Forcer un reflow
-        bottomNav.offsetHeight;
-
-        // Utiliser html2canvas ou une approche alternative
-        // Comme html2canvas n'est pas disponible, on va utiliser une approche différente
-
-        // Trouver l'élément sous la position donnée
-        const elementUnder = document.elementFromPoint(x, y);
-
-        // Restaurer la nav
-        bottomNav.style.visibility = originalVisibility;
-        bottomNav.style.pointerEvents = originalPointerEvents;
-
-        if (!elementUnder) {
-          return { r: 230, g: 230, b: 230 }; // Couleur par défaut
-        }
-
-        // Obtenir la couleur de fond calculée
-        const computedStyle = window.getComputedStyle(elementUnder);
-        let bgColor = computedStyle.backgroundColor;
-
-        // Si transparent, remonter dans la hiérarchie
-        let currentElement = elementUnder;
-        while ((bgColor === 'rgba(0, 0, 0, 0)' || bgColor === 'transparent') && currentElement.parentElement) {
-          currentElement = currentElement.parentElement;
-          bgColor = window.getComputedStyle(currentElement).backgroundColor;
-        }
-
-        // Parser la couleur RGB
-        if (bgColor.startsWith('rgb')) {
-          const matches = bgColor.match(/\d+/g);
-          if (matches && matches.length >= 3) {
-            return {
-              r: parseInt(matches[0]),
-              g: parseInt(matches[1]),
-              b: parseInt(matches[2])
-            };
-          }
-        }
-
-        // Couleur par défaut si parsing échoue
-        return { r: 230, g: 230, b: 230 };
-
-      } catch (error) {
-        console.warn('Erreur lors de la capture de couleur:', error);
-        return { r: 230, g: 230, b: 230 };
+      if (scrollTop > scrollThreshold && !isScrolled) {
+        header.classList.add('scrolled');
+        isScrolled = true;
+      } else if (scrollTop <= scrollThreshold && isScrolled) {
+        header.classList.remove('scrolled');
+        isScrolled = false;
       }
     };
 
-    const detectBackgroundBrightness = () => {
-      const navPos = getNavPosition();
-
-      // Capturer la couleur au centre de la nav
-      const { r, g, b } = capturePixelColor(navPos.x, navPos.y);
-
-      return calculateBrightness(r, g, b);
+    // Throttle pour optimiser les performances
+    let scrollTimeout;
+    const throttledHandleScroll = () => {
+      if (scrollTimeout) return;
+      scrollTimeout = setTimeout(() => {
+        handleScroll();
+        scrollTimeout = null;
+      }, 16); // ~60fps
     };
 
-    const applyNavColorBasedOnBrightness = (brightness) => {
-      // Utiliser une tolérance pour éviter les changements trop fréquents
-      const TOLERANCE = 10;
-      if (currentBrightness !== null && Math.abs(currentBrightness - brightness) < TOLERANCE) {
-        return;
-      }
+    window.addEventListener('scroll', throttledHandleScroll, { passive: true });
 
-      currentBrightness = brightness;
-
-      // Seuil de luminosité pour déterminer si le fond est clair ou sombre
-      const BRIGHTNESS_THRESHOLD = 125;
-
-      if (brightness > BRIGHTNESS_THRESHOLD) {
-        // Fond clair -> nav sombre (enlever nav-inverted pour avoir nav noire)
-        if (bottomNav.classList.contains('nav-inverted')) {
-          bottomNav.classList.remove('nav-inverted');
-        }
-      } else {
-        // Fond sombre -> nav claire (ajouter nav-inverted pour avoir nav blanche)
-        if (!bottomNav.classList.contains('nav-inverted')) {
-          bottomNav.classList.add('nav-inverted');
-        }
-      }
-    };
-
-    const updateNavColor = () => {
-      const brightness = detectBackgroundBrightness();
-      applyNavColorBasedOnBrightness(brightness);
-    };
-
-    // Optimisation avec requestAnimationFrame pour les performances
-    const scheduleUpdate = () => {
-      if (animationFrame) return;
-
-      animationFrame = requestAnimationFrame(() => {
-        updateNavColor();
-        animationFrame = null;
-      });
-    };
-
-    // Event listeners optimisés
-    const setupEventListeners = () => {
-      // Scroll avec throttling
-      let scrollTimeout;
-      window.addEventListener('scroll', () => {
-        if (scrollTimeout) return;
-        scrollTimeout = setTimeout(() => {
-          scheduleUpdate();
-          scrollTimeout = null;
-        }, 32); // ~30fps pour éviter trop de calculs
-      }, { passive: true });
-
-      // Resize avec debouncing
-      let resizeTimeout;
-      window.addEventListener('resize', () => {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(() => {
-          scheduleUpdate();
-        }, 150);
-      });
-
-      // Événements personnalisés pour SPA
-      document.addEventListener('navColorCheck', scheduleUpdate);
-    };
-
-    // Initialisation
-    initCanvas();
-    setupEventListeners();
-
-    // Première détection après un court délai pour s'assurer que tout est rendu
-    setTimeout(() => {
-      updateNavColor();
-    }, 200);
-
-    // Retourner une fonction de nettoyage si nécessaire
-    return () => {
-      if (animationFrame) {
-        cancelAnimationFrame(animationFrame);
-      }
-      if (canvas && canvas.parentNode) {
-        canvas.parentNode.removeChild(canvas);
-      }
-    };
+    // Vérifier l'état initial
+    handleScroll();
   };
 
-  setupNavDynamicColor();
+  setupHeaderScrollEffect();
 
   // --- SPA Routing & Transitions ---
   const SPA_ROUTING = (() => {
@@ -998,10 +845,7 @@ document.addEventListener('DOMContentLoaded', () => {
           document.body.classList.remove('cv-dark-mode');
         }
 
-        // Add a slight delay for smoother header transition
-        setTimeout(() => {
-          document.dispatchEvent(new Event('navColorCheck'));
-        }, 50);
+        // Navigation color management removed - using fixed color
       };
 
       if (!useTransition) {
@@ -1075,14 +919,82 @@ document.addEventListener('DOMContentLoaded', () => {
         path = '/';
       }
 
-      // Scroll to top of the page
-      window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: 'smooth'
-      });
+      if (useTransition) {
+        // Vérifier si une transition est déjà en cours
+        if (isTransitioning) {
+          console.warn('Transition already in progress. Ignoring new navigation request.');
+          return;
+        }
 
-      showSection(ROUTES[path], useTransition); // Pass useTransition flag
+        isTransitioning = true;
+
+        // Animation de la vague seulement
+        waveElement.classList.remove('wave-transition-sweep-out');
+        waveElement.style.display = 'block';
+        waveElement.classList.add('wave-transition-sweep-in');
+
+        // Gérer le changement de section pendant l'animation
+        waveElement.onanimationend = (event) => {
+          if (event.animationName === 'wave-sweep-in') {
+            waveElement.onanimationend = null;
+
+            // Changer les sections maintenant
+            const allSections = document.querySelectorAll('.main-content-area');
+            const sectionToShow = document.getElementById(sectionId);
+            let sectionToHide = null;
+
+            allSections.forEach(sec => {
+              if (!sec.hidden && sec.id !== sectionId) {
+                sectionToHide = sec;
+              }
+            });
+
+            if (sectionToHide) {
+              sectionToHide.hidden = true;
+              sectionToHide.classList.remove('fade-in', 'fade-out');
+            }
+
+            if (sectionToShow) {
+              sectionToShow.hidden = false;
+              sectionToShow.classList.remove('fade-in', 'fade-out');
+            }
+
+            // Scroll en haut MAINTENANT (quand on "arrive" sur la nouvelle page)
+            window.scrollTo(0, 0);
+
+            // Appliquer les styles de page
+            if (sectionId === 'cv-content') {
+              document.body.classList.add('cv-dark-mode');
+            } else {
+              document.body.classList.remove('cv-dark-mode');
+            }
+
+            // Navigation color management removed - using fixed color
+
+            // Démarrer l'animation de sortie
+            waveElement.classList.remove('wave-transition-sweep-in');
+            waveElement.classList.add('wave-transition-sweep-out');
+
+            waveElement.onanimationend = (event) => {
+              if (event.animationName === 'wave-sweep-out') {
+                waveElement.onanimationend = null;
+                waveElement.style.display = 'none';
+                waveElement.classList.remove('wave-transition-sweep-out');
+                isTransitioning = false;
+              }
+            };
+          }
+        };
+      } else {
+        // Pour le chargement initial, scroll instantané
+        window.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: 'instant'
+        });
+        showSection(ROUTES[path], useTransition);
+      }
+
       updateNavActive(path);
 
       if (push) {
@@ -1206,7 +1118,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Clean up observer when navigating away from CV
-    document.addEventListener('navInversionCheck', () => {
+    const cleanupCVSections = () => {
       const isCvPage = document.body.classList.contains('cv-dark-mode');
       if (!isCvPage) {
         // Clean up active states when leaving CV page
@@ -1215,7 +1127,11 @@ document.addEventListener('DOMContentLoaded', () => {
           section.classList.remove('cv-section-active');
         });
       }
-    });
+    };
+
+    // Listen for page changes to clean up CV sections
+    document.addEventListener('DOMContentLoaded', cleanupCVSections);
+    window.addEventListener('popstate', cleanupCVSections);
 
     // Handle orientation changes and resize events
     let resizeTimeout;
@@ -1235,13 +1151,16 @@ document.addEventListener('DOMContentLoaded', () => {
   setupCVScrollActivation();
 
   // Re-initialize when navigating to CV page
-  document.addEventListener('navInversionCheck', () => {
+  const reinitializeCVOnPageChange = () => {
     const isCvPage = document.body.classList.contains('cv-dark-mode');
     if (isCvPage) {
       // Small delay to ensure DOM is ready
       setTimeout(setupCVScrollActivation, 100);
     }
-  });
+  };
+
+  // Listen for page changes to reinitialize CV functionality
+  window.addEventListener('popstate', reinitializeCVOnPageChange);
 
   // --- Performance Optimization: Pause animations during scroll ---
   let scrollTimeout;

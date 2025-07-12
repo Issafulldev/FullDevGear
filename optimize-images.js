@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Image Optimization Script for iSaaStack
+ * Image Optimization Script for DevAziss
  * Optimizes images for web performance
  */
 
@@ -208,7 +208,7 @@ function analyzeCurrentPerformance() {
 
 // Main execution
 function main() {
-  console.log('🚀 iSaaStack Performance Optimization Guide\n');
+  console.log('🚀 DevAziss Performance Optimization Guide\n');
   console.log('='.repeat(50));
 
   analyzeCurrentPerformance();

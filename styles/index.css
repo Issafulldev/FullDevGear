@@ -1,5 +1,5 @@
 /* ==========================================================================
-   iSaaStack - Main CSS Entry Point (Modular)
+   DevAziss - Main CSS Entry Point (Modular)
    ========================================================================== */
 
 /* --- Base Styles --- */
@@ -45,14 +45,7 @@
   position: relative;
 }
 
-/* Navigation animation states */
-.header-container nav.nav-inverting {
-  animation: navInvertIn var(--animation-duration-smooth) var(--animation-timing-smooth) forwards;
-}
-
-.header-container nav.nav-reverting {
-  animation: navInvertOut var(--animation-duration-smooth) var(--animation-timing-smooth) forwards;
-}
+/* Navigation animation states - Removed (using fixed color like contact button) */
 
 /* Page load animations */
 .header-container-logo-cta .header-logo {

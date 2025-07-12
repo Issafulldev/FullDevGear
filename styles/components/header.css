@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Header & Navigation - iSaaStack
+   Header & Navigation - DevAziss
    ========================================================================== */
 
 /* --- Header --- */
@@ -15,10 +15,43 @@
   padding: 1rem;
   background-color: var(--color-background-light);
   z-index: var(--z-index-header-top);
-  transition: background-color var(--animation-duration-smooth) var(--animation-timing-smooth);
-  will-change: transform, opacity;
+  transition: all 0.3s ease;
+  will-change: transform, opacity, background-color, border-radius;
   backface-visibility: hidden;
   min-height: 8rem;
+}
+
+/* État du header lors du scroll */
+.header-container-logo-cta.scrolled {
+  background-color: rgba(230, 230, 230, 0.9);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom-left-radius: 0.75rem;
+  border-bottom-right-radius: 0.75rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* État du header lors du scroll sur la page CV */
+body.cv-dark-mode .header-container-logo-cta.scrolled {
+  background-color: rgba(0, 0, 0, 0.9);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Titre DevAziss blanc sur la page CV */
+body.cv-dark-mode .header-logo p {
+  color: var(--color-text-light);
+}
+
+body.cv-dark-mode .header-logo .header-tagline {
+  color: var(--color-text-light);
+}
+
+body.cv-dark-mode .header-title-mobile a {
+  color: var(--color-text-light);
+}
+
+body.cv-dark-mode .header-title-mobile .header-tagline-mobile {
+  color: var(--color-text-light);
 }
 
 .header-logo a {
@@ -26,6 +59,12 @@
   align-items: center;
   gap: 1rem;
   height: 6rem;
+}
+
+.header-text-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }
 
 .header-logo p {
@@ -36,6 +75,14 @@
   font-size: 1.3rem;
   line-height: 1.2;
   transition: color var(--animation-duration-smooth) var(--animation-timing-smooth);
+}
+
+.header-logo .header-tagline {
+  font-size: 0.486rem;
+  color: var(--color-text-dark);
+  margin: 0;
+  font-weight: 100;
+  font-family: 'Archivo Black', sans-serif;
 }
 
 #header-logo {
@@ -58,6 +105,11 @@
   animation-delay: var(--delay-header-logo);
 }
 
+/* Masquer le titre mobile sur desktop */
+.header-title-mobile {
+  display: none;
+}
+
 .header-container-logo-cta #contact-cta-btn {
   opacity: 0;
   animation: fadeInDown var(--animation-duration-default) var(--animation-timing-ease-out) forwards;
@@ -73,19 +125,17 @@
   bottom: 2rem;
   left: 50%;
   transform: translateX(-50%);
-  background-color: var(--color-footer-bg);
-  color: var(--color-text-light);
+  background-color: var(--color-accent-yellow);
+  color: var(--color-text-dark);
   padding: 1rem 1.25rem;
   border-radius: 1.875rem;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
   z-index: 1100;
   opacity: 0;
-  animation: slideInFromRight var(--animation-duration-default) var(--animation-timing-ease-out) forwards;
+  animation: navFadeIn 0.6s ease-out forwards;
   animation-delay: var(--delay-nav-slide);
-  transition: background-color var(--animation-duration-smooth) var(--animation-timing-smooth),
-    color var(--animation-duration-smooth) var(--animation-timing-smooth),
-    box-shadow var(--animation-duration-smooth) var(--animation-timing-smooth);
-  will-change: transform, opacity, background-color, color, box-shadow;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  will-change: background-color, color;
   backface-visibility: hidden;
 }
 
@@ -105,18 +155,20 @@
 }
 
 .header-container nav ul li a {
-  color: var(--color-text-nav-inactive);
+  color: var(--color-text-dark);
   font-weight: 500;
   font-size: 0.9rem;
   display: flex;
   align-items: center;
   white-space: nowrap;
   transition: color var(--animation-duration-smooth) var(--animation-timing-smooth);
+  opacity: 0.7;
 }
 
 .header-container nav ul li a.nav-active {
-  color: var(--color-text-light);
+  color: var(--color-text-dark);
   font-weight: 600;
+  opacity: 1;
 }
 
 .header-container nav ul li a::before {
@@ -131,28 +183,7 @@
   opacity: 1;
 }
 
-/* Nav Inverted State */
-.header-container nav.nav-inverted {
-  background-color: var(--color-text-light);
-  color: var(--color-text-dark);
-  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.header-container nav.nav-inverted ul li a.nav-active {
-  color: var(--color-text-dark);
-}
-
-.header-container nav.nav-inverted ul li a.nav-active::before {
-  color: var(--color-text-dark);
-}
-
-.header-container nav.nav-inverting {
-  animation: navInvertIn var(--animation-duration-fast) var(--animation-timing-ease-in-out) forwards;
-}
-
-.header-container nav.nav-reverting {
-  animation: navInvertOut var(--animation-duration-fast) var(--animation-timing-ease-in-out) forwards;
-}
+/* Nav Inverted State - Removed (using fixed color like contact button) */
 
 /* --- Contact CTA --- */
 #contact-cta-btn {
@@ -196,31 +227,83 @@
 @media (max-width: 768px) {
   .header-container-logo-cta {
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: 1fr 1fr 1fr;
     align-items: center;
-    justify-items: center;
+    gap: 1rem;
+    padding: 1rem;
   }
 
+  /* Case 1: Logo à gauche */
   .header-logo {
+    grid-column: 1;
     justify-self: start;
-    display: contents;
+    display: block;
+    opacity: 0;
+    animation: fadeInDown var(--animation-duration-default) var(--animation-timing-ease-out) forwards;
+    animation-delay: var(--delay-header-logo);
   }
 
   .header-logo a {
-    display: contents;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
   }
 
   .header-logo a img {
-    justify-self: start;
+    width: 4rem;
+    height: 4rem;
+    object-fit: contain;
   }
 
   .header-logo a p {
-    justify-self: center;
-    margin: 0;
-    grid-column: 2;
+    display: none;
+    /* Masquer le texte dans la case logo */
   }
 
+  .header-logo .header-text-container {
+    display: none;
+    /* Masquer le texte et tagline dans la case logo sur mobile */
+  }
+
+  /* Afficher le tagline sous le titre mobile */
+  .header-title-mobile .header-tagline-mobile {
+    display: block;
+    font-size: 0.486rem;
+    color: var(--color-text-dark);
+    margin: 0.25rem 0 0 0;
+    font-weight: 100;
+    font-family: 'Archivo Black', sans-serif;
+    text-align: center;
+  }
+
+  /* Case 2: Texte au centre - Élément HTML dédié */
+  .header-title-mobile {
+    display: block;
+    grid-column: 2;
+    justify-self: center;
+    align-self: center;
+    opacity: 0;
+    animation: fadeInDown var(--animation-duration-default) var(--animation-timing-ease-out) forwards;
+    animation-delay: var(--delay-header-logo);
+  }
+
+  .header-title-mobile a {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 1.328rem;
+    /* 1.265rem + 5% = 1.328rem (Total: +20% de 1.1rem) */
+    font-weight: bold;
+    color: var(--color-text-dark);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .header-title-mobile a:hover {
+    color: var(--color-primary);
+  }
+
+  /* Case 3: Bouton de contact à droite */
   .header-cta {
+    grid-column: 3;
     justify-self: end;
   }
 }
@@ -228,5 +311,9 @@
 @media (min-width: 992px) {
   .header-container nav {
     padding: 1rem 2rem;
+  }
+
+  .header-logo .header-tagline {
+    font-size: 0.527rem;
   }
 }

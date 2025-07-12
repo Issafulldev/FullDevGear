@@ -1,5 +1,5 @@
 /* ==========================================================================
-   CSS Variables - iSaaStack
+   CSS Variables - DevAziss
    ========================================================================== */
 :root {
   /* Brand Colors */
@@ -21,7 +21,7 @@
   --color-text-subtle: #555;
   --color-text-medium: #333;
   --color-text-heading3: #444;
-  --color-text-nav-inactive: #9E9E9E;
+  /* --color-text-nav-inactive: #9E9E9E; - Removed: no longer used with fixed nav color */
   --color-text-footer-copyright: #ccc;
 
   /* Footer Specific Colors */
