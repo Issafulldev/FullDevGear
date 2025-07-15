@@ -269,17 +269,14 @@ main#main-content>section#freelance-content>article.late-animation-item {
 @keyframes experienceSlide {
   0% {
     transform: translateX(0);
-    box-shadow: none;
   }
 
   30% {
     transform: translateX(2px);
-    box-shadow: inset 2px 0 0 var(--cv-dm-accent-primary);
   }
 
   100% {
     transform: translateX(0);
-    box-shadow: none;
   }
 }
 
