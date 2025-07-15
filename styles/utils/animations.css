@@ -272,9 +272,9 @@ main#main-content>section#freelance-content>article.late-animation-item {
     box-shadow: none;
   }
 
-  50% {
-    transform: translateX(5px);
-    box-shadow: inset 3px 0 0 var(--cv-dm-accent-primary);
+  30% {
+    transform: translateX(2px);
+    box-shadow: inset 2px 0 0 var(--cv-dm-accent-primary);
   }
 
   100% {
@@ -290,6 +290,46 @@ main#main-content>section#freelance-content>article.late-animation-item {
 
   100% {
     transform: rotate(360deg);
+  }
+}
+
+/* Animations pour l'effet univers stellaire */
+@keyframes starTwinkle {
+  0% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.8;
+    transform: scale(1.1);
+  }
+
+  100% {
+    opacity: 0.4;
+    transform: scale(0.9);
+  }
+}
+
+@keyframes nebulaDrift {
+  0% {
+    transform: rotate(0deg) translate(-2%, -2%);
+  }
+
+  25% {
+    transform: rotate(90deg) translate(-1%, -3%);
+  }
+
+  50% {
+    transform: rotate(180deg) translate(-3%, -1%);
+  }
+
+  75% {
+    transform: rotate(270deg) translate(-1%, -2%);
+  }
+
+  100% {
+    transform: rotate(360deg) translate(-2%, -2%);
   }
 }
 
