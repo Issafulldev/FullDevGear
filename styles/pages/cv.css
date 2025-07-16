@@ -4,7 +4,7 @@
 
 /* --- CV Dark Mode Theme --- */
 body.cv-dark-mode {
-  --cv-dm-background: #0a0a0a;
+  --cv-dm-background: #060606;
   --cv-dm-surface: #1a1a1a;
   --cv-dm-surface-hover: #242424;
   --cv-dm-text-primary: #ffffff;
@@ -19,17 +19,20 @@ body.cv-dark-mode {
   --cv-dm-glow: rgba(0, 212, 255, 0.3);
 
   background:
-    radial-gradient(ellipse at 20% 80%, rgba(71, 85, 105, 0.15) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 20%, rgba(100, 116, 139, 0.12) 0%, transparent 50%),
-    radial-gradient(ellipse at 40% 40%, rgba(51, 65, 85, 0.1) 0%, transparent 50%),
-    linear-gradient(135deg, #020617 0%, #0f172a 50%, #1e293b 100%);
+    /* Nébuleuse plus sombre et plus subtile */
+    radial-gradient(ellipse at 25% 75%, rgba(51, 65, 85, 0.06) 0%, transparent 60%),
+    radial-gradient(ellipse at 75% 25%, rgba(51, 65, 85, 0.06) 0%, transparent 60%),
+    radial-gradient(ellipse at 50% 50%, rgba(30, 41, 59, 0.04) 0%, transparent 70%),
+    radial-gradient(ellipse at 30% 30%, rgba(51, 65, 85, 0.03) 0%, transparent 65%),
+    radial-gradient(ellipse at 70% 70%, rgba(51, 65, 85, 0.03) 0%, transparent 65%),
+    linear-gradient(135deg, #000000 0%, #0a0f1c 30%, #0c1221 70%, #151b26 100%);
   color: var(--cv-dm-text-secondary);
   min-height: 100vh;
   position: relative;
   overflow-x: hidden;
 }
 
-/* Étoiles animées en arrière-plan */
+/* Étoiles animées en arrière-plan - Pour tous les navigateurs sauf Safari */
 body.cv-dark-mode::before {
   content: '';
   position: fixed;
@@ -38,38 +41,76 @@ body.cv-dark-mode::before {
   width: 100%;
   height: 100%;
   background-image:
-    radial-gradient(2px 2px at 20px 30px, #ffffff, transparent),
-    radial-gradient(2px 2px at 40px 70px, rgba(255, 255, 255, 0.8), transparent),
-    radial-gradient(1px 1px at 90px 40px, #ffffff, transparent),
-    radial-gradient(1px 1px at 130px 80px, rgba(255, 255, 255, 0.6), transparent),
-    radial-gradient(2px 2px at 160px 30px, rgba(255, 255, 255, 0.8), transparent),
-    radial-gradient(1px 1px at 200px 90px, #ffffff, transparent),
-    radial-gradient(1px 1px at 240px 50px, rgba(255, 255, 255, 0.7), transparent),
-    radial-gradient(2px 2px at 280px 100px, rgba(255, 255, 255, 0.9), transparent);
+    /* Pattern d'étoiles principal - plus dense et varié */
+    radial-gradient(1.5px 1.5px at 20px 30px, rgba(255, 255, 255, 0.5), transparent),
+    radial-gradient(1px 1px at 40px 70px, rgba(255, 255, 255, 0.6), transparent),
+    radial-gradient(1.2px 1.2px at 90px 40px, rgba(255, 255, 255, 0.4), transparent),
+    radial-gradient(0.8px 0.8px at 130px 80px, rgba(255, 255, 255, 0.7), transparent),
+    radial-gradient(1.3px 1.3px at 170px 25px, rgba(255, 255, 255, 0.45), transparent),
+    radial-gradient(0.9px 0.9px at 200px 110px, rgba(255, 255, 255, 0.55), transparent),
+    radial-gradient(1.1px 1.1px at 240px 60px, rgba(255, 255, 255, 0.35), transparent),
+    radial-gradient(0.7px 0.7px at 15px 150px, rgba(255, 255, 255, 0.65), transparent);
   background-repeat: repeat;
-  background-size: 300px 300px;
+  background-size: 280px 220px;
   animation: starTwinkle 8s ease-in-out infinite alternate;
   z-index: -2;
   pointer-events: none;
   opacity: 0.4;
 }
 
-/* Effet de nébuleuse en mouvement */
+/* Couche d'étoiles supplémentaire - pattern décalé et dense */
 body.cv-dark-mode::after {
   content: '';
   position: fixed;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background:
-    radial-gradient(circle at 30% 30%, rgba(71, 85, 105, 0.05) 0%, transparent 50%),
-    radial-gradient(circle at 70% 70%, rgba(51, 65, 85, 0.04) 0%, transparent 50%),
-    radial-gradient(circle at 20% 80%, rgba(100, 116, 139, 0.03) 0%, transparent 50%);
-  animation: nebulaDrift 20s linear infinite;
-  z-index: -1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    /* Pattern décalé avec plus d'étoiles */
+    radial-gradient(0.8px 0.8px at 60px 50px, rgba(255, 255, 255, 0.3), transparent),
+    radial-gradient(1px 1px at 120px 90px, rgba(255, 255, 255, 0.4), transparent),
+    radial-gradient(0.6px 0.6px at 180px 20px, rgba(255, 255, 255, 0.25), transparent),
+    radial-gradient(1.2px 1.2px at 30px 120px, rgba(255, 255, 255, 0.35), transparent),
+    radial-gradient(0.9px 0.9px at 150px 160px, rgba(255, 255, 255, 0.45), transparent),
+    radial-gradient(0.7px 0.7px at 210px 70px, rgba(255, 255, 255, 0.28), transparent),
+    radial-gradient(1.1px 1.1px at 80px 10px, rgba(255, 255, 255, 0.38), transparent);
+  background-repeat: repeat;
+  background-size: 260px 200px;
+  animation: starTwinkleSecondary 12s ease-in-out infinite alternate-reverse;
+  z-index: -3;
   pointer-events: none;
+  opacity: 0.3;
 }
+
+/* Optimisations spécifiques par navigateur */
+
+/* Safari - Fond noir uniforme sans étoiles pour éviter les bugs */
+body.browser-safari.cv-dark-mode {
+  background: #060606 !important;
+}
+
+body.browser-safari.cv-dark-mode::before,
+body.browser-safari.cv-dark-mode::after {
+  display: none !important;
+}
+
+/* Chrome, Firefox, Edge - Fond étoilé complet */
+body.browser-chrome.cv-dark-mode::before,
+body.browser-firefox.cv-dark-mode::before,
+body.browser-edge.cv-dark-mode::before,
+body.browser-other.cv-dark-mode::before {
+  /* Étoiles activées - utilise les règles par défaut ci-dessus */
+}
+
+body.browser-chrome.cv-dark-mode::after,
+body.browser-firefox.cv-dark-mode::after,
+body.browser-edge.cv-dark-mode::after,
+body.browser-other.cv-dark-mode::after {
+  /* Étoiles activées - utilise les règles par défaut ci-dessus */
+}
+
+
 
 /* --- CV Dark Mode Contact Popup Styles --- */
 body.cv-dark-mode .contact-popup {

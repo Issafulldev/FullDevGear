@@ -308,6 +308,23 @@ main#main-content>section#freelance-content>article.late-animation-item {
   }
 }
 
+@keyframes starTwinkleSecondary {
+  0% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+
+  50% {
+    opacity: 0.6;
+    transform: scale(1.2);
+  }
+
+  100% {
+    opacity: 0.2;
+    transform: scale(0.9);
+  }
+}
+
 @keyframes nebulaDrift {
   0% {
     transform: rotate(0deg) translate(-2%, -2%);

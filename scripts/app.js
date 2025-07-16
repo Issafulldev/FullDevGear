@@ -1,5 +1,92 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+  // --- Détection du navigateur pour optimisations spécifiques ---
+  const detectBrowser = () => {
+    const userAgent = navigator.userAgent;
+    const vendor = navigator.vendor;
+
+    // Détection Safari précise
+    const isSafari = /^((?!chrome|android).)*safari/i.test(userAgent) &&
+      /apple/i.test(vendor) &&
+      !window.chrome;
+
+    // Détection Chrome
+    const isChrome = /chrome/i.test(userAgent) &&
+      /google/i.test(vendor) &&
+      !!window.chrome;
+
+    // Détection Firefox
+    const isFirefox = /firefox/i.test(userAgent);
+
+    // Détection Edge
+    const isEdge = /edg/i.test(userAgent);
+
+    console.log('Browser Detection:', { isSafari, isChrome, isFirefox, isEdge });
+
+    return { isSafari, isChrome, isFirefox, isEdge };
+  };
+
+  // Appliquer les classes de navigateur au body
+  const browserInfo = detectBrowser();
+  const bodyElement = document.body;
+
+  if (browserInfo.isSafari) {
+    bodyElement.classList.add('browser-safari');
+    console.log('Safari detected - Applying Safari-specific optimizations');
+  } else if (browserInfo.isChrome) {
+    bodyElement.classList.add('browser-chrome');
+  } else if (browserInfo.isFirefox) {
+    bodyElement.classList.add('browser-firefox');
+  } else if (browserInfo.isEdge) {
+    bodyElement.classList.add('browser-edge');
+  } else {
+    bodyElement.classList.add('browser-other');
+  }
+
+  // --- Fonctions d'optimisation Safari (portée globale) ---
+  window.forceRepaintSafari = () => {
+    if (!browserInfo.isSafari) return;
+
+    console.log('Safari: Force repaint after transition');
+
+    // Méthode 1: Force reflow en lisant des propriétés calculées
+    const mainContent = document.querySelector('main#main-content');
+    if (mainContent) {
+      const computedStyle = window.getComputedStyle(mainContent);
+      void computedStyle.getPropertyValue('transform');
+      void mainContent.offsetHeight;
+      void mainContent.scrollTop;
+    }
+
+    // Méthode 2: Force repaint temporaire
+    document.body.style.transform = 'translateZ(0)';
+    setTimeout(() => {
+      document.body.style.transform = '';
+    }, 10);
+
+    // Méthode 3: Scroll micro-ajustement pour déclencher le rendu
+    const currentScrollY = window.scrollY;
+    window.scrollTo(0, currentScrollY + 1);
+    requestAnimationFrame(() => {
+      window.scrollTo(0, currentScrollY);
+    });
+
+    // Méthode 4: Force l'invalidation des animations CSS
+    const sections = document.querySelectorAll('.main-content-area:not([hidden])');
+    sections.forEach(section => {
+      const animatedElements = section.querySelectorAll('[data-animation-item]');
+      animatedElements.forEach(el => {
+        // Force un reflow minimal
+        void el.offsetHeight;
+        // Trigger une re-animation légère
+        el.style.transform = 'translateZ(0.01px)';
+        requestAnimationFrame(() => {
+          el.style.transform = '';
+        });
+      });
+    });
+  };
+
   // --- Constantes globales pour la configuration ---
   const REM_TO_PX = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
   const TILE_WIDTH_REM = 6.5;
@@ -892,6 +979,9 @@ document.addEventListener('DOMContentLoaded', () => {
               waveElement.style.display = 'none';
               waveElement.classList.remove('wave-transition-sweep-out');
               isTransitioning = false;
+
+              // Safari: Force repaint après transition pour éviter le contenu figé
+              setTimeout(() => window.forceRepaintSafari(), 50);
             }
           };
         }
@@ -981,6 +1071,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 waveElement.style.display = 'none';
                 waveElement.classList.remove('wave-transition-sweep-out');
                 isTransitioning = false;
+
+                // Safari: Force repaint après transition pour éviter le contenu figé
+                setTimeout(() => window.forceRepaintSafari(), 50);
               }
             };
           }
