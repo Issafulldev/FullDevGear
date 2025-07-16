@@ -253,6 +253,24 @@ body.cv-dark-mode .header-logo p {
   cursor: pointer;
   position: relative;
   z-index: 1;
+  display: block;
+  background-color: var(--cv-dm-surface);
+}
+
+/* Fallback pour les navigateurs qui ont des problèmes avec l'image */
+#profile-picture::before {
+  content: "👤";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 4rem;
+  color: var(--cv-dm-text-secondary);
+  z-index: -1;
+}
+
+#profile-picture[src*="photocv"]::before {
+  display: none;
 }
 
 #profile-picture:hover {
