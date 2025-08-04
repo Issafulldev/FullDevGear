@@ -950,7 +950,19 @@ document.addEventListener('DOMContentLoaded', () => {
       // Start the transition (only if useTransition is true)
       waveElement.style.display = 'block';
       waveElement.classList.remove('wave-transition-sweep-out');
-      waveElement.classList.add('wave-transition-sweep-in');
+
+      // Sur mobile, forcer un repaint immédiat pour éviter les délais
+      const isMobile = window.matchMedia('(max-width: 768px)').matches;
+      if (isMobile) {
+        // Forcer le navigateur à calculer immédiatement la position
+        void waveElement.offsetHeight;
+        // Petit délai pour laisser le navigateur se préparer
+        requestAnimationFrame(() => {
+          waveElement.classList.add('wave-transition-sweep-in');
+        });
+      } else {
+        waveElement.classList.add('wave-transition-sweep-in');
+      }
 
       waveElement.onanimationend = (event) => {
         if (event.animationName === 'wave-sweep-in') {

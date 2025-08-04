@@ -47,14 +47,24 @@ main#main-content>section#freelance-content>article.late-animation-item {
   z-index: var(--z-index-page-transition);
   transform: translateX(-100%);
   pointer-events: none;
+  /* Optimisations pour mobile */
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .wave-transition-sweep-in {
   animation: wave-sweep-in var(--animation-duration-fast) var(--animation-timing-ease-in-out) forwards;
+  /* Force le rendu immédiat sur mobile */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
 }
 
 .wave-transition-sweep-out {
   animation: wave-sweep-out var(--animation-duration-fast) var(--animation-timing-ease-in-out) forwards;
+  /* Force le rendu immédiat sur mobile */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
 }
 
 /* --- Keyframes --- */
@@ -381,6 +391,27 @@ main#main-content>section#freelance-content>article.late-animation-item {
 .scrolling * {
   animation-play-state: paused !important;
   transition-duration: 0s !important;
+}
+
+/* Optimisations mobiles pour une transition plus fluide */
+@media (max-width: 768px) {
+  .main-content-area {
+    /* Forcer l'accélération matérielle sur mobile */
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    /* Optimiser le rendu des changements de visibilité */
+    will-change: auto;
+  }
+
+  /* Optimiser le body pendant les transitions sur mobile */
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Améliorer les performances de rendu */
+    contain: layout style paint;
+  }
 }
 
 
