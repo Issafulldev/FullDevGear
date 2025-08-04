@@ -394,6 +394,15 @@ main#main-content>section#freelance-content>article.late-animation-item {
   animation-play-state: running !important;
 }
 
+/* Prevent scroll on mobile during transition */
+@media (max-width: 768px) {
+  .transitioning {
+    overflow: hidden !important;
+    position: fixed !important;
+    width: 100% !important;
+  }
+}
+
 /* Respect user preference for reduced motion */
 @media (prefers-reduced-motion: reduce) {
   * {

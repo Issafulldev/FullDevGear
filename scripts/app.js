@@ -1018,6 +1018,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         isTransitioning = true;
 
+        // Capturer la position de scroll actuelle sur mobile
+        const isMobile = window.matchMedia('(max-width: 768px)').matches;
+        let scrollPosition = 0;
+        if (isMobile) {
+          scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+          // Sauvegarder la position pour éviter le jump visuel
+          document.body.style.top = `-${scrollPosition}px`;
+        }
+
         // Désactiver temporairement les animations de scroll
         document.body.classList.add('transitioning');
 
@@ -1026,27 +1035,9 @@ document.addEventListener('DOMContentLoaded', () => {
         waveElement.style.display = 'block';
         waveElement.classList.add('wave-transition-sweep-in');
 
-        // Sur mobile, forcer un scroll immédiat au début de l'animation
-        // mais seulement si on est vraiment loin du haut
-        const isMobile = window.matchMedia('(max-width: 768px)').matches;
-        if (isMobile && window.pageYOffset > 200) {
-          // Utiliser requestAnimationFrame pour synchroniser avec l'animation
-          requestAnimationFrame(() => {
-            window.scrollTo({
-              top: 0,
-              left: 0,
-              behavior: 'instant'
-            });
-          });
-        }
-
-        // Variable pour éviter les déclenchements multiples
-        let animationHandled = false;
-
         // Gérer le changement de section pendant l'animation
         waveElement.onanimationend = (event) => {
-          if (event.animationName === 'wave-sweep-in' && !animationHandled) {
-            animationHandled = true;
+          if (event.animationName === 'wave-sweep-in') {
             waveElement.onanimationend = null;
 
             // Changer les sections maintenant
@@ -1087,10 +1078,8 @@ document.addEventListener('DOMContentLoaded', () => {
             waveElement.classList.remove('wave-transition-sweep-in');
             waveElement.classList.add('wave-transition-sweep-out');
 
-            let outAnimationHandled = false;
             waveElement.onanimationend = (event) => {
-              if (event.animationName === 'wave-sweep-out' && !outAnimationHandled) {
-                outAnimationHandled = true;
+              if (event.animationName === 'wave-sweep-out') {
                 waveElement.onanimationend = null;
                 waveElement.style.display = 'none';
                 waveElement.classList.remove('wave-transition-sweep-out');
@@ -1098,6 +1087,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Réactiver les animations de scroll
                 document.body.classList.remove('transitioning');
+
+                // Restaurer l'état normal sur mobile
+                if (isMobile) {
+                  document.body.style.top = '';
+                }
 
                 // Safari: Force repaint après transition pour éviter le contenu figé
                 setTimeout(() => window.forceRepaintSafari(), 50);
