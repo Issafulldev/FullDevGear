@@ -953,6 +953,12 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       // Start the transition (only if useTransition is true)
+      // Sur mobile, forcer un background neutre pour éviter les résidus
+      const isMobile = window.matchMedia('(max-width: 768px)').matches;
+      if (isMobile) {
+        document.body.style.backgroundColor = '#fff';
+      }
+
       waveElement.style.display = 'block';
       waveElement.classList.remove('wave-transition-sweep-out');
       waveElement.classList.add('wave-transition-sweep-in');
@@ -965,11 +971,24 @@ document.addEventListener('DOMContentLoaded', () => {
           if (sectionToHide) {
             sectionToHide.hidden = true;
             sectionToHide.classList.remove('fade-in', 'fade-out');
+            // Force hide immédiatement pour éviter les résidus
+            sectionToHide.style.visibility = 'hidden';
+            sectionToHide.style.display = 'none';
+            sectionToHide.style.opacity = '0';
           }
 
-          // Show new section
+          // Préparer la nouvelle section mais la garder cachée visuellement
+          sectionToShow.style.display = 'none';
+          sectionToShow.style.opacity = '0';
           sectionToShow.hidden = false;
           sectionToShow.classList.remove('fade-in', 'fade-out');
+
+          // Forcer un repaint avant d'afficher
+          void sectionToShow.offsetHeight;
+
+          // Maintenant afficher la nouvelle section
+          sectionToShow.style.display = '';
+          sectionToShow.style.opacity = '';
 
           // Scroll to top now - invisible because wave covers the screen
           window.scrollTo(0, 0);
@@ -995,7 +1014,15 @@ document.addEventListener('DOMContentLoaded', () => {
               const isMobile = window.matchMedia('(max-width: 768px)').matches;
               if (isMobile) {
                 document.body.style.top = '';
+                document.body.style.backgroundColor = ''; // Restaurer la couleur de fond
               }
+
+              // Nettoyer tous les styles inline ajoutés pendant la transition
+              allSections.forEach(sec => {
+                sec.style.display = '';
+                sec.style.opacity = '';
+                sec.style.visibility = '';
+              });
 
               // Safari: Force repaint après transition pour éviter le contenu figé
               setTimeout(() => window.forceRepaintSafari(), 50);
