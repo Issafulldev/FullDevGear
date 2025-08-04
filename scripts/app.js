@@ -897,11 +897,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       if (useTransition) {
         isTransitioning = true;
-
-        // Ajouter transitioning aussi sur desktop si pas déjà fait par navigateTo
-        if (!document.body.classList.contains('transitioning')) {
-          document.body.classList.add('transitioning');
-        }
       }
 
 
@@ -953,14 +948,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       // Start the transition (only if useTransition is true)
-      // Sur mobile, appliquer immédiatement les styles de page pour éviter les résidus
-      const isMobile = window.matchMedia('(max-width: 768px)').matches;
-      if (isMobile) {
-        // Appliquer les styles de la nouvelle page IMMÉDIATEMENT sur mobile
-        applyPageStyles(sectionId);
-        document.body.style.backgroundColor = sectionId === 'cv-content' ? '#000' : '#fff';
-      }
-
       waveElement.style.display = 'block';
       waveElement.classList.remove('wave-transition-sweep-out');
       waveElement.classList.add('wave-transition-sweep-in');
@@ -973,33 +960,17 @@ document.addEventListener('DOMContentLoaded', () => {
           if (sectionToHide) {
             sectionToHide.hidden = true;
             sectionToHide.classList.remove('fade-in', 'fade-out');
-            // Force hide immédiatement pour éviter les résidus
-            sectionToHide.style.visibility = 'hidden';
-            sectionToHide.style.display = 'none';
-            sectionToHide.style.opacity = '0';
           }
 
-          // Préparer la nouvelle section mais la garder cachée visuellement
-          sectionToShow.style.display = 'none';
-          sectionToShow.style.opacity = '0';
+          // Show new section
           sectionToShow.hidden = false;
           sectionToShow.classList.remove('fade-in', 'fade-out');
-
-          // Forcer un repaint avant d'afficher
-          void sectionToShow.offsetHeight;
-
-          // Maintenant afficher la nouvelle section
-          sectionToShow.style.display = '';
-          sectionToShow.style.opacity = '';
 
           // Scroll to top now - invisible because wave covers the screen
           window.scrollTo(0, 0);
 
-          // Apply page styles - mais seulement sur desktop car déjà fait sur mobile
-          const isMobile = window.matchMedia('(max-width: 768px)').matches;
-          if (!isMobile) {
-            applyPageStyles(sectionId);
-          }
+          // Apply page styles with smooth timing
+          applyPageStyles(sectionId);
 
           // Start sweep-out animation
           waveElement.classList.remove('wave-transition-sweep-in');
@@ -1012,22 +983,7 @@ document.addEventListener('DOMContentLoaded', () => {
               waveElement.classList.remove('wave-transition-sweep-out');
               isTransitioning = false;
 
-              // Restaurer l'état normal
-              document.body.classList.remove('transitioning');
 
-              // Restaurer le style top sur mobile uniquement
-              const isMobile = window.matchMedia('(max-width: 768px)').matches;
-              if (isMobile) {
-                document.body.style.top = '';
-                document.body.style.backgroundColor = ''; // Restaurer la couleur de fond
-              }
-
-              // Nettoyer tous les styles inline ajoutés pendant la transition
-              allSections.forEach(sec => {
-                sec.style.display = '';
-                sec.style.opacity = '';
-                sec.style.visibility = '';
-              });
 
               // Safari: Force repaint après transition pour éviter le contenu figé
               setTimeout(() => window.forceRepaintSafari(), 50);
@@ -1056,16 +1012,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!sectionId) {
         console.warn(`Route not found for path: ${path}. Defaulting to freelance-content.`);
         path = '/';
-      }
-
-      // Capturer la position de scroll actuelle sur mobile AVANT showSection
-      const isMobile = window.matchMedia('(max-width: 768px)').matches;
-      let scrollPosition = 0;
-      if (isMobile && useTransition) {
-        scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
-        // Sauvegarder la position pour éviter le jump visuel
-        document.body.style.top = `-${scrollPosition}px`;
-        document.body.classList.add('transitioning');
       }
 
       // Utiliser showSection qui contient déjà toute la logique d'animation
