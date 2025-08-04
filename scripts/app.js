@@ -1021,92 +1021,90 @@ document.addEventListener('DOMContentLoaded', () => {
         // Désactiver temporairement les animations de scroll
         document.body.classList.add('transitioning');
 
-        // Sur mobile, scroll instantané AVANT l'animation pour éviter le bug
+        // Animation de la vague seulement
+        waveElement.classList.remove('wave-transition-sweep-out');
+        waveElement.style.display = 'block';
+        waveElement.classList.add('wave-transition-sweep-in');
+
+        // Sur mobile, forcer un scroll immédiat au début de l'animation
+        // mais seulement si on est vraiment loin du haut
         const isMobile = window.matchMedia('(max-width: 768px)').matches;
-        if (isMobile && window.pageYOffset > 100) {
-          // Scroll immédiat si on est loin du haut
-          window.scrollTo({
-            top: 0,
-            left: 0,
-            behavior: 'instant'
+        if (isMobile && window.pageYOffset > 200) {
+          // Utiliser requestAnimationFrame pour synchroniser avec l'animation
+          requestAnimationFrame(() => {
+            window.scrollTo({
+              top: 0,
+              left: 0,
+              behavior: 'instant'
+            });
           });
-
-          // Petit délai pour laisser le scroll se terminer avant l'animation
-          setTimeout(() => {
-            startWaveAnimation();
-          }, 50);
-        } else {
-          // Comportement normal pour desktop ou si déjà proche du haut
-          startWaveAnimation();
         }
 
-        function startWaveAnimation() {
-          // Animation de la vague seulement
-          waveElement.classList.remove('wave-transition-sweep-out');
-          waveElement.style.display = 'block';
-          waveElement.classList.add('wave-transition-sweep-in');
+        // Variable pour éviter les déclenchements multiples
+        let animationHandled = false;
 
-          // Gérer le changement de section pendant l'animation
-          waveElement.onanimationend = (event) => {
-            if (event.animationName === 'wave-sweep-in') {
-              waveElement.onanimationend = null;
+        // Gérer le changement de section pendant l'animation
+        waveElement.onanimationend = (event) => {
+          if (event.animationName === 'wave-sweep-in' && !animationHandled) {
+            animationHandled = true;
+            waveElement.onanimationend = null;
 
-              // Changer les sections maintenant
-              const allSections = document.querySelectorAll('.main-content-area');
-              const sectionToShow = document.getElementById(sectionId);
-              let sectionToHide = null;
+            // Changer les sections maintenant
+            const allSections = document.querySelectorAll('.main-content-area');
+            const sectionToShow = document.getElementById(sectionId);
+            let sectionToHide = null;
 
-              allSections.forEach(sec => {
-                if (!sec.hidden && sec.id !== sectionId) {
-                  sectionToHide = sec;
-                }
-              });
-
-              if (sectionToHide) {
-                sectionToHide.hidden = true;
-                sectionToHide.classList.remove('fade-in', 'fade-out');
+            allSections.forEach(sec => {
+              if (!sec.hidden && sec.id !== sectionId) {
+                sectionToHide = sec;
               }
+            });
 
-              if (sectionToShow) {
-                sectionToShow.hidden = false;
-                sectionToShow.classList.remove('fade-in', 'fade-out');
-              }
-
-              // Scroll en haut si pas déjà fait (desktop ou proche du haut sur mobile)
-              if (!isMobile || window.pageYOffset > 10) {
-                window.scrollTo(0, 0);
-              }
-
-              // Appliquer les styles de page
-              if (sectionId === 'cv-content') {
-                document.body.classList.add('cv-dark-mode');
-              } else {
-                document.body.classList.remove('cv-dark-mode');
-              }
-
-              // Navigation color management removed - using fixed color
-
-              // Démarrer l'animation de sortie
-              waveElement.classList.remove('wave-transition-sweep-in');
-              waveElement.classList.add('wave-transition-sweep-out');
-
-              waveElement.onanimationend = (event) => {
-                if (event.animationName === 'wave-sweep-out') {
-                  waveElement.onanimationend = null;
-                  waveElement.style.display = 'none';
-                  waveElement.classList.remove('wave-transition-sweep-out');
-                  isTransitioning = false;
-
-                  // Réactiver les animations de scroll
-                  document.body.classList.remove('transitioning');
-
-                  // Safari: Force repaint après transition pour éviter le contenu figé
-                  setTimeout(() => window.forceRepaintSafari(), 50);
-                }
-              };
+            if (sectionToHide) {
+              sectionToHide.hidden = true;
+              sectionToHide.classList.remove('fade-in', 'fade-out');
             }
-          };
-        }
+
+            if (sectionToShow) {
+              sectionToShow.hidden = false;
+              sectionToShow.classList.remove('fade-in', 'fade-out');
+            }
+
+            // Scroll en haut MAINTENANT (quand on "arrive" sur la nouvelle page)
+            // Cela se fait pendant que la vague couvre encore l'écran
+            window.scrollTo(0, 0);
+
+            // Appliquer les styles de page
+            if (sectionId === 'cv-content') {
+              document.body.classList.add('cv-dark-mode');
+            } else {
+              document.body.classList.remove('cv-dark-mode');
+            }
+
+            // Navigation color management removed - using fixed color
+
+            // Démarrer l'animation de sortie
+            waveElement.classList.remove('wave-transition-sweep-in');
+            waveElement.classList.add('wave-transition-sweep-out');
+
+            let outAnimationHandled = false;
+            waveElement.onanimationend = (event) => {
+              if (event.animationName === 'wave-sweep-out' && !outAnimationHandled) {
+                outAnimationHandled = true;
+                waveElement.onanimationend = null;
+                waveElement.style.display = 'none';
+                waveElement.classList.remove('wave-transition-sweep-out');
+                isTransitioning = false;
+
+                // Réactiver les animations de scroll
+                document.body.classList.remove('transitioning');
+
+                // Safari: Force repaint après transition pour éviter le contenu figé
+                setTimeout(() => window.forceRepaintSafari(), 50);
+              }
+            };
+          }
+        };
       } else {
         // Pour le chargement initial, scroll instantané
         window.scrollTo({
