@@ -897,6 +897,11 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       if (useTransition) {
         isTransitioning = true;
+
+        // Ajouter transitioning aussi sur desktop si pas déjà fait par navigateTo
+        if (!document.body.classList.contains('transitioning')) {
+          document.body.classList.add('transitioning');
+        }
       }
 
 
@@ -966,6 +971,9 @@ document.addEventListener('DOMContentLoaded', () => {
           sectionToShow.hidden = false;
           sectionToShow.classList.remove('fade-in', 'fade-out');
 
+          // Scroll to top now - invisible because wave covers the screen
+          window.scrollTo(0, 0);
+
           // Apply page styles with smooth timing
           applyPageStyles(sectionId);
 
@@ -979,6 +987,15 @@ document.addEventListener('DOMContentLoaded', () => {
               waveElement.style.display = 'none';
               waveElement.classList.remove('wave-transition-sweep-out');
               isTransitioning = false;
+
+              // Restaurer l'état normal
+              document.body.classList.remove('transitioning');
+
+              // Restaurer le style top sur mobile uniquement
+              const isMobile = window.matchMedia('(max-width: 768px)').matches;
+              if (isMobile) {
+                document.body.style.top = '';
+              }
 
               // Safari: Force repaint après transition pour éviter le contenu figé
               setTimeout(() => window.forceRepaintSafari(), 50);
@@ -1009,105 +1026,18 @@ document.addEventListener('DOMContentLoaded', () => {
         path = '/';
       }
 
-      if (useTransition) {
-        // Vérifier si une transition est déjà en cours
-        if (isTransitioning) {
-          console.warn('Transition already in progress. Ignoring new navigation request.');
-          return;
-        }
-
-        isTransitioning = true;
-
-        // Capturer la position de scroll actuelle sur mobile
-        const isMobile = window.matchMedia('(max-width: 768px)').matches;
-        let scrollPosition = 0;
-        if (isMobile) {
-          scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
-          // Sauvegarder la position pour éviter le jump visuel
-          document.body.style.top = `-${scrollPosition}px`;
-        }
-
-        // Désactiver temporairement les animations de scroll
+      // Capturer la position de scroll actuelle sur mobile AVANT showSection
+      const isMobile = window.matchMedia('(max-width: 768px)').matches;
+      let scrollPosition = 0;
+      if (isMobile && useTransition) {
+        scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+        // Sauvegarder la position pour éviter le jump visuel
+        document.body.style.top = `-${scrollPosition}px`;
         document.body.classList.add('transitioning');
-
-        // Animation de la vague seulement
-        waveElement.classList.remove('wave-transition-sweep-out');
-        waveElement.style.display = 'block';
-        waveElement.classList.add('wave-transition-sweep-in');
-
-        // Gérer le changement de section pendant l'animation
-        waveElement.onanimationend = (event) => {
-          if (event.animationName === 'wave-sweep-in') {
-            waveElement.onanimationend = null;
-
-            // Changer les sections maintenant
-            const allSections = document.querySelectorAll('.main-content-area');
-            const sectionToShow = document.getElementById(sectionId);
-            let sectionToHide = null;
-
-            allSections.forEach(sec => {
-              if (!sec.hidden && sec.id !== sectionId) {
-                sectionToHide = sec;
-              }
-            });
-
-            if (sectionToHide) {
-              sectionToHide.hidden = true;
-              sectionToHide.classList.remove('fade-in', 'fade-out');
-            }
-
-            if (sectionToShow) {
-              sectionToShow.hidden = false;
-              sectionToShow.classList.remove('fade-in', 'fade-out');
-            }
-
-            // Scroll en haut MAINTENANT (quand on "arrive" sur la nouvelle page)
-            // Cela se fait pendant que la vague couvre encore l'écran
-            window.scrollTo(0, 0);
-
-            // Appliquer les styles de page
-            if (sectionId === 'cv-content') {
-              document.body.classList.add('cv-dark-mode');
-            } else {
-              document.body.classList.remove('cv-dark-mode');
-            }
-
-            // Navigation color management removed - using fixed color
-
-            // Démarrer l'animation de sortie
-            waveElement.classList.remove('wave-transition-sweep-in');
-            waveElement.classList.add('wave-transition-sweep-out');
-
-            waveElement.onanimationend = (event) => {
-              if (event.animationName === 'wave-sweep-out') {
-                waveElement.onanimationend = null;
-                waveElement.style.display = 'none';
-                waveElement.classList.remove('wave-transition-sweep-out');
-                isTransitioning = false;
-
-                // Réactiver les animations de scroll
-                document.body.classList.remove('transitioning');
-
-                // Restaurer l'état normal sur mobile
-                if (isMobile) {
-                  document.body.style.top = '';
-                }
-
-                // Safari: Force repaint après transition pour éviter le contenu figé
-                setTimeout(() => window.forceRepaintSafari(), 50);
-              }
-            };
-          }
-        };
-      } else {
-        // Pour le chargement initial, scroll instantané
-        window.scrollTo({
-          top: 0,
-          left: 0,
-          behavior: 'instant'
-        });
-        showSection(ROUTES[path], useTransition);
       }
+
+      // Utiliser showSection qui contient déjà toute la logique d'animation
+      showSection(ROUTES[path], useTransition);
 
       updateNavActive(path);
 
