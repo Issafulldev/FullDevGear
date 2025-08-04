@@ -383,6 +383,17 @@ main#main-content>section#freelance-content>article.late-animation-item {
   transition-duration: 0s !important;
 }
 
+/* Disable animations during page transition */
+.transitioning * {
+  animation-play-state: paused !important;
+  transition-duration: 0s !important;
+}
+
+/* Exception for the wave animation itself */
+.transitioning #page-transition-wave {
+  animation-play-state: running !important;
+}
+
 /* Respect user preference for reduced motion */
 @media (prefers-reduced-motion: reduce) {
   * {
