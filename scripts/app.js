@@ -953,10 +953,12 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       // Start the transition (only if useTransition is true)
-      // Sur mobile, forcer un background neutre pour éviter les résidus
+      // Sur mobile, appliquer immédiatement les styles de page pour éviter les résidus
       const isMobile = window.matchMedia('(max-width: 768px)').matches;
       if (isMobile) {
-        document.body.style.backgroundColor = '#fff';
+        // Appliquer les styles de la nouvelle page IMMÉDIATEMENT sur mobile
+        applyPageStyles(sectionId);
+        document.body.style.backgroundColor = sectionId === 'cv-content' ? '#000' : '#fff';
       }
 
       waveElement.style.display = 'block';
@@ -993,8 +995,11 @@ document.addEventListener('DOMContentLoaded', () => {
           // Scroll to top now - invisible because wave covers the screen
           window.scrollTo(0, 0);
 
-          // Apply page styles with smooth timing
-          applyPageStyles(sectionId);
+          // Apply page styles - mais seulement sur desktop car déjà fait sur mobile
+          const isMobile = window.matchMedia('(max-width: 768px)').matches;
+          if (!isMobile) {
+            applyPageStyles(sectionId);
+          }
 
           // Start sweep-out animation
           waveElement.classList.remove('wave-transition-sweep-in');

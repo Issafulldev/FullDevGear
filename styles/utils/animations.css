@@ -411,6 +411,41 @@ main#main-content>section#freelance-content>article.late-animation-item {
   .transitioning .main-content-area:not([hidden]) {
     visibility: visible !important;
   }
+
+  /* Force header to respect dark mode immediately on mobile */
+  .transitioning.cv-dark-mode .header-container-logo-cta {
+    background: rgba(10, 10, 10, 0.8) !important;
+    backdrop-filter: blur(10px) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  .transitioning.cv-dark-mode .header-logo p {
+    color: var(--cv-dm-text-primary) !important;
+  }
+
+  /* Force header to normal colors when not in dark mode */
+  .transitioning:not(.cv-dark-mode) .header-container-logo-cta {
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(10px) !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
+  }
+
+  .transitioning:not(.cv-dark-mode) .header-logo p {
+    color: var(--color-text-dark) !important;
+  }
+
+  /* Force mobile header title colors */
+  .transitioning.cv-dark-mode .header-title-mobile a,
+  .transitioning.cv-dark-mode .header-title-mobile .header-tagline-mobile {
+    color: var(--cv-dm-text-primary) !important;
+  }
+
+  .transitioning:not(.cv-dark-mode) .header-title-mobile a,
+  .transitioning:not(.cv-dark-mode) .header-title-mobile .header-tagline-mobile {
+    color: var(--color-text-dark) !important;
+  }
 }
 
 /* Respect user preference for reduced motion */
