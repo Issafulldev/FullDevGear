@@ -404,14 +404,6 @@ main#main-content>section#freelance-content>article.late-animation-item {
     /* Optimiser le rendu des changements de visibilité */
     will-change: auto;
   }
-
-  /* Optimiser le body pendant les transitions sur mobile */
-  body {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    /* Améliorer les performances de rendu */
-    contain: layout style paint;
-  }
 }
 
 
