@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Header & Navigation - DevAziss
+   Header & Navigation - FullDevGear
    ========================================================================== */
 
 /* --- Header --- */
@@ -37,7 +37,7 @@ body.cv-dark-mode .header-container-logo-cta.scrolled {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
-/* Titre DevAziss blanc sur la page CV */
+/* Titre FullDevGear blanc sur la page CV */
 body.cv-dark-mode .header-logo p {
   color: var(--color-text-light);
 }
@@ -78,7 +78,7 @@ body.cv-dark-mode .header-title-mobile .header-tagline-mobile {
 }
 
 .header-logo .header-tagline {
-  font-size: 0.486rem;
+  font-size: 0.583rem;
   color: var(--color-text-dark);
   margin: 0;
   font-weight: 100;
@@ -268,7 +268,7 @@ body.cv-dark-mode .header-title-mobile .header-tagline-mobile {
   /* Afficher le tagline sous le titre mobile */
   .header-title-mobile .header-tagline-mobile {
     display: block;
-    font-size: 0.486rem;
+    font-size: 0.583rem;
     color: var(--color-text-dark);
     margin: 0.25rem 0 0 0;
     font-weight: 100;
@@ -314,6 +314,6 @@ body.cv-dark-mode .header-title-mobile .header-tagline-mobile {
   }
 
   .header-logo .header-tagline {
-    font-size: 0.527rem;
+    font-size: 0.632rem;
   }
 }

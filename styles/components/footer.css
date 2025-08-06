@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Footer - DevAziss
+   Footer - FullDevGear
    ========================================================================== */
 
 footer {
@@ -47,7 +47,7 @@ footer {
 }
 
 .footer-tagline {
-  font-size: 0.486rem;
+  font-size: 0.583rem;
   color: var(--color-text-light);
   margin: 0;
   font-weight: 100;
@@ -78,7 +78,7 @@ footer {
   }
 
   .footer-tagline {
-    font-size: 0.527rem;
+    font-size: 0.632rem;
   }
 }
 

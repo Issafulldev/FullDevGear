@@ -1,4 +1,4 @@
-# DevAziss Portfolio
+# FullDevGear Portfolio
 
 > **Code, No-Code, AI: Your Vision, Delivered**
 
@@ -14,8 +14,8 @@ Professional portfolio website showcasing full-stack development capabilities an
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/devaziss-portfolio.git
-cd devaziss-portfolio
+git clone https://github.com/yourusername/fulldevgear-portfolio.git
+cd fulldevgear-portfolio
 
 # Install dependencies
 npm install
@@ -29,7 +29,7 @@ The site will be available at `http://localhost:3000`
 ## 📁 Project Structure
 
 ```
-DevAziss/
+FullDevGear/
 ├── index.html              # Main HTML file
 ├── styles/
 │   └── main.css            # Main stylesheet
@@ -77,4 +77,4 @@ This project is licensed under the MIT License.
 
 ---
 
-**Issa Azegouar** - [Website](https://devaziss.com) | [Email](mailto:contact@devaziss.com) 
+**Issa Azegouar** - [Website](https://fulldevgear.com) | [Email](mailto:contact@fulldevgear.com) 

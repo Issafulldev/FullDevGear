@@ -944,6 +944,12 @@ document.addEventListener('DOMContentLoaded', () => {
         sectionToShow.hidden = false;
 
         applyPageStyles(sectionId);
+
+        // Initialize CV scroll activation if navigating to CV page
+        if (sectionId === 'cv-content') {
+          setTimeout(setupCVScrollActivation, 50);
+        }
+
         return; // Exit as transition is not used
       }
 
@@ -999,6 +1005,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
               // Safari: Force repaint après transition pour éviter le contenu figé
               setTimeout(() => window.forceRepaintSafari(), 50);
+
+              // Initialize CV scroll activation if navigating to CV page
+              if (sectionId === 'cv-content') {
+                setTimeout(setupCVScrollActivation, 100);
+              }
             }
           };
         }
@@ -1099,6 +1110,8 @@ document.addEventListener('DOMContentLoaded', () => {
   })();
 
   // --- CV Sections Scroll Activation for Mobile ---
+  let cvSectionObserver = null; // Track the current observer to avoid multiple instances
+
   const setupCVScrollActivation = () => {
     // Only activate on mobile/tablet devices or when hover is not available
     const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches ||
@@ -1106,6 +1119,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!isTouchDevice) {
       return; // Exit early on desktop devices with hover capability
+    }
+
+    // Clean up existing observer to avoid duplicates
+    if (cvSectionObserver) {
+      cvSectionObserver.disconnect();
+      cvSectionObserver = null;
     }
 
     const cvSections = document.querySelectorAll('#cv-content .cv-section');
@@ -1117,17 +1136,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // Configuration for the intersection observer
     const observerOptions = {
       root: null, // Use viewport as root
-      rootMargin: '-20% 0px -20% 0px', // Trigger when section is 20% visible from top and bottom
-      threshold: [0.3, 0.7] // Trigger at 30% and 70% visibility
+      rootMargin: '-10% 0px -10% 0px', // Trigger when section is 10% visible from top and bottom (less restrictive for mobile)
+      threshold: [0.2, 0.5] // Trigger at 20% and 50% visibility (easier to trigger on mobile)
     };
 
     // Track currently active sections to avoid unnecessary DOM manipulations
     const activeSections = new Set();
 
-    const sectionObserver = new IntersectionObserver((entries) => {
+    cvSectionObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         const section = entry.target;
-        const isVisible = entry.isIntersecting && entry.intersectionRatio >= 0.3;
+        const isVisible = entry.isIntersecting && entry.intersectionRatio >= 0.2;
 
         if (isVisible && !activeSections.has(section)) {
           // Section is becoming visible - activate it
@@ -1148,7 +1167,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Start observing all CV sections
     cvSections.forEach(section => {
-      sectionObserver.observe(section);
+      cvSectionObserver.observe(section);
     });
 
     // Clean up observer when navigating away from CV

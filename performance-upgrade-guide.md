@@ -1,4 +1,4 @@
-# 🚀 Guide d'Optimisation Performance - DevAziss
+# 🚀 Guide d'Optimisation Performance - FullDevGear
 
 ## 📊 Analyse Actuelle vs Optimisée
 

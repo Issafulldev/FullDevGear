@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "🖼️  Script d'Optimisation d'Images - DevAziss"
+echo "🖼️  Script d'Optimisation d'Images - FullDevGear"
 echo "=============================================="
 
 # Vérifier si les outils sont installés
