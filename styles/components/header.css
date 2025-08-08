@@ -116,6 +116,13 @@ body.cv-dark-mode .header-title-mobile .header-tagline-mobile {
   animation-delay: var(--delay-contact-cta);
 }
 
+/* Make language toggle appear with the contact button */
+.header-container-logo-cta #lang-toggle {
+  opacity: 0;
+  animation: fadeInDown var(--animation-duration-default) var(--animation-timing-ease-out) forwards;
+  animation-delay: var(--delay-contact-cta);
+}
+
 /* --- Navigation --- */
 .header-container nav {
   display: flex;
@@ -137,6 +144,7 @@ body.cv-dark-mode .header-title-mobile .header-tagline-mobile {
   transition: background-color 0.3s ease, color 0.3s ease;
   will-change: background-color, color;
   backface-visibility: hidden;
+  /* safe-area padding reverted */
 }
 
 /* Desktop Navigation - Top Position */
@@ -187,40 +195,100 @@ body.cv-dark-mode .header-title-mobile .header-tagline-mobile {
 
 /* --- Contact CTA --- */
 #contact-cta-btn {
+  --contact-btn-height: 2.75rem;
   background-color: var(--color-accent-yellow);
   color: var(--color-text-dark);
-  padding: 1rem 1.25rem;
-  margin-right: 0.5rem;
+  height: var(--contact-btn-height);
+  min-width: var(--contact-btn-height);
+  padding: 0 1rem;
+  margin-right: 0;
+  /* spacing handled by container gap */
   border: none;
-  border-radius: 1.875rem;
+  border-radius: 9999px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  height: auto;
+  transition: background-color 0.25s ease, color 0.25s ease, transform 0.15s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 0.9rem;
-  font-weight: 500;
+  font-weight: 600;
+  box-shadow: none;
 }
 
 #contact-cta-btn.active {
   background-color: var(--color-text-dark);
   color: var(--color-text-light);
-  transform: scale(1.05);
+  transform: translateY(0);
 }
 
 #contact-cta-btn:hover {
   background-color: var(--color-text-dark);
   color: var(--color-text-light);
-  transform: scale(1.05);
+  transform: translateY(-1px);
 }
 
 #contact-cta-btn {
   position: relative;
 }
 
+#contact-cta-btn:focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 2px;
+}
+
 .header-cta {
   position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Language toggle button */
+#lang-toggle {
+  --contact-btn-height: 2.75rem;
+  background-color: transparent;
+  color: var(--color-text-dark);
+  height: var(--contact-btn-height);
+  min-width: var(--contact-btn-height);
+  padding: 0 0.75rem;
+  border: 2px solid var(--color-text-dark);
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+#lang-toggle:hover {
+  background-color: var(--color-accent-yellow);
+  border-color: var(--color-accent-yellow);
+  color: var(--color-text-dark);
+}
+
+#lang-toggle:focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* Dark mode adaptation on CV page */
+body.cv-dark-mode #lang-toggle {
+  color: var(--color-text-light);
+  border-color: var(--color-text-light);
+}
+
+body.cv-dark-mode #lang-toggle:hover {
+  background-color: var(--color-accent-yellow);
+  border-color: var(--color-accent-yellow);
+  color: var(--color-text-dark);
+}
+
+/* Hide language entry inside contact menu on desktop by default */
+.contact-popup .lang-menu-item {
+  display: none;
 }
 
 /* --- Responsive --- */
@@ -305,6 +373,22 @@ body.cv-dark-mode .header-title-mobile .header-tagline-mobile {
   .header-cta {
     grid-column: 3;
     justify-self: end;
+    gap: 0.25rem;
+  }
+
+  /* On mobile: hide inline language toggle to declutter header */
+  #lang-toggle {
+    display: none;
+  }
+
+  /* Improve spacing for the popup language item */
+  .contact-popup .lang-menu-item a {
+    font-weight: 700;
+  }
+
+  /* On mobile: show language entry inside contact popup */
+  .contact-popup .lang-menu-item {
+    display: list-item;
   }
 }
 

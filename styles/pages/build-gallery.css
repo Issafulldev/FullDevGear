@@ -261,6 +261,8 @@
   transition: all 0.3s ease;
   flex: 1;
   justify-content: center;
+  min-height: 44px;
+  /* touch target */
 }
 
 #build-gallery .project-link.github {

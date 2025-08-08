@@ -30,15 +30,17 @@ The site will be available at `http://localhost:3000`
 
 ```
 FullDevGear/
-├── index.html              # Main HTML file
-├── styles/
-│   └── main.css            # Main stylesheet
+├── index.html              # Main HTML file (hash-based SPA routing)
+├── styles/                 # Modular CSS (preloaded via link tags)
 ├── scripts/
 │   └── app.js              # Interactive JavaScript
 ├── assets/
 │   ├── icons/              # Technology icons
 │   └── images/             # Profile pictures
-└── package.json            # Dependencies
+├── manifest.webmanifest    # PWA manifest (basic)
+├── terms.html              # Terms of Service
+├── privacy.html            # Privacy Policy
+└── package.json            # Dependencies & scripts
 ```
 
 ## ✨ Features
@@ -61,7 +63,12 @@ FullDevGear/
 ```bash
 npm run dev    # Start development server (port 3000)
 npm start      # Start production server (port 8080)
+npm run format # Format code with Prettier
 ```
+
+## 🔗 Deployment
+
+- Uses hash routing (`#/cv`) to be compatible with static hosts like GitHub Pages.
 
 ## 🤝 Contributing
 

@@ -1,3 +1,17 @@
+.form-error {
+  color: #b00020;
+  font-size: 0.85rem;
+  line-height: 1.2;
+  margin-top: 0.25rem;
+  min-height: 1em;
+  display: block;
+}
+
+.form-status {
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+}
+
 /* ==========================================================================
    Forms & Contact Components - FullDevGear
    ========================================================================== */

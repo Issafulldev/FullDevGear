@@ -1,4 +1,254 @@
 document.addEventListener('DOMContentLoaded', () => {
+  const DEBUG = false;
+  // --- Lightweight i18n ---
+  const I18N_STORAGE_KEY = 'fdg_lang';
+  const SUPPORTED_LANGS = ['en', 'fr'];
+  const TRANSLATIONS = {
+    en: {
+      skip_content: 'Skip to content',
+      nav_cv: 'CV',
+      hero_title: '<span class="nowrap-desktop">CODE, NO-CODE, AI:</span> <br> DIGITAL GROWTH, <br> BUSINESS BLISS.',
+      hero_subtitle: 'Transforming ideas into powerful digital solutions. From custom development to no-code platforms and AI integration, I deliver comprehensive web solutions that drive results.',
+      build_gallery_title: 'Build Gallery',
+      build_gallery_desc: 'Explore my completed projects with GitHub previews and live demonstrations.',
+      label_completed: 'Completed',
+      label_active: 'Active',
+      code_craft_title: 'Code & Craft',
+      code_craft_desc: 'Expert development across the full stack, from responsive front-ends to scalable back-end architectures.',
+      digital_alchemy_title: 'Digital Alchemy',
+      digital_alchemy_desc: 'Turning complex business requirements into elegant, user-friendly digital experiences.',
+      tech_horizons_title: 'Tech Horizons',
+      tech_horizons_desc: "We're always looking for new and exciting tech to add to our platform.",
+      solution_stack_title: 'Solution Stack',
+      client_victories_title: 'Client victories',
+      success_playbook_title: 'Success Playbook',
+      skill_spectrum_title: 'Skill Spectrum',
+      trust_chronicles_title: 'Trust Chronicles',
+      zero_to_launch_title: 'Zero To Launch',
+      generic_list_desc: "We've compiled a list of the most successful people in the software industry and what they've done to get there.",
+      contact_title: "Let's Build Tomorrow",
+      form_name_label: 'Name',
+      form_name_placeholder: 'Your Name',
+      form_email_label: 'Email',
+      form_email_placeholder: 'Your Email',
+      form_message_label: 'Message',
+      form_message_placeholder: 'Tell me about your project...',
+      form_submit: 'Send Message',
+      transparent_build_rates_title: 'Transparent Build Rates',
+      roi_pricing_title: 'ROI-Driven Pricing',
+      cv_title: 'Full-stack Web Developer',
+      cv_status: 'Available for opportunities',
+      cv_summary_title: 'Summary',
+      cv_summary_text: 'Passionate Junior Web Developer, recently graduated. Hands-on experience in building web applications using React.js, Node.js, HTML/CSS, and JavaScript. Backed by 7 years of experience in customer success roles within SaaS companies, offering a deep understanding of client needs and excellent communication skills. Eager to contribute to innovative projects within a dynamic team environment.',
+      cv_experience_title: 'Experience - Projects',
+      cv_exp1_title: 'Full Stack Web Developer',
+      cv_exp1_period: '2023 - Today',
+      cv_exp1_subtitle: "Associate's degree in web development",
+      cv_exp1_b1: 'Mastered HTML, CSS, Javascript, Node.js and React',
+      cv_exp1_b2: 'Completed 4 major projects mastering ecommerce aspect of web developing',
+      cv_exp1_b3: 'Got skilled on both frontend and backend web development',
+      cv_exp2_title: 'Customer Success Manager',
+      cv_exp2_period: '2019 - 2023',
+      cv_exp2_subtitle: 'Selligent - Paris',
+      cv_exp2_b1: 'Supported marketing campaigns using CRM and automation tools',
+      cv_exp2_b2: 'Delivered client training on marketing platform features',
+      cv_exp2_b3: 'Managed content localization for diverse markets',
+      cv_exp2_b4: 'Developed onboarding strategies to boost product adoption',
+      cv_exp3_title: 'Customer Success Manager',
+      cv_exp3_period: '2016 - 2019',
+      cv_exp3_subtitle: 'Launchmetrics - Paris',
+      cv_exp3_b1: 'Onboarded new clients',
+      cv_exp3_b2: 'Managed projects in collaboration with Technical Project Managers',
+      cv_exp3_b3: 'Detected opportunities and forwarding it to sales',
+      cv_exp3_b4: 'Kept up-to-date the key opinion leaders and users',
+      cv_exp3_b5: 'Customer Support',
+      cv_education_title: 'Education',
+      cv_edu1_title: "Web Developer Associate's Degree",
+      cv_edu1_subtitle: 'Openclassrooms',
+      cv_edu2_title: "Business Associate's Degree",
+      cv_edu2_subtitle: 'Lycée Saint-Lambert - Paris',
+      cv_skills_title: 'Technical Skills',
+      cv_softskills_title: 'Soft Skills',
+      cv_languages_title: 'Languages',
+      lang_french: 'French',
+      lang_native: 'Native',
+      lang_english: 'English',
+      lang_fluent: 'Fluent',
+      footer_contact_me: 'Contact Me',
+      footer_follow_me: 'Follow Me',
+      footer_quick_links: 'Quick Links',
+      ql_freelance: 'Freelance Services',
+      ql_resume: 'My Resume',
+      ql_contact: 'Contact Form',
+      ql_terms: 'Terms of Service',
+      ql_privacy: 'Privacy Policy',
+    },
+    fr: {
+      skip_content: 'Aller au contenu',
+      nav_cv: 'CV',
+      hero_title: '<span class="nowrap-desktop">CODE, NO-CODE, IA :</span> <br> CROISSANCE DIGITALE, <br> BUSINESS SEREIN.',
+      hero_subtitle: "Je transforme vos idées en solutions digitales performantes. Du sur‑mesure au no‑code, avec intégration de l'IA, je livre des solutions web complètes et efficaces.",
+      build_gallery_title: 'Galerie de Projets',
+      build_gallery_desc: 'Parcourez mes projets réalisés avec aperçu GitHub et démonstrations en ligne.',
+      label_completed: 'Terminé',
+      label_active: 'Actif',
+      code_craft_title: 'Code & Savoir‑faire',
+      code_craft_desc: "Expertise full‑stack, du front réactif aux architectures back‑end scalables.",
+      digital_alchemy_title: 'Alchimie Digitale',
+      digital_alchemy_desc: 'Transformer des besoins complexes en expériences élégantes et fluides.',
+      tech_horizons_title: 'Horizons Tech',
+      tech_horizons_desc: "Nous explorons sans cesse de nouvelles technologies à ajouter à la plateforme.",
+      solution_stack_title: 'Stack de Solutions',
+      client_victories_title: 'Succès Clients',
+      success_playbook_title: 'Playbook du Succès',
+      skill_spectrum_title: 'Spectre de Compétences',
+      trust_chronicles_title: 'Chroniques de Confiance',
+      zero_to_launch_title: 'De Zéro au Lancement',
+      generic_list_desc: "Nous avons compilé les figures les plus marquantes du software et leurs chemins vers la réussite.",
+      contact_title: 'Construisons Demain',
+      form_name_label: 'Nom',
+      form_name_placeholder: 'Votre nom',
+      form_email_label: 'Email',
+      form_email_placeholder: 'Votre email',
+      form_message_label: 'Message',
+      form_message_placeholder: 'Parlez‑moi de votre projet…',
+      form_submit: 'Envoyer',
+      transparent_build_rates_title: 'Tarifs de Construction Transparants',
+      roi_pricing_title: 'Tarification orientée ROI',
+      cv_title: 'Développeur Web Full‑stack',
+      cv_status: 'Disponible pour opportunités',
+      cv_summary_title: 'Résumé',
+      cv_summary_text: "Développeur web junior passionné, récemment diplômé. Expérience pratique en React.js, Node.js, HTML/CSS et JavaScript. Fort de 7 ans en Customer Success dans des SaaS, je comprends les enjeux clients et communique efficacement. Motivé pour contribuer à des projets innovants au sein d'équipes dynamiques.",
+      cv_experience_title: 'Expériences - Projets',
+      cv_exp1_title: 'Développeur Web Full Stack',
+      cv_exp1_period: '2023 - Aujourd\'hui',
+      cv_exp1_subtitle: "Diplôme de développeur web (Bac+2)",
+      cv_exp1_b1: 'Maîtrise de HTML, CSS, Javascript, Node.js et React',
+      cv_exp1_b2: '4 projets majeurs réalisés, focus e‑commerce',
+      cv_exp1_b3: 'Compétences front‑end et back‑end',
+      cv_exp2_title: 'Customer Success Manager',
+      cv_exp2_period: '2019 - 2023',
+      cv_exp2_subtitle: 'Selligent - Paris',
+      cv_exp2_b1: 'Support de campagnes marketing via CRM et automation',
+      cv_exp2_b2: 'Formations clients sur les fonctionnalités de la plateforme',
+      cv_exp2_b3: 'Localisation des contenus pour des marchés variés',
+      cv_exp2_b4: "Stratégies d'onboarding pour booster l'adoption",
+      cv_exp3_title: 'Customer Success Manager',
+      cv_exp3_period: '2016 - 2019',
+      cv_exp3_subtitle: 'Launchmetrics - Paris',
+      cv_exp3_b1: 'Onboarding des nouveaux clients',
+      cv_exp3_b2: 'Gestion de projets avec les chefs de projet techniques',
+      cv_exp3_b3: 'Détection d’opportunités et transmission aux ventes',
+      cv_exp3_b4: 'Mise à jour continue des KOL et utilisateurs',
+      cv_exp3_b5: 'Support client',
+      cv_education_title: 'Formation',
+      cv_edu1_title: 'Diplôme Développeur Web (Bac+2)',
+      cv_edu1_subtitle: 'OpenClassrooms',
+      cv_edu2_title: 'BTS Commerce',
+      cv_edu2_subtitle: 'Lycée Saint‑Lambert - Paris',
+      cv_skills_title: 'Compétences Techniques',
+      cv_softskills_title: 'Soft Skills',
+      cv_languages_title: 'Langues',
+      lang_french: 'Français',
+      lang_native: 'Natif',
+      lang_english: 'Anglais',
+      lang_fluent: 'Courant',
+      footer_contact_me: 'Me contacter',
+      footer_follow_me: 'Me suivre',
+      footer_quick_links: 'Liens rapides',
+      ql_freelance: 'Prestations Freelance',
+      ql_resume: 'Mon CV',
+      ql_contact: 'Formulaire de contact',
+      ql_terms: 'Conditions d\'utilisation',
+      ql_privacy: 'Politique de confidentialité',
+    }
+  };
+
+  const getInitialLang = () => {
+    // 1) URL param has priority
+    const urlParams = new URLSearchParams(window.location.search);
+    const fromUrl = urlParams.get('lang');
+    if (fromUrl && SUPPORTED_LANGS.includes(fromUrl)) {
+      return fromUrl;
+    }
+    // 2) Persisted value
+    const saved = localStorage.getItem(I18N_STORAGE_KEY);
+    if (saved && SUPPORTED_LANGS.includes(saved)) return saved;
+    // 3) Default to English
+    return 'en';
+  };
+
+  const setHtmlLangAttr = (lang) => {
+    document.documentElement.setAttribute('lang', lang);
+  };
+
+  const applyTranslations = (lang) => {
+    const dict = TRANSLATIONS[lang] || TRANSLATIONS.en;
+    // Elements with textContent
+    document.querySelectorAll('[data-i18n]').forEach((el) => {
+      const key = el.getAttribute('data-i18n');
+      if (key && dict[key] != null) {
+        el.textContent = dict[key];
+      }
+    });
+    // Elements with innerHTML
+    document.querySelectorAll('[data-i18n-html]').forEach((el) => {
+      const key = el.getAttribute('data-i18n-html');
+      if (key && dict[key] != null) {
+        el.innerHTML = dict[key];
+      }
+    });
+    // Placeholders
+    document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
+      const key = el.getAttribute('data-i18n-placeholder');
+      if (key && dict[key] != null) {
+        el.setAttribute('placeholder', dict[key]);
+      }
+    });
+
+    // Update toggle label (button and menu item) with flag + code
+    const flag = lang === 'en' ? '🇬🇧' : '🇫🇷';
+    const code = lang.toUpperCase();
+    const toggleBtn = document.querySelector('[data-lang-toggle]');
+    if (toggleBtn) {
+      toggleBtn.textContent = `${flag} ${code}`;
+      toggleBtn.setAttribute('aria-label', lang === 'en' ? 'Change language' : 'Changer de langue');
+      toggleBtn.setAttribute('title', lang === 'en' ? 'Change language' : 'Changer de langue');
+    }
+    const toggleMenuLink = document.querySelector('[data-lang-toggle-menu]');
+    if (toggleMenuLink) {
+      toggleMenuLink.textContent = `${flag} ${code}`;
+      toggleMenuLink.setAttribute('aria-label', lang === 'en' ? 'Change language' : 'Changer de langue');
+      toggleMenuLink.setAttribute('title', lang === 'en' ? 'Change language' : 'Changer de langue');
+    }
+  };
+
+  const switchLanguage = (nextLang) => {
+    const lang = SUPPORTED_LANGS.includes(nextLang) ? nextLang : 'en';
+    localStorage.setItem(I18N_STORAGE_KEY, lang);
+    setHtmlLangAttr(lang);
+    applyTranslations(lang);
+    // Sync URL parameter without reloading
+    const url = new URL(window.location.href);
+    url.searchParams.set('lang', lang);
+    history.replaceState(null, '', url.toString());
+  };
+
+  const initI18n = () => {
+    const current = getInitialLang();
+    setHtmlLangAttr(current);
+    applyTranslations(current);
+    const toggleBtn = document.querySelector('[data-lang-toggle]');
+    const toggleMenuLink = document.querySelector('[data-lang-toggle-menu]');
+    const handler = (e) => {
+      if (e) e.preventDefault();
+      const now = localStorage.getItem(I18N_STORAGE_KEY) || current;
+      const next = now === 'en' ? 'fr' : 'en';
+      switchLanguage(next);
+    };
+    if (toggleBtn) toggleBtn.addEventListener('click', handler);
+    if (toggleMenuLink) toggleMenuLink.addEventListener('click', handler);
+  };
 
   // --- Détection du navigateur pour optimisations spécifiques ---
   const detectBrowser = () => {
@@ -21,7 +271,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Détection Edge
     const isEdge = /edg/i.test(userAgent);
 
-    console.log('Browser Detection:', { isSafari, isChrome, isFirefox, isEdge });
+    if (DEBUG) console.log('Browser Detection:', { isSafari, isChrome, isFirefox, isEdge });
 
     return { isSafari, isChrome, isFirefox, isEdge };
   };
@@ -32,7 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (browserInfo.isSafari) {
     bodyElement.classList.add('browser-safari');
-    console.log('Safari detected - Applying Safari-specific optimizations');
+    if (DEBUG) console.log('Safari detected - Applying Safari-specific optimizations');
   } else if (browserInfo.isChrome) {
     bodyElement.classList.add('browser-chrome');
   } else if (browserInfo.isFirefox) {
@@ -47,7 +297,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window.forceRepaintSafari = () => {
     if (!browserInfo.isSafari) return;
 
-    console.log('Safari: Force repaint after transition');
+    if (DEBUG) console.log('Safari: Force repaint after transition');
 
     // Méthode 1: Force reflow en lisant des propriétés calculées
     const mainContent = document.querySelector('main#main-content');
@@ -94,7 +344,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const EFFECTIVE_UNIT_WIDTH_PX = (TILE_WIDTH_REM + GAP_REM) * REM_TO_PX;
 
   // --- Tech Wave Container Initialization ---
-  const initializeTechWave = () => {
+  const initializeTechWaveNow = () => {
     const waveContainer = document.querySelector('.tech-wave-container');
     if (!waveContainer) {
       console.warn('Tech wave container (.tech-wave-container) not found! Skipping tech wave initialization.');
@@ -118,7 +368,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Debug: compter les tuiles animées
       const visibleTiles = waveContainer.querySelectorAll('.tech-tile.visible').length;
       const totalTiles = waveContainer.querySelectorAll('.tech-tile').length;
-      console.log(`TechWave Performance: ${visibleTiles}/${totalTiles} tuiles animées`);
+      if (DEBUG) console.log(`TechWave Performance: ${visibleTiles}/${totalTiles} tuiles animées`);
     }, {
       root: null, // Observer par rapport à la fenêtre du navigateur (viewport)
       rootMargin: '0px', // Pas de marge - animation exactement quand visible dans la fenêtre
@@ -354,7 +604,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Si une technologie apparaît plus de la moitié du nombre total de types,
       // nous devons utiliser une distribution forcée
       if (maxCount > Math.ceil(totalTechs / 2)) {
-        console.log('TechWave: Distribution forcée nécessaire - trop de répétitions détectées');
+        if (DEBUG) console.log('TechWave: Distribution forcée nécessaire - trop de répétitions détectées');
         return distributeWithForcedSpacing(array, techCounts);
       }
 
@@ -463,7 +713,7 @@ document.addEventListener('DOMContentLoaded', () => {
         result.push(otherItems[otherIndex++]);
       }
 
-      console.log(`TechWave: Distribution forcée appliquée - ${mostFrequentTech} espacé avec ratio ${spacing}:1`);
+      if (DEBUG) console.log(`TechWave: Distribution forcée appliquée - ${mostFrequentTech} espacé avec ratio ${spacing}:1`);
       return result;
     };
 
@@ -491,6 +741,7 @@ document.addEventListener('DOMContentLoaded', () => {
       logoElement.classList.add('tech-tile-logo');
       logoElement.src = tech.path;
       logoElement.alt = tech.name;
+      logoElement.loading = 'lazy';
       // Reset classes to avoid conflicts
       logoElement.classList.remove('logo-use-original-colors', 'logo-force-color-white', 'logo-force-color-black');
       if (styleInfo.iconColor === 'original') {
@@ -562,89 +813,58 @@ document.addEventListener('DOMContentLoaded', () => {
       const tempScroller = document.createElement('div');
       tempScroller.style.visibility = 'hidden';
       tempScroller.style.position = 'absolute';
-      tempScroller.style.whiteSpace = 'nowrap'; // Ensure tiles don't wrap
-      tempScroller.style.display = 'flex'; // Mimic scroller's display
-      tempScroller.style.gap = `${GAP_REM}rem`; // Mimic scroller's gap
+      tempScroller.style.whiteSpace = 'nowrap';
+      tempScroller.style.display = 'flex';
+      tempScroller.style.gap = `${GAP_REM}rem`;
       tempScroller.appendChild(populateFragment(uniqueTechListPart));
       document.body.appendChild(tempScroller);
       const singleSetWidth = tempScroller.scrollWidth;
       document.body.removeChild(tempScroller);
 
       const containerWidth = containerElement.clientWidth;
-      let copiesToAppend = 1;
+      // Ensure content width exceeds container by at least one set for seamless looping
+      const copiesToAppend = Math.max(2, Math.ceil(containerWidth / singleSetWidth) + 1);
 
-      // To ensure no black spaces appear, we will be extremely generous with copies.
-      // This creates a very long strip of tiles, ensuring content is always available.
-      // We aim for at least 10-15 full sets of the unique technologies.
-      copiesToAppend = Math.max(15, Math.ceil((containerWidth * 2) / singleSetWidth)); // Ensure at least 15 copies or enough to cover container twice.
-
-      console.log(`Debug Scroller: uniqueTechListPart.length=${uniqueTechListPart.length}, singleSetWidth=${singleSetWidth.toFixed(2)}px, containerWidth=${containerWidth}px, copiesToAppend=${copiesToAppend}`);
+      if (DEBUG) console.log(`TechWave loop: setWidth=${singleSetWidth}px, container=${containerWidth}px, copies=${copiesToAppend}`);
 
       for (let i = 0; i < copiesToAppend; i++) {
         scroller.appendChild(populateFragment(uniqueTechListPart));
       }
 
       containerElement.appendChild(scroller);
-      const contentTotalWidth = scroller.scrollWidth; // Get the full width of the scroller with all copies
+      const contentTotalWidth = scroller.scrollWidth;
 
-      return { scrollerElement: scroller, contentTotalWidth: contentTotalWidth };
+      return { scrollerElement: scroller, singleSetWidth, contentTotalWidth };
     };
 
-    function startPingPongAnimation(scrollerData) {
-      const contentWidth = scrollerData.contentTotalWidth;
-      const containerWidth = waveContainer.clientWidth;
+    function startInfiniteLoopAnimation(scrollerState) {
+      const element = scrollerState.element;
+      if (!element) return;
 
-      if (contentWidth <= containerWidth) {
-        if (scrollerData.element) scrollerData.element.style.transform = `translateX(0px)`;
-        return;
-      }
+      let currentX = 0;
+      const SCROLL_SPEED_PX = 0.5; // base speed in px per frame
+      const setWidth = scrollerState.singleSetWidth || 0;
 
-      // Calculate initial position to center the content
-      // This ensures the animation starts from a middle point, far from actual DOM ends
-      let currentX = -(contentWidth / 2 - containerWidth / 2);
+      const step = () => {
+        if (!scrollerState.isPaused && element) {
+          const dir = scrollerState.baseSign; // -1 to move left, 1 to move right
+          const applied = dir * SCROLL_SPEED_PX * globalSpeedMultiplier;
+          currentX += applied;
 
-      const SCROLL_SPEED_FACTOR = 0.5;
-      // Removed TRIGGER_OFFSET_FROM_EDGE_PX as it's no longer needed with large content
-
-      const leftScrollLimit = 0;
-      const rightScrollLimit = -(contentWidth - containerWidth);
-
-      // Ensure initial currentX is within the actual valid range of motion
-      currentX = Math.max(rightScrollLimit, Math.min(leftScrollLimit, currentX));
-
-      if (scrollerData.element) {
-        scrollerData.element.style.transform = `translateX(${currentX}px)`;
-      } else {
-        console.error('TechWave Error: scrollerData.element is null. Cannot apply initial transform.');
-        return;
-      }
-
-      function animate() {
-        if (!scrollerData.isPaused && scrollerData.element) {
-          const currentAppliedSpeed = scrollerData.baseSign * sharedPongDirection * SCROLL_SPEED_FACTOR * globalSpeedMultiplier;
-          currentX += currentAppliedSpeed;
-
-          // Simple ping-pong logic: reverse direction when hitting absolute limits
-          if (sharedPongDirection < 0) { // Moving left
-            if (currentX <= rightScrollLimit) {
-              currentX = rightScrollLimit; // Snap to limit
-              sharedPongDirection *= -1; // Reverse direction
-            }
-          } else { // Moving right
-            if (currentX >= leftScrollLimit) {
-              currentX = leftScrollLimit; // Snap to limit
-              sharedPongDirection *= -1; // Reverse direction
-            }
+          // Seamless wrap: when moving left beyond one set, wrap forward
+          if (dir < 0 && Math.abs(currentX) >= setWidth) {
+            currentX += setWidth; // e.g., -setWidth -> 0
+          }
+          // Moving right: keep currentX within [-setWidth, 0)
+          if (dir > 0 && currentX > 0) {
+            currentX -= setWidth;
           }
 
-          // Ensure currentX never goes beyond absolute limits (safety net)
-          currentX = Math.max(rightScrollLimit, Math.min(leftScrollLimit, currentX));
-
-          scrollerData.element.style.transform = `translateX(${currentX}px)`;
+          element.style.transform = `translateX(${currentX}px)`;
         }
-        scrollerData.animationFrameId = requestAnimationFrame(animate);
-      }
-      scrollerData.animationFrameId = requestAnimationFrame(animate);
+        scrollerState.animationFrameId = requestAnimationFrame(step);
+      };
+      scrollerState.animationFrameId = requestAnimationFrame(step);
     }
 
     const animationStates = [];
@@ -680,19 +900,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const scrollerData1 = createAndAttachScroller(shuffledPart1, animState1, waveContainer);
     animState1.element = scrollerData1.scrollerElement;
     animState1.contentTotalWidth = scrollerData1.contentTotalWidth;
+    animState1.singleSetWidth = scrollerData1.singleSetWidth;
 
     const scrollerData2 = createAndAttachScroller(shuffledPart2, animState2, waveContainer);
     animState2.element = scrollerData2.scrollerElement;
     animState2.contentTotalWidth = scrollerData2.contentTotalWidth;
+    animState2.singleSetWidth = scrollerData2.singleSetWidth;
 
     if (scrollerData1.scrollerElement) { void scrollerData1.scrollerElement.offsetHeight; }
     if (scrollerData2.scrollerElement) { void scrollerData2.scrollerElement.offsetHeight; }
 
     animationStates.forEach((state, index) => {
-      if (state && state.element && state.contentTotalWidth > 0) {
-        setTimeout(() => startPingPongAnimation(state), 16);
+      if (state && state.element && state.contentTotalWidth > 0 && state.singleSetWidth > 0) {
+        setTimeout(() => startInfiniteLoopAnimation(state), 16);
       } else {
-        console.warn(`TechWave: Cannot start ping-pong for state index ${index} due to invalid state, element, or zero content width.`, state);
+        console.warn(`TechWave: Cannot start loop for state index ${index} due to invalid state, element, or widths.`, state);
       }
     });
 
@@ -724,7 +946,34 @@ document.addEventListener('DOMContentLoaded', () => {
     };
   };
 
+  // Lazy‑init Tech Wave: initialize only when container enters viewport
+  const initializeTechWave = () => {
+    const waveContainer = document.querySelector('.tech-wave-container');
+    if (!waveContainer) return;
+    const start = () => {
+      observer && observer.disconnect();
+      initializeTechWaveNow();
+    };
+    // If already visible, init immediately
+    const rect = waveContainer.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      initializeTechWaveNow();
+      return;
+    }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          start();
+        }
+      });
+    }, { root: null, rootMargin: '0px 0px 100px 0px', threshold: 0 });
+    observer.observe(waveContainer);
+  };
+
   initializeTechWave();
+
+  // Initialize i18n after initial DOM is ready
+  initI18n();
 
   // --- Contact CTA Popup Logic ---
   const setupContactPopup = () => {
@@ -737,6 +986,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     let isAnimating = false;
+
+    const focusableSelector = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+    let lastFocusedBeforeOpen = null;
+
+    const trapFocus = (e) => {
+      const focusable = contactPopup.querySelectorAll(focusableSelector);
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.key === 'Tab') {
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    };
 
     const showPopup = () => {
       if (isAnimating) return;
@@ -751,6 +1019,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
       contactPopup.classList.add('show');
 
+      // Focus management
+      lastFocusedBeforeOpen = document.activeElement;
+      const firstFocusable = contactPopup.querySelector(focusableSelector);
+      if (firstFocusable) firstFocusable.focus();
+      document.addEventListener('keydown', trapFocus);
+
       // Reset animation flag after animation completes
       setTimeout(() => {
         isAnimating = false;
@@ -764,6 +1038,12 @@ document.addEventListener('DOMContentLoaded', () => {
       contactCtaBtn.setAttribute('aria-expanded', 'false');
       contactCtaBtn.classList.remove('active');
       contactPopup.classList.remove('show');
+
+      // Restore focus and remove listeners
+      document.removeEventListener('keydown', trapFocus);
+      if (lastFocusedBeforeOpen) {
+        try { lastFocusedBeforeOpen.focus(); } catch (_) { }
+      }
 
       // Hide element after animation completes
       setTimeout(() => {
@@ -879,10 +1159,10 @@ document.addEventListener('DOMContentLoaded', () => {
       return {};
     }
 
+    // Deprecated: path-based routing replaced by hash routing for static hosting
     const getPathFromUrl = (url) => {
-      const a = document.createElement('a');
-      a.href = url;
-      return a.pathname.replace(/\/$/, '') || '/';
+      const fromHash = url.split('#')[1] || '';
+      return fromHash ? `/${fromHash}` : '/';
     };
 
     /**
@@ -1033,7 +1313,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const navigateTo = (path, push = true, useTransition = true) => {
       const sectionId = ROUTES[path];
       if (!sectionId) {
-        console.warn(`Route not found for path: ${path}. Defaulting to freelance-content.`);
+        if (DEBUG) console.warn(`Route not found for path: ${path}. Defaulting to freelance-content.`);
         path = '/';
       }
 
@@ -1043,8 +1323,9 @@ document.addEventListener('DOMContentLoaded', () => {
       updateNavActive(path);
 
       if (push) {
-        if (getPathFromUrl(window.location.href) !== path) {
-          window.history.pushState({ path }, '', path);
+        const hash = `#${path === '/' ? '' : path.replace(/^\//, '')}`;
+        if (window.location.hash !== hash) {
+          window.location.hash = hash;
         }
       }
     };
@@ -1060,7 +1341,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const sectionId = link.getAttribute('data-section-toggle');
         const path = Object.keys(ROUTES).find(key => ROUTES[key] === sectionId) || '/';
 
-        if (getPathFromUrl(window.location.href) !== path) {
+        const currentPath = window.location.hash.replace(/^#/, '') ? `/${window.location.hash.replace(/^#/, '')}` : '/';
+        if (currentPath !== path) {
           e.preventDefault();
           navigateTo(path, true, true); // Use transition for clicks
         }
@@ -1078,22 +1360,27 @@ document.addEventListener('DOMContentLoaded', () => {
           path = '/cv';
         }
 
-        if (path && getPathFromUrl(window.location.href) !== path) {
+        const currentPath = window.location.hash.replace(/^#/, '') ? `/${window.location.hash.replace(/^#/, '')}` : '/';
+        if (path && currentPath !== path) {
           e.preventDefault();
           navigateTo(path, true, true); // Use transition for clicks
         }
       });
     });
 
-    // Handle browser's back/forward buttons
-    window.addEventListener('popstate', () => {
-      const path = getPathFromUrl(window.location.href);
-      navigateTo(path, false, true); // Use transition for popstate
+    // Hash-based back/forward handling
+    const getPathFromHash = () => {
+      const raw = window.location.hash.replace(/^#/, '');
+      return raw ? `/${raw}` : '/';
+    };
+    window.addEventListener('hashchange', () => {
+      const path = getPathFromHash();
+      navigateTo(path, false, true);
     });
 
-    // Initial load: navigate to the current URL's path, but without transition
-    const initialPath = getPathFromUrl(window.location.href);
-    navigateTo(initialPath, false, false); // <--- HERE IS THE KEY CHANGE
+    // Initial load: navigate using hash (static hosting safe)
+    const initialPath = getPathFromHash();
+    navigateTo(initialPath, false, false);
 
     // After initial load and navigation, make main content visible
     // This is to prevent FOUC on the initial load.
@@ -1184,7 +1471,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Listen for page changes to clean up CV sections
     document.addEventListener('DOMContentLoaded', cleanupCVSections);
-    window.addEventListener('popstate', cleanupCVSections);
+    window.addEventListener('hashchange', cleanupCVSections);
 
     // Handle orientation changes and resize events
     let resizeTimeout;
@@ -1193,8 +1480,10 @@ document.addEventListener('DOMContentLoaded', () => {
       resizeTimeout = setTimeout(() => {
         // Re-trigger intersection checks after resize
         cvSections.forEach(section => {
-          sectionObserver.unobserve(section);
-          sectionObserver.observe(section);
+          if (cvSectionObserver) {
+            cvSectionObserver.unobserve(section);
+            cvSectionObserver.observe(section);
+          }
         });
       }, 250);
     });
@@ -1213,7 +1502,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // Listen for page changes to reinitialize CV functionality
-  window.addEventListener('popstate', reinitializeCVOnPageChange);
+  window.addEventListener('hashchange', reinitializeCVOnPageChange);
 
   // --- Performance Optimization: Pause animations during scroll ---
   let scrollTimeout;
@@ -1243,4 +1532,98 @@ document.addEventListener('DOMContentLoaded', () => {
       ticking = true;
     }
   }, { passive: true });
+
+  // --- Contact form client-side validation & async submit ---
+  const setupContactForm = () => {
+    const form = document.querySelector('form[data-form-submit="contact"]');
+    if (!form) return;
+    const nameInput = form.querySelector('#contact-name');
+    const emailInput = form.querySelector('#contact-email');
+    const messageInput = form.querySelector('#contact-message');
+    const status = form.querySelector('[data-form-status]');
+    const errName = form.querySelector('#error-name');
+    const errEmail = form.querySelector('#error-email');
+    const errMessage = form.querySelector('#error-message');
+
+    const setError = (el, errEl, message) => {
+      if (errEl) errEl.textContent = message || '';
+      if (message) {
+        el.setAttribute('aria-invalid', 'true');
+      } else {
+        el.removeAttribute('aria-invalid');
+      }
+    };
+
+    const validateName = () => {
+      const value = nameInput.value.trim();
+      if (value.length < 2) {
+        setError(nameInput, errName, 'Please enter at least 2 characters.');
+        return false;
+      }
+      setError(nameInput, errName, '');
+      return true;
+    };
+
+    const validateEmail = () => {
+      const value = emailInput.value.trim();
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!re.test(value)) {
+        setError(emailInput, errEmail, 'Please enter a valid email address.');
+        return false;
+      }
+      setError(emailInput, errEmail, '');
+      return true;
+    };
+
+    const validateMessage = () => {
+      const value = messageInput.value.trim();
+      if (value.length < 10) {
+        setError(messageInput, errMessage, 'Please enter at least 10 characters.');
+        return false;
+      }
+      setError(messageInput, errMessage, '');
+      return true;
+    };
+
+    nameInput.addEventListener('input', validateName);
+    emailInput.addEventListener('input', validateEmail);
+    messageInput.addEventListener('input', validateMessage);
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      status.textContent = '';
+      const ok = [validateName(), validateEmail(), validateMessage()].every(Boolean);
+      // Honeypot check
+      const honey = form.querySelector('input[name="_honey"]');
+      if (honey && honey.value) return; // silently drop bots
+      if (!ok) return;
+
+      const submitBtn = form.querySelector('button[type="submit"]');
+      const prevLabel = submitBtn.textContent;
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+
+      try {
+        const formData = new FormData(form);
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: formData,
+          headers: { 'Accept': 'application/json' }
+        });
+        if (res.ok) {
+          form.reset();
+          status.textContent = 'Message sent. Thank you!';
+        } else {
+          status.textContent = 'An error occurred. Please try again later.';
+        }
+      } catch (err) {
+        status.textContent = 'Network error. Please try again later.';
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = prevLabel;
+      }
+    });
+  };
+
+  setupContactForm();
 });

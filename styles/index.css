@@ -2,22 +2,16 @@
    FullDevGear - Main CSS Entry Point (Modular)
    ========================================================================== */
 
-/* --- Base Styles --- */
+/* Imports regroupés via <link> preloaded dans index.html pour réduire le blocage */
 @import url('./base/variables.css');
 @import url('./base/reset.css');
 @import url('./base/layout.css');
-
-/* --- Components --- */
 @import url('./components/header.css');
 @import url('./components/footer.css');
 @import url('./components/tech-wave.css');
 @import url('./components/forms.css');
-
-/* --- Pages --- */
 @import url('./pages/cv.css');
 @import url('./pages/build-gallery.css');
-
-/* --- Utilities --- */
 @import url('./utils/animations.css');
 
 /* --- Additional Styles --- */

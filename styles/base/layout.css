@@ -27,6 +27,9 @@ main#main-content article ul li {
   margin-bottom: 5.5rem;
 }
 
+/* Mobile: reduce excessive spacing for better density */
+/* Reverted per request */
+
 /* Override margin-bottom only for main-title paragraph */
 main#main-content .main-title p {
   margin-bottom: 0.231rem !important;

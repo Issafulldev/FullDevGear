@@ -3,23 +3,60 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="FullDevGear – Full‑stack web development, no‑code solutions and AI integration. Portfolio, freelance services, and resume.">
+  <meta name="robots" content="index,follow">
+  <meta name="theme-color" content="#000000">
+  <meta property="og:title" content="FullDevGear – Code, No‑Code, AI">
+  <meta property="og:description" content="Transform your ideas into high‑performance digital solutions: websites, apps, automations and AI.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="./assets/projects/FullDevGear/FullDevGear-preview.webp">
+  <meta property="og:url" content="https://issafulldev.github.io/FullDevGear/">
+  <meta name="twitter:card" content="summary_large_image">
   <script src="https://kit.fontawesome.com/13e3207f1d.js" crossorigin="anonymous"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles/index.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
+  </noscript>
+  <!-- CSS modular links (avoid @import blocking) -->
+  <link rel="preload" href="styles/base/variables.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="styles/base/reset.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="styles/base/layout.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="styles/components/header.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="styles/components/footer.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="styles/components/tech-wave.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="styles/components/forms.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="styles/pages/cv.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="styles/pages/build-gallery.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="styles/utils/animations.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>
+    <link rel="stylesheet" href="styles/base/variables.css">
+    <link rel="stylesheet" href="styles/base/reset.css">
+    <link rel="stylesheet" href="styles/base/layout.css">
+    <link rel="stylesheet" href="styles/components/header.css">
+    <link rel="stylesheet" href="styles/components/footer.css">
+    <link rel="stylesheet" href="styles/components/tech-wave.css">
+    <link rel="stylesheet" href="styles/components/forms.css">
+    <link rel="stylesheet" href="styles/pages/cv.css">
+    <link rel="stylesheet" href="styles/pages/build-gallery.css">
+    <link rel="stylesheet" href="styles/utils/animations.css">
+  </noscript>
   <link rel="icon" type="image/png" href="./assets/logos/logosite.PNG">
   <link rel="shortcut icon" type="image/png" href="./assets/logos/logosite.PNG">
   <link rel="apple-touch-icon" href="./assets/logos/logosite.PNG">
+  <link rel="manifest" href="./manifest.webmanifest">
   <title>FullDevGear</title>
 </head>
 <body>
+  <a href="#main-content" class="skip-link" data-i18n="skip_content">Skip to content</a>
   <header>
     <div class="header-container">
       <div class="header-container-logo-cta">
         <div class="header-logo">
-          <a href="/">
+          <a href="#freelance">
             <img id="header-logo" src="./assets/logos/logosite.PNG" alt="FullDevGear Logo" width="80" height="80" loading="eager">
             <div class="header-text-container">
               <p>FullDevGear</p>
@@ -28,15 +65,17 @@
           </a>
         </div>
         <div class="header-title-mobile">
-          <a href="/">FullDevGear</a>
+          <a href="#freelance">FullDevGear</a>
           <p class="header-tagline-mobile">We gear. You grow.</p>
         </div>
       <div class="header-cta">
+        <button type="button" id="lang-toggle" aria-label="Change language" title="Change language" data-lang-toggle>🇬🇧 EN</button>
         <button type="button" id="contact-cta-btn" aria-haspopup="menu" aria-expanded="false" aria-controls="contact-cta-links" data-action="toggle-contact-popup">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-square-dot-icon lucide-message-square-dot"><path d="M11.7 3H5a2 2 0 0 0-2 2v16l4-4h12a2 2 0 0 0 2-2v-2.7"/><circle cx="18" cy="6" r="3"/></svg>
         </button>
         <div id="contact-cta-links" class="contact-popup" role="menu" aria-labelledby="contact-cta-btn" hidden>
           <ul>
+            <li class="lang-menu-item"><a role="menuitem" href="#" data-lang-toggle-menu aria-label="Change language">🇬🇧 EN</a></li>
             <li><a role="menuitem" href="https://calendly.com/your-link" target="_blank" rel="noopener noreferrer" data-contact-link="calendly">Calendly</a></li>
             <li><a role="menuitem" href="https://t.me/your-username" target="_blank" rel="noopener noreferrer" data-contact-link="telegram">Telegram</a></li>
             <li><a role="menuitem" href="https://wa.me/yourphonenumber" target="_blank" rel="noopener noreferrer" data-contact-link="whatsapp">WhatsApp</a></li>
@@ -48,7 +87,7 @@
       <nav aria-label="Main navigation">
         <ul>
           <li><a href="#freelance" data-section-toggle="freelance-content">FullDevGear</a></li>
-          <li><a href="#cv" data-section-toggle="cv-content">CV</a></li>
+          <li><a href="#cv" data-section-toggle="cv-content" data-i18n="nav_cv">CV</a></li>
         </ul>
       </nav>
     </div>
@@ -56,15 +95,15 @@
   <main id="main-content">
     <section id="freelance-content" class="main-container-freelance main-content-area" data-section-id="freelance" data-animation-group>
       <article class="main-title" data-animation-item>
-        <h1><span class="nowrap-desktop">CODE, NO-CODE, AI:</span> <br> DIGITAL GROWTH, <br> BUSINESS BLISS.</h1>
-        <p>Transforming ideas into powerful digital solutions. From custom development to no-code platforms and AI integration, I deliver comprehensive web solutions that drive results.</p>
+        <h1 data-i18n-html="hero_title"><span class="nowrap-desktop">CODE, NO-CODE, AI:</span> <br> DIGITAL GROWTH, <br> BUSINESS BLISS.</h1>
+        <p data-i18n="hero_subtitle">Transforming ideas into powerful digital solutions. From custom development to no-code platforms and AI integration, I deliver comprehensive web solutions that drive results.</p>
       </article>
 
       <div class="tech-wave-container"></div>
 
       <article id="build-gallery" class="late-animation-item" data-animation-item>
-        <h2>Build Gallery</h2>
-        <p>
+        <h2 data-i18n="build_gallery_title">Build Gallery</h2>
+        <p data-i18n="build_gallery_desc">
           Explore my completed projects with GitHub previews and live demonstrations.
         </p>
         <div class="build-gallery-grid">
@@ -76,7 +115,7 @@
             <div class="project-info">
               <div class="project-header">
                 <h3 class="project-title">Kasa - Real Estate Rental Platform</h3>
-                <span class="project-status completed">Completed</span>
+                <span class="project-status completed" data-i18n="label_completed">Completed</span>
               </div>
               <p class="project-description">
                 Modern real estate rental platform built with React, allowing users to browse and view detailed information about available properties with interactive galleries and responsive design.
@@ -120,7 +159,7 @@
             <div class="project-info">
               <div class="project-header">
                 <h3 class="project-title">Kanap - Furniture E-commerce</h3>
-                <span class="project-status completed">Completed</span>
+                <span class="project-status completed" data-i18n="label_completed">Completed</span>
               </div>
               <p class="project-description">
                 Full-stack e-commerce website for furniture sales with dynamic product catalog, shopping cart functionality, and order management system. Includes both frontend and backend implementation.
@@ -164,7 +203,7 @@
             <div class="project-info">
               <div class="project-header">
                 <h3 class="project-title">FullDevGear - Portfolio & Freelance Hub</h3>
-                <span class="project-status in-progress">Active</span>
+                <span class="project-status in-progress" data-i18n="label_active">Active</span>
               </div>
               <p class="project-description">
                 Modern portfolio and freelance services website featuring interactive tech showcases, dynamic animations, SPA routing, and comprehensive CV presentation with dark mode theming.
@@ -203,13 +242,13 @@
       </article>
 
       <article class="main-tech-horizons late-animation-item" data-animation-item hidden>
-        <h2>Code & Craft</h2>
-        <p>Expert development across the full stack, from responsive front-ends to scalable back-end architectures.</p>
+        <h2 data-i18n="code_craft_title">Code & Craft</h2>
+        <p data-i18n="code_craft_desc">Expert development across the full stack, from responsive front-ends to scalable back-end architectures.</p>
       </article>
 
       <article class="success-playbook late-animation-item" data-animation-item hidden>
-        <h2>Digital Alchemy</h2>
-        <p>Turning complex business requirements into elegant, user-friendly digital experiences.</p>
+        <h2 data-i18n="digital_alchemy_title">Digital Alchemy</h2>
+        <p data-i18n="digital_alchemy_desc">Turning complex business requirements into elegant, user-friendly digital experiences.</p>
         <div class="success-playbook-list">
           <ul>
             <li>
@@ -233,8 +272,8 @@
       </article>
 
       <article data-animation-item class="late-animation-item" hidden>
-        <h2>Tech Horizons</h2>
-        <p>
+        <h2 data-i18n="tech_horizons_title">Tech Horizons</h2>
+        <p data-i18n="tech_horizons_desc">
           We're always looking for new and exciting tech to add to our platform.
         </p>
         <div class="tech-horizons-list" data-list-container="tech-horizons">
@@ -243,8 +282,8 @@
       </article>
 
       <article data-animation-item class="late-animation-item" hidden>
-        <h2>Solution Stack</h2>
-        <p>
+        <h2 data-i18n="solution_stack_title">Solution Stack</h2>
+        <p data-i18n="generic_list_desc">
           We've compiled a list of the most successful people in the software industry and what they've done to get there.
         </p>
         <div class="solution-stack-list" data-list-container="solution-stack">
@@ -253,8 +292,8 @@
       </article>
 
       <article data-animation-item class="late-animation-item" hidden>
-        <h2>Client victories</h2>
-        <p>
+        <h2 data-i18n="client_victories_title">Client victories</h2>
+        <p data-i18n="generic_list_desc">
           We've compiled a list of the most successful people in the software industry and what they've done to get there.
         </p>
         <div class="client-victories-list" data-list-container="client-victories">
@@ -263,8 +302,8 @@
       </article>
 
       <article data-animation-item class="late-animation-item" hidden>
-        <h2>Success Playbook</h2>
-        <p>
+        <h2 data-i18n="success_playbook_title">Success Playbook</h2>
+        <p data-i18n="generic_list_desc">
           We've compiled a list of the most successful people in the software industry and what they've done to get there.
         </p>
         <div class="success-playbook-list" data-list-container="success-playbook-alt">
@@ -273,8 +312,8 @@
       </article>
 
       <article data-animation-item class="late-animation-item" hidden>
-        <h2>Skill Spectrum</h2>
-        <p>
+        <h2 data-i18n="skill_spectrum_title">Skill Spectrum</h2>
+        <p data-i18n="generic_list_desc">
           We've compiled a list of the most successful people in the software industry and what they've done to get there.
         </p>
         <div class="skill-spectrum-list" data-list-container="skill-spectrum">
@@ -283,8 +322,8 @@
       </article>
 
       <article data-animation-item class="late-animation-item" hidden>
-        <h2>Trust Chronicles</h2>
-        <p>
+        <h2 data-i18n="trust_chronicles_title">Trust Chronicles</h2>
+        <p data-i18n="generic_list_desc">
           We've compiled a list of the most successful people in the software industry and what they've done to get there.
         </p>
         <div class="trust-chronicles-list" data-list-container="trust-chronicles">
@@ -293,8 +332,8 @@
       </article>
 
       <article data-animation-item class="late-animation-item" hidden>
-        <h2>Zero To Launch</h2>
-        <p>
+        <h2 data-i18n="zero_to_launch_title">Zero To Launch</h2>
+        <p data-i18n="generic_list_desc">
           We've compiled a list of the most successful people in the software industry and what they've done to get there.
         </p>
         <div class="zero-to-launch-list" data-list-container="zero-to-launch">
@@ -303,26 +342,39 @@
       </article>
 
       <article data-animation-item class="late-animation-item">
-        <h2>Let's Build Tomorrow</h2>
-        <form action="#" method="POST" data-form-submit="contact">
-          <div>
-            <label for="contact-name">Name</label>
-            <input type="text" id="contact-name" name="name" placeholder="Your Name" required>
+        <h2 data-i18n="contact_title">Let's Build Tomorrow</h2>
+        <form action="https://formsubmit.co/issa@fulldevgear.com" method="POST" data-form-submit="contact" novalidate>
+          <!-- FormSubmit config -->
+          <input type="hidden" name="_subject" value="New message from FullDevGear" />
+          <input type="hidden" name="_template" value="table" />
+          <input type="hidden" name="_captcha" value="false" />
+          <!-- Honeypot anti-spam -->
+          <div style="position:absolute; left:-10000px; top:auto; width:1px; height:1px; overflow:hidden;">
+            <label for="contact-website">Website</label>
+            <input type="text" id="contact-website" name="_honey" tabindex="-1" autocomplete="off">
           </div>
           <div>
-            <label for="contact-email">Email</label>
-            <input type="email" id="contact-email" name="email" placeholder="Your Email" required>
+            <label for="contact-name" data-i18n="form_name_label">Name</label>
+            <input type="text" id="contact-name" name="name" placeholder="Your Name" data-i18n-placeholder="form_name_placeholder" required minlength="2" maxlength="100" aria-describedby="error-name">
+            <small id="error-name" class="form-error" aria-live="polite"></small>
           </div>
           <div>
-            <label for="contact-message">Message</label>
-            <textarea id="contact-message" name="message" placeholder="Tell me about your project..." rows="4" required></textarea>
+            <label for="contact-email" data-i18n="form_email_label">Email</label>
+            <input type="email" id="contact-email" name="email" placeholder="Your Email" data-i18n-placeholder="form_email_placeholder" required aria-describedby="error-email">
+            <small id="error-email" class="form-error" aria-live="polite"></small>
           </div>
-          <button type="submit">Send Message</button>
+          <div>
+            <label for="contact-message" data-i18n="form_message_label">Message</label>
+            <textarea id="contact-message" name="message" placeholder="Tell me about your project..." rows="4" data-i18n-placeholder="form_message_placeholder" required minlength="10" maxlength="2000" aria-describedby="error-message"></textarea>
+            <small id="error-message" class="form-error" aria-live="polite"></small>
+          </div>
+          <button type="submit" data-i18n="form_submit">Send Message</button>
+          <div class="form-status" role="status" aria-live="polite" data-form-status></div>
         </form>
       </article>
 
       <article data-animation-item class="late-animation-item" hidden>
-        <h2>Transparent Build Rates</h2>
+        <h2 data-i18n="transparent_build_rates_title">Transparent Build Rates</h2>
         <p>
           We've compiled a list of the most successful people in the software industry and what they've done to get there.
         </p>
@@ -332,7 +384,7 @@
       </article>
 
       <article data-animation-item class="late-animation-item" hidden>
-        <h2>ROI-Driven Pricing</h2>
+        <h2 data-i18n="roi_pricing_title">ROI-Driven Pricing</h2>
         <p>
           We've compiled a list of the most successful people in the software industry and what they've done to get there.
         </p>
@@ -358,67 +410,67 @@
               </div>
             <h1 class="cv-last-name">Azegouar</h1>
           </div>
-          <h2 class="cv-title">Full-stack Web Developer</h2>
+          <h2 class="cv-title" data-i18n="cv_title">Full-stack Web Developer</h2>
           <div class="cv-status-indicator">
             <span class="status-dot"></span>
-            <span class="status-text">Available for opportunities</span>
+            <span class="status-text" data-i18n="cv_status">Available for opportunities</span>
           </div>
         </div>
         
         <section id="cv-summary" aria-labelledby="cv-summary-heading" class="cv-section">
           <div class="section-header">
             <div class="section-icon">💡</div>
-            <h3 id="cv-summary-heading">Summary</h3>
+            <h3 id="cv-summary-heading" data-i18n="cv_summary_title">Summary</h3>
           </div>
-          <p>Passionate Junior Web Developer, recently graduated. Hands-on experience in building web applications using React.js, Node.js, HTML/CSS, and JavaScript. Backed by 7 years of experience in customer success roles within SaaS companies, offering a deep understanding of client needs and excellent communication skills. Eager to contribute to innovative projects within a dynamic team environment.</p>
+          <p data-i18n="cv_summary_text">Passionate Junior Web Developer, recently graduated. Hands-on experience in building web applications using React.js, Node.js, HTML/CSS, and JavaScript. Backed by 7 years of experience in customer success roles within SaaS companies, offering a deep understanding of client needs and excellent communication skills. Eager to contribute to innovative projects within a dynamic team environment.</p>
         </section>
 
         <div class="cv-grid">
           <section id="cv-experience" aria-labelledby="cv-experience-heading" class="cv-section cv-card">
             <div class="section-header">
               <div class="section-icon">🚀</div>
-              <h3 id="cv-experience-heading">Experience - Projects</h3>
+              <h3 id="cv-experience-heading" data-i18n="cv_experience_title">Experience - Projects</h3>
             </div>
             
             <div class="cv-experience-item">
               <div class="experience-header">
-                <h4>Full Stack Web Developer</h4>
-                <span class="cv-period">2023 - Today</span>
+                <h4 data-i18n="cv_exp1_title">Full Stack Web Developer</h4>
+                <span class="cv-period" data-i18n="cv_exp1_period">2023 - Today</span>
               </div>
-              <p class="cv-subtitle">Associate's degree in web development</p>
+                <p class="cv-subtitle" data-i18n="cv_exp1_subtitle">Associate's degree in web development</p>
               <ul data-cv-section="experience">
-                <li>Mastered HTML, CSS, Javascript, Node.js and React</li>
-                <li>Completed 4 major projects mastering ecommerce aspect of web developing</li>
-                <li>Got skilled on both frontend and backend web development</li>
+                <li data-i18n="cv_exp1_b1">Mastered HTML, CSS, Javascript, Node.js and React</li>
+                <li data-i18n="cv_exp1_b2">Completed 4 major projects mastering ecommerce aspect of web developing</li>
+                <li data-i18n="cv_exp1_b3">Got skilled on both frontend and backend web development</li>
               </ul>
             </div>
             
             <div class="cv-experience-item">
               <div class="experience-header">
-                <h4>Customer Success Manager</h4>
-                <span class="cv-period">2019 - 2023</span>
+                <h4 data-i18n="cv_exp2_title">Customer Success Manager</h4>
+                <span class="cv-period" data-i18n="cv_exp2_period">2019 - 2023</span>
               </div>
-              <p class="cv-subtitle">Selligent - Paris</p>
+                <p class="cv-subtitle" data-i18n="cv_exp2_subtitle">Selligent - Paris</p>
               <ul data-cv-section="experience">
-                <li>Supported marketing campaigns using CRM and automation tools</li>
-                <li>Delivered client training on marketing platform features</li>
-                <li>Managed content localization for diverse markets</li>
-                <li>Developed onboarding strategies to boost product adoption</li>
+                <li data-i18n="cv_exp2_b1">Supported marketing campaigns using CRM and automation tools</li>
+                <li data-i18n="cv_exp2_b2">Delivered client training on marketing platform features</li>
+                <li data-i18n="cv_exp2_b3">Managed content localization for diverse markets</li>
+                <li data-i18n="cv_exp2_b4">Developed onboarding strategies to boost product adoption</li>
               </ul>
             </div>
             
             <div class="cv-experience-item">
               <div class="experience-header">
-                <h4>Customer Success Manager</h4>
-                <span class="cv-period">2016 - 2019</span>
+                <h4 data-i18n="cv_exp3_title">Customer Success Manager</h4>
+                <span class="cv-period" data-i18n="cv_exp3_period">2016 - 2019</span>
               </div>
-              <p class="cv-subtitle">Launchmetrics - Paris</p>
+                <p class="cv-subtitle" data-i18n="cv_exp3_subtitle">Launchmetrics - Paris</p>
               <ul data-cv-section="experience">
-                <li>Onboarded new clients</li>
-                <li>Managed projects in collaboration with Technical Project Managers</li>
-                <li>Detected opportunities and forwarding it to sales</li>
-                <li>Kept up-to-date the key opinion leaders and users</li>
-                <li>Customer Support</li>
+                <li data-i18n="cv_exp3_b1">Onboarded new clients</li>
+                <li data-i18n="cv_exp3_b2">Managed projects in collaboration with Technical Project Managers</li>
+                <li data-i18n="cv_exp3_b3">Detected opportunities and forwarding it to sales</li>
+                <li data-i18n="cv_exp3_b4">Kept up-to-date the key opinion leaders and users</li>
+                <li data-i18n="cv_exp3_b5">Customer Support</li>
               </ul>
             </div>
           </section>
@@ -426,30 +478,30 @@
           <section id="cv-education" aria-labelledby="cv-education-heading" class="cv-section cv-card">
             <div class="section-header">
               <div class="section-icon">🎓</div>
-              <h3 id="cv-education-heading">Education</h3>
+              <h3 id="cv-education-heading" data-i18n="cv_education_title">Education</h3>
             </div>
             
             <div class="cv-education-item">
               <div class="education-header">
-                <h4>Web Developer Associate's Degree</h4>
+                <h4 data-i18n="cv_edu1_title">Web Developer Associate's Degree</h4>
                 <span class="cv-period">2024</span>
               </div>
-              <p class="cv-subtitle">Openclassrooms</p>
+                <p class="cv-subtitle" data-i18n="cv_edu1_subtitle">Openclassrooms</p>
             </div>
             
             <div class="cv-education-item">
               <div class="education-header">
-                <h4>Business Associate's Degree</h4>
+                <h4 data-i18n="cv_edu2_title">Business Associate's Degree</h4>
                 <span class="cv-period">2014</span>
               </div>
-              <p class="cv-subtitle">Lycée Saint-Lambert - Paris</p>
+                <p class="cv-subtitle" data-i18n="cv_edu2_subtitle">Lycée Saint-Lambert - Paris</p>
             </div>
           </section>
           
           <section id="cv-skills" aria-labelledby="cv-skills-heading" class="cv-section cv-card">
             <div class="section-header">
               <div class="section-icon">⚡</div>
-              <h3 id="cv-skills-heading">Technical Skills</h3>
+              <h3 id="cv-skills-heading" data-i18n="cv_skills_title">Technical Skills</h3>
             </div>
             
             <div class="skills-grid">
@@ -524,7 +576,7 @@
           <section id="cv-softskills" aria-labelledby="cv-softskills-heading" class="cv-section cv-card">
             <div class="section-header">
               <div class="section-icon">🧠</div>
-              <h3 id="cv-softskills-heading">Soft Skills</h3>
+              <h3 id="cv-softskills-heading" data-i18n="cv_softskills_title">Soft Skills</h3>
             </div>
             
             <div class="soft-skills-list">
@@ -539,17 +591,17 @@
           <section id="cv-languages" aria-labelledby="cv-languages-heading" class="cv-section cv-card">
             <div class="section-header">
               <div class="section-icon">🌍</div>
-              <h3 id="cv-languages-heading">Languages</h3>
+              <h3 id="cv-languages-heading" data-i18n="cv_languages_title">Languages</h3>
             </div>
             
             <div class="languages-list">
               <div class="language-item">
-                <span class="language-name">French</span>
-                <span class="language-level native">Native</span>
+                <span class="language-name" data-i18n="lang_french">French</span>
+                <span class="language-level native" data-i18n="lang_native">Native</span>
               </div>
               <div class="language-item">
-                <span class="language-name">English</span>
-                <span class="language-level fluent">Fluent</span>
+                <span class="language-name" data-i18n="lang_english">English</span>
+                <span class="language-level fluent" data-i18n="lang_fluent">Fluent</span>
               </div>
             </div>
           </section>
@@ -561,7 +613,7 @@
     <div class="footer-container">
       <div class="footer-section footer-logo-section">
         <div class="footer-logo">
-          <a href="/">
+          <a href="#freelance">
             <img id="footer-logo" src="./assets/logos/logosite.PNG" alt="FullDevGear Logo" width="50" height="50" loading="lazy">
             <div class="footer-text-container">
               <p>FullDevGear</p>
@@ -572,14 +624,14 @@
       </div>
 
       <div class="footer-section footer-contact-info">
-        <h4>Contact Me</h4>
+        <h4 data-i18n="footer_contact_me">Contact Me</h4>
         <address>
           <a href="mailto:issa@fulldevgear.com"><i class="fa-solid fa-envelope"></i> issa@fulldevgear.com</a><br>
         </address>
       </div>
 
       <div class="footer-section footer-social-media">
-        <h4>Follow Me</h4>
+        <h4 data-i18n="footer_follow_me">Follow Me</h4>
         <ul class="social-icons">
           <li><a href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile"><i class="fab fa-linkedin"></i></a></li>
           <li><a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile"><i class="fab fa-github"></i></a></li>
@@ -588,18 +640,18 @@
       </div>
       
       <nav class="footer-section footer-nav" aria-label="Footer navigation">
-        <h4>Quick Links</h4>
+        <h4 data-i18n="footer_quick_links">Quick Links</h4>
         <ul>
-          <li><a href="#freelance">Freelance Services</a></li>
-          <li><a href="#cv">My Resume</a></li>
-          <li><a href="#contact">Contact Form</a></li>
-          <li><a href="/terms">Terms of Service</a></li>
-          <li><a href="/privacy">Privacy Policy</a></li>
+          <li><a href="#freelance" data-i18n="ql_freelance">Freelance Services</a></li>
+          <li><a href="#cv" data-i18n="ql_resume">My Resume</a></li>
+          <li><a href="#contact" data-i18n="ql_contact">Contact Form</a></li>
+          <li><a href="./terms.html" data-i18n="ql_terms">Terms of Service</a></li>
+          <li><a href="./privacy.html" data-i18n="ql_privacy">Privacy Policy</a></li>
         </ul>
       </nav>
     </div>
     <div class="footer-copyright">
-      <p>&copy; 2024 FullDevGear. All rights reserved.</p>
+      <p data-i18n="footer_copyright">&copy; 2024 FullDevGear. All rights reserved.</p>
     </div>
   </footer>
   <div id="page-transition-wave"></div>
