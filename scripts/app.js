@@ -1,3 +1,12 @@
+import { initI18n as initI18nModule } from './modules/i18n.js';
+import { initializeTechWave as initializeTechWaveModule } from './modules/tech-wave.js';
+import { setupContactForm as setupContactFormModule } from './modules/form.js';
+import { createRouter as createRouterModule } from './modules/router.js';
+import { setupCVScrollActivation } from './modules/cv.js';
+
+// Make CV activation available for router module hooks
+window.setupCVScrollActivation = setupCVScrollActivation;
+
 document.addEventListener('DOMContentLoaded', () => {
   const DEBUG = false;
   // --- Lightweight i18n ---
@@ -970,10 +979,10 @@ document.addEventListener('DOMContentLoaded', () => {
     observer.observe(waveContainer);
   };
 
-  initializeTechWave();
+  initializeTechWaveModule();
 
   // Initialize i18n after initial DOM is ready
-  initI18n();
+  initI18nModule();
 
   // --- Contact CTA Popup Logic ---
   const setupContactPopup = () => {
@@ -1145,6 +1154,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setupHeaderScrollEffect();
 
   // --- SPA Routing & Transitions ---
+  /* Keep original code path for safety, but prefer modular router */
   const SPA_ROUTING = (() => {
     const ROUTES = {
       '/': 'freelance-content',
@@ -1396,10 +1406,13 @@ document.addEventListener('DOMContentLoaded', () => {
     };
   })();
 
+  // Initialize modular router (non-breaking; it uses same DOM hooks)
+  try { createRouterModule(); } catch (_) { }
+
   // --- CV Sections Scroll Activation for Mobile ---
   let cvSectionObserver = null; // Track the current observer to avoid multiple instances
 
-  const setupCVScrollActivation = () => {
+  const setupCVScrollActivationInline = () => {
     // Only activate on mobile/tablet devices or when hover is not available
     const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches ||
       window.matchMedia('(max-width: 1024px)').matches;
@@ -1490,7 +1503,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // Initialize CV scroll activation
-  setupCVScrollActivation();
+  setupCVScrollActivationInline();
 
   // Re-initialize when navigating to CV page
   const reinitializeCVOnPageChange = () => {
@@ -1503,6 +1516,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Listen for page changes to reinitialize CV functionality
   window.addEventListener('hashchange', reinitializeCVOnPageChange);
+  try { window.addEventListener('hashchange', () => setupCVScrollActivation()); } catch (_) { }
 
   // --- Performance Optimization: Pause animations during scroll ---
   let scrollTimeout;
@@ -1625,5 +1639,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
-  setupContactForm();
+  setupContactFormModule();
+
+  // --- PWA Service Worker registration ---
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      const swUrl = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+        ? '/sw.js'
+        : './sw.js';
+      navigator.serviceWorker.register(swUrl).catch(() => { });
+    });
+  }
 });

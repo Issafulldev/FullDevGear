@@ -8,6 +8,9 @@
     "lint": "eslint . --ext .js",
     "format": "prettier --write .",
     "build": "node scripts/build.js all",
+    "icons": "node scripts/generate-icons.js",
+    "optimize:images": "node scripts/optimize-images-run.js --optimize",
+    "ci": "npm run lint && npm run build",
     "build:css": "node scripts/build.js css",
     "build:js": "node scripts/build.js js",
     "build:html": "node scripts/build.js html"
@@ -27,7 +30,9 @@
     "eslint": "^8.57.0",
     "clean-css": "^5.3.3",
     "html-minifier-terser": "^7.2.0",
-    "terser": "^5.31.0"
+    "terser": "^5.31.0",
+    "sharp": "^0.33.4",
+    "workbox-build": "^7.1.1"
   },
   "dependencies": {}
 }

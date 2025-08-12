@@ -19,6 +19,7 @@ cd fulldevgear-portfolio
 
 # Install dependencies
 npm install
+npm run icons # generate PWA icons (one-time or when logo changes)
 
 # Start development server
 npm run dev
@@ -64,11 +65,21 @@ FullDevGear/
 npm run dev    # Start development server (port 3000)
 npm start      # Start production server (port 8080)
 npm run format # Format code with Prettier
+npm run lint   # Lint JS
+npm run build  # Build + generate PWA service worker (Workbox)
+npm run icons  # Generate PWA icons (192/512 + maskable)
 ```
 
 ## 🔗 Deployment
 
 - Uses hash routing (`#/cv`) to be compatible with static hosts like GitHub Pages.
+- PWA enabled: run `npm run build` then deploy the `dist/` folder.
+
+## ⚙️ Tooling
+
+- ESLint (`.eslintrc.json`) and Prettier (`.prettierrc`) configured
+- Workbox precache via build script (`workbox-build`)
+- GitHub Actions CI for lint + build (`.github/workflows/ci.yml`)
 
 ## 🤝 Contributing
 

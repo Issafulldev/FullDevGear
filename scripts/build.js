@@ -5,6 +5,7 @@ const path = require('path');
 const { minify: minifyHtml } = require('html-minifier-terser');
 const CleanCSS = require('clean-css');
 const terser = require('terser');
+let workboxBuild = null;
 
 const ROOT = process.cwd();
 const DIST = path.join(ROOT, 'dist');
@@ -89,6 +90,10 @@ async function copyAssets() {
   if (fs.existsSync(path.join(ROOT, 'manifest.webmanifest'))) {
     copyStatic('manifest.webmanifest');
   }
+  // Copy SW if present (legacy/manual). Workbox generateSW will overwrite in dist.
+  if (fs.existsSync(path.join(ROOT, 'sw.js'))) {
+    copyStatic('sw.js');
+  }
 }
 
 async function main() {
@@ -98,6 +103,45 @@ async function main() {
   if (target === 'all' || target === 'css') await buildCss();
   if (target === 'all' || target === 'js') await buildJs();
   if (target === 'all') await copyAssets();
+  // Generate Workbox service worker with precache of dist assets
+  try {
+    // Lazy-require to avoid hard dependency during dev if not installed
+    workboxBuild = workboxBuild || require('workbox-build');
+    await workboxBuild.generateSW({
+      globDirectory: DIST,
+      globPatterns: ['**/*.{html,js,css,webmanifest,svg,png,webp,jpg,jpeg,gif}'],
+      swDest: path.join(DIST, 'sw.js'),
+      clientsClaim: true,
+      skipWaiting: true,
+      runtimeCaching: [
+        {
+          urlPattern: ({ request }) => request.mode === 'navigate',
+          handler: 'NetworkFirst',
+          options: {
+            cacheName: 'pages',
+            expiration: { maxEntries: 50, maxAgeSeconds: 7 * 24 * 60 * 60 },
+          },
+        },
+        {
+          urlPattern: ({ request }) => request.destination === 'image',
+          handler: 'StaleWhileRevalidate',
+          options: {
+            cacheName: 'images',
+            expiration: { maxEntries: 200, maxAgeSeconds: 30 * 24 * 60 * 60 },
+          },
+        },
+        {
+          urlPattern: ({ request }) => ['style', 'script', 'worker'].includes(request.destination),
+          handler: 'StaleWhileRevalidate',
+          options: { cacheName: 'static-resources' },
+        },
+      ],
+      navigateFallback: 'index.html',
+    });
+    console.log('Workbox service worker generated → dist/sw.js');
+  } catch (err) {
+    console.warn('Workbox not installed or failed to generate SW. Skipping PWA generation.\n', err?.message || err);
+  }
   console.log('Build complete → dist/');
 }
 
