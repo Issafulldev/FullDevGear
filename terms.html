@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -15,23 +15,36 @@
     h1 { font-size: 2rem; margin-bottom: 1rem; }
     h2 { font-size: 1.25rem; margin: 2rem 0 0.75rem; }
     a { color: var(--color-primary); }
+    .legal-controls { max-width: 860px; margin: 1rem auto 0; padding: 0 1rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+    .legal-controls a { text-decoration: none; }
+    .lang-btn { border: 1px solid #ccc; background: #f7f7f7; color: #111; border-radius: 6px; padding: 0.4rem 0.75rem; cursor: pointer; }
   </style>
   <link rel="icon" type="image/png" href="./assets/logos/logosite.PNG">
+  <link rel="shortcut icon" type="image/png" href="./assets/logos/logosite.PNG">
+  <link rel="apple-touch-icon" href="./assets/logos/logosite.PNG">
 </head>
 <body>
+  <div class="legal-controls">
+    <a href="./index.html" data-i18n="back_to_site">Back to site</a>
+    <button type="button" class="lang-btn" aria-label="Change language" title="Change language" data-lang-toggle>🇬🇧 EN</button>
+  </div>
   <main>
-    <h1>Terms of Service</h1>
-    <p>Dernière mise à jour: 2024-01-01</p>
-    <h2>1. Acceptation</h2>
-    <p>En accédant à ce site, vous acceptez ces conditions d’utilisation.</p>
-    <h2>2. Propriété intellectuelle</h2>
-    <p>Le contenu et les marques appartiennent à FullDevGear sauf mention contraire.</p>
-    <h2>3. Limitations</h2>
-    <p>Ce site est fourni « tel quel ». Aucune garantie expresse ou implicite.</p>
-    <h2>4. Contact</h2>
-    <p>Pour toute question: <a href="mailto:issa@fulldevgear.com">issa@fulldevgear.com</a>.</p>
-    <p><a href="./index.html">Retour</a></p>
+    <h1 data-i18n="tos_title">Terms of Service</h1>
+    <p><span data-i18n="last_updated_label">Last updated</span>: 2024-01-01</p>
+    <h2 data-i18n="tos_acceptance_title">1. Acceptance</h2>
+    <p data-i18n="tos_acceptance_body">By accessing this website, you agree to these Terms of Service.</p>
+    <h2 data-i18n="tos_ip_title">2. Intellectual Property</h2>
+    <p data-i18n="tos_ip_body">All content and trademarks are the property of FullDevGear unless stated otherwise.</p>
+    <h2 data-i18n="tos_limitations_title">3. Limitations</h2>
+    <p data-i18n="tos_limitations_body">This site is provided “as is”, without any express or implied warranties.</p>
+    <h2 data-i18n="tos_contact_title">4. Contact</h2>
+    <p data-i18n-html="tos_contact_body_html">For any questions: <a href="mailto:issa@fulldevgear.com">issa@fulldevgear.com</a>.</p>
+    <p><a href="./index.html" data-i18n="back_to_site">Back to site</a></p>
   </main>
+  <script type="module">
+    import { initI18n } from './scripts/modules/i18n.js';
+    initI18n();
+  </script>
 </body>
 </html>
 

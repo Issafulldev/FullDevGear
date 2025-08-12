@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -15,21 +15,34 @@
     h1 { font-size: 2rem; margin-bottom: 1rem; }
     h2 { font-size: 1.25rem; margin: 2rem 0 0.75rem; }
     a { color: var(--color-primary); }
+    .legal-controls { max-width: 860px; margin: 1rem auto 0; padding: 0 1rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+    .legal-controls a { text-decoration: none; }
+    .lang-btn { border: 1px solid #ccc; background: #f7f7f7; color: #111; border-radius: 6px; padding: 0.4rem 0.75rem; cursor: pointer; }
   </style>
   <link rel="icon" type="image/png" href="./assets/logos/logosite.PNG">
+  <link rel="shortcut icon" type="image/png" href="./assets/logos/logosite.PNG">
+  <link rel="apple-touch-icon" href="./assets/logos/logosite.PNG">
 </head>
 <body>
+  <div class="legal-controls">
+    <a href="./index.html" data-i18n="back_to_site">Back to site</a>
+    <button type="button" class="lang-btn" aria-label="Change language" title="Change language" data-lang-toggle>🇬🇧 EN</button>
+  </div>
   <main>
-    <h1>Privacy Policy</h1>
-    <p>Dernière mise à jour: 2024-01-01</p>
-    <h2>Données collectées</h2>
-    <p>Ce site ne collecte pas de données personnelles sans votre consentement. Les liens externes vers Calendly/Telegram/WhatsApp peuvent appliquer leurs propres politiques.</p>
-    <h2>Cookies</h2>
-    <p>Pas de cookies de tracking tiers.</p>
-    <h2>Contact</h2>
-    <p>Pour exercer vos droits: <a href="mailto:issa@fulldevgear.com">issa@fulldevgear.com</a>.</p>
-    <p><a href="./index.html">Retour</a></p>
+    <h1 data-i18n="privacy_title">Privacy Policy</h1>
+    <p><span data-i18n="last_updated_label">Last updated</span>: 2024-01-01</p>
+    <h2 data-i18n="privacy_data_title">Data collected</h2>
+    <p data-i18n="privacy_data_body">This site does not collect personal data without your consent. External links to Calendly/Telegram/WhatsApp may apply their own policies.</p>
+    <h2 data-i18n="privacy_cookies_title">Cookies</h2>
+    <p data-i18n="privacy_cookies_body">No third-party tracking cookies.</p>
+    <h2 data-i18n="privacy_contact_title">Contact</h2>
+    <p data-i18n-html="privacy_contact_body_html">To exercise your rights: <a href="mailto:issa@fulldevgear.com">issa@fulldevgear.com</a>.</p>
+    <p><a href="./index.html" data-i18n="back_to_site">Back to site</a></p>
   </main>
+  <script type="module">
+    import { initI18n } from './scripts/modules/i18n.js';
+    initI18n();
+  </script>
 </body>
 </html>
 
