@@ -358,6 +358,8 @@ body.cv-dark-mode .header-logo p {
   gap: 1.5rem;
   margin-top: 2rem;
   padding: 0.5rem;
+  max-width: 1100px;
+  margin-inline: auto;
 }
 
 /* Experience section - prend toute la première colonne */
@@ -401,6 +403,23 @@ body.cv-dark-mode .header-logo p {
   will-change: transform, box-shadow;
 }
 
+/* Limit individual card width and center inside grid cells */
+.cv-grid .cv-card {
+  width: min(100%, 680px);
+  justify-self: center;
+}
+
+/* Experience card can be a bit wider due to dense content */
+#cv-experience.cv-card {
+  width: min(100%, 780px);
+}
+
+/* Make summary card width consistent with other cards */
+#cv-summary.cv-section {
+  width: min(100%, 680px);
+  margin-inline: auto;
+}
+
 .cv-section::before {
   content: '';
   position: absolute;
@@ -440,6 +459,126 @@ body.cv-dark-mode .header-logo p {
   font-size: 1.25rem;
   font-weight: 700;
   margin: 0;
+}
+
+/* --- CV Card Interior Enhancements (readability + attractiveness) --- */
+/* Section header: clearer separation inside cards */
+#cv-content .cv-section .section-header {
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--cv-dm-border);
+  margin-bottom: 1.1rem;
+}
+
+#cv-content .cv-section .section-icon {
+  font-size: 1.75rem;
+  filter: drop-shadow(0 0 8px var(--cv-dm-glow));
+}
+
+/* Typography and spacing inside cards */
+#cv-content .cv-card p,
+#cv-content .cv-card li {
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+#cv-content .cv-card .cv-subtitle {
+  color: var(--cv-dm-text-tertiary);
+  margin: 0.1rem 0 0.85rem 0;
+  letter-spacing: 0.1px;
+}
+
+/* Experience/Education headers: hierarchy and balance */
+#cv-content .cv-card .experience-header h4,
+#cv-content .cv-card .education-header h4 {
+  font-size: 1.15rem;
+  letter-spacing: 0.2px;
+}
+
+#cv-content .cv-card .cv-period {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04) inset, 0 0 10px var(--cv-dm-glow);
+}
+
+/* Convert classic bullets to elegant checkmarks in cards */
+body.cv-dark-mode #cv-content .cv-card ul[data-cv-section] li::before {
+  content: '✔';
+  top: 0.15rem;
+  color: var(--cv-dm-accent-success);
+  font-size: 0.9rem;
+  text-shadow: 0 0 8px rgba(16, 185, 129, 0.25);
+}
+
+body.cv-dark-mode #cv-content .cv-card ul[data-cv-section] li:hover::before {
+  color: var(--cv-dm-accent-secondary);
+}
+
+/* Skills: category blocks for better grouping and scanability */
+#cv-content .cv-card #cv-skills .skill-category {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0));
+  padding: 1rem;
+  border-radius: 10px;
+  border: 1px solid var(--cv-dm-border);
+}
+
+#cv-content .cv-card #cv-skills .skill-category h4 {
+  margin-bottom: 0.6rem;
+}
+
+/* Soft skills: chip-like with a subtle leading sparkle */
+#cv-content .cv-card .soft-skill-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+#cv-content .cv-card .soft-skill-item::before {
+  content: none;
+}
+
+#cv-content .cv-card .soft-skill-item:hover::before {
+  content: none;
+}
+
+/* Languages: add a proficiency bar based on level via :has() */
+#cv-content .cv-card .languages-list .language-item {
+  position: relative;
+  overflow: hidden;
+}
+
+#cv-content .cv-card .languages-list .language-item::after {
+  content: '';
+  position: absolute;
+  left: 1rem;
+  /* align with new padding */
+  right: 1rem;
+  /* align with new padding */
+  bottom: 0.6rem;
+  /* breathing room from text */
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--cv-dm-accent-primary), var(--cv-dm-accent-secondary));
+  width: 0;
+  transition: width 0.6s ease;
+  opacity: 0.8;
+}
+
+/* Width presets by level (native > fluent) -- animate on section activation (mobile) */
+.cv-section.cv-section-active .languages-list .language-item:has(.language-level.native)::after {
+  width: 96%;
+}
+
+.cv-section.cv-section-active .languages-list .language-item:has(.language-level.fluent)::after {
+  width: 82%;
+}
+
+/* Summary paragraph: readable measure */
+#cv-summary p {
+  max-width: 62ch;
+  margin-inline: auto;
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+  overflow-wrap: break-word;
 }
 
 /* --- CV Experience & Education --- */
@@ -500,7 +639,7 @@ body.cv-dark-mode .header-logo p {
 
 /* Optimisation pour les colonnes plus étroites */
 #cv-skills .skills-grid {
-  gap: 1.4rem;
+  gap: 1.8rem;
 }
 
 #cv-skills .skill-category h4 {
@@ -510,12 +649,12 @@ body.cv-dark-mode .header-logo p {
 }
 
 #cv-skills .skill-tags {
-  gap: 0.4rem;
+  gap: 0.75rem;
 }
 
 #cv-skills .skill-tag {
-  padding: 0.4rem 0.7rem;
-  font-size: 0.8rem;
+  padding: 0.6rem 1rem;
+  font-size: 0.85rem;
 }
 
 #cv-skills .skill-icon {
@@ -679,14 +818,19 @@ body.cv-dark-mode .header-logo p {
 .languages-list {
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
+  gap: 0.9rem;
 }
 
 .language-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.6rem;
+  padding: 1rem 1rem 1.4rem;
+  /* extra bottom space for progress bar */
+  gap: 0.75rem;
+  /* spacing between name and level on narrow widths */
+  min-height: 56px;
+  /* comfortable height */
   background: var(--cv-dm-surface-hover);
   border: 1px solid var(--cv-dm-border);
   border-radius: 8px;
@@ -811,6 +955,15 @@ body.cv-dark-mode #cv-content ul[data-cv-section] li:hover::before {
   .skill-tag[title="Vite"]:hover .skill-icon {
     filter: drop-shadow(0 0 8px rgba(65, 209, 255, 0.6)) drop-shadow(0 0 12px rgba(255, 234, 131, 0.4));
   }
+
+  /* Desktop: show language proficiency bars without scroll activation */
+  #cv-content .cv-card .languages-list .language-item:has(.language-level.native)::after {
+    width: 96%;
+  }
+
+  #cv-content .cv-card .languages-list .language-item:has(.language-level.fluent)::after {
+    width: 82%;
+  }
 }
 
 /* --- Touch devices (Mobile) --- */
@@ -818,7 +971,7 @@ body.cv-dark-mode #cv-content ul[data-cv-section] li:hover::before {
 
   /* Style for section active on scroll or tap */
   .cv-section.cv-section-active {
-    transform: scale(1.02);
+    transform: translateY(-2px) scale(1.02);
     background: var(--cv-dm-surface-hover);
     border-color: var(--cv-dm-accent-primary);
     box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4), 0 0 20px var(--cv-dm-glow);
@@ -832,6 +985,7 @@ body.cv-dark-mode #cv-content ul[data-cv-section] li:hover::before {
   /* Trigger animations on child elements when section is active */
   .cv-section.cv-section-active .skill-tag {
     animation: skillPulse 0.6s ease-out;
+    will-change: transform, box-shadow;
   }
 
   .cv-section.cv-section-active .soft-skill-item {
@@ -840,16 +994,39 @@ body.cv-dark-mode #cv-content ul[data-cv-section] li:hover::before {
 
   .cv-section.cv-section-active .language-item {
     animation: languageHighlight 0.7s ease-out;
+    will-change: box-shadow;
   }
 
   .cv-section.cv-section-active .cv-experience-item,
   .cv-section.cv-section-active .cv-education-item {
     animation: experienceSlide 0.5s ease-out;
+    will-change: transform;
   }
 
-  /* Empêcher les puces de bouger lors des animations */
+  /* Renforcer l'effet: apparition progressive des puces */
   .cv-section.cv-section-active ul[data-cv-section] li {
-    animation: none;
+    opacity: 0;
+    animation: fadeInUp 0.38s ease-out forwards;
+  }
+
+  .cv-section.cv-section-active ul[data-cv-section] li:nth-child(1) {
+    animation-delay: 0.02s;
+  }
+
+  .cv-section.cv-section-active ul[data-cv-section] li:nth-child(2) {
+    animation-delay: 0.08s;
+  }
+
+  .cv-section.cv-section-active ul[data-cv-section] li:nth-child(3) {
+    animation-delay: 0.14s;
+  }
+
+  .cv-section.cv-section-active ul[data-cv-section] li:nth-child(4) {
+    animation-delay: 0.2s;
+  }
+
+  .cv-section.cv-section-active ul[data-cv-section] li:nth-child(5) {
+    animation-delay: 0.26s;
   }
 
   /* Tap states for other elements */
