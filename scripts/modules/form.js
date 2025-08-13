@@ -1,6 +1,6 @@
 export function setupContactForm() {
   const form = document.querySelector('form[data-form-submit="contact"]');
-  if (!form) return;
+  if (!form) {return;}
   const nameInput = form.querySelector('#contact-name');
   const emailInput = form.querySelector('#contact-email');
   const messageInput = form.querySelector('#contact-message');
@@ -10,9 +10,9 @@ export function setupContactForm() {
   const errMessage = form.querySelector('#error-message');
 
   const setError = (el, errEl, message) => {
-    if (errEl) errEl.textContent = message || '';
-    if (message) el.setAttribute('aria-invalid', 'true');
-    else el.removeAttribute('aria-invalid');
+    if (errEl) {errEl.textContent = message || '';}
+    if (message) {el.setAttribute('aria-invalid', 'true');}
+    else {el.removeAttribute('aria-invalid');}
   };
 
   const validateName = () => {
@@ -55,8 +55,8 @@ export function setupContactForm() {
     status.textContent = '';
     const ok = [validateName(), validateEmail(), validateMessage()].every(Boolean);
     const honey = form.querySelector('input[name="_honey"]');
-    if (honey && honey.value) return;
-    if (!ok) return;
+    if (honey && honey.value) {return;}
+    if (!ok) {return;}
 
     const submitBtn = form.querySelector('button[type="submit"]');
     const prevLabel = submitBtn.textContent;

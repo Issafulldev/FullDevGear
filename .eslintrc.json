@@ -16,37 +16,7 @@
       "warn",
       {
         "argsIgnorePattern": "^_",
-        "varsIgnorePattern": "^_"
-      }
-    ],
-    "no-console": "off",
-    "eqeqeq": [
-      "error",
-      "always"
-    ],
-    "curly": [
-      "error",
-      "all"
-    ]
-  }
-}
-
-{
-  "env": {
-    "browser": true,
-    "es2021": true
-  },
-  "extends": [
-    "eslint:recommended"
-  ],
-  "parserOptions": {
-    "ecmaVersion": 2021,
-    "sourceType": "module"
-  },
-  "rules": {
-    "no-unused-vars": [
-      "warn",
-      {
+        "varsIgnorePattern": "^_",
         "args": "after-used",
         "ignoreRestSiblings": true
       }
@@ -56,9 +26,18 @@
       {
         "allow": [
           "warn",
-          "error"
+          "error",
+          "log"
         ]
       }
+    ],
+    "eqeqeq": [
+      "warn",
+      "always"
+    ],
+    "curly": [
+      "warn",
+      "all"
     ]
   }
 }

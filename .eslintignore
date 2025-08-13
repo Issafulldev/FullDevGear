@@ -1,0 +1,12 @@
+dist/
+build/
+node_modules/
+*.min.js
+*.bundle.js
+coverage/
+.env
+.env.local
+.env.production
+optimize-images.js
+**/workbox-*.js
+**/sw.js

@@ -6,14 +6,14 @@ export function applyBrowserClasses() {
   const isFirefox = /firefox/i.test(userAgent);
   const isEdge = /edg/i.test(userAgent);
   const bodyElement = document.body;
-  if (isSafari) bodyElement.classList.add('browser-safari');
-  else if (isChrome) bodyElement.classList.add('browser-chrome');
-  else if (isFirefox) bodyElement.classList.add('browser-firefox');
-  else if (isEdge) bodyElement.classList.add('browser-edge');
-  else bodyElement.classList.add('browser-other');
+  if (isSafari) {bodyElement.classList.add('browser-safari');}
+  else if (isChrome) {bodyElement.classList.add('browser-chrome');}
+  else if (isFirefox) {bodyElement.classList.add('browser-firefox');}
+  else if (isEdge) {bodyElement.classList.add('browser-edge');}
+  else {bodyElement.classList.add('browser-other');}
 
   window.forceRepaintSafari = () => {
-    if (!isSafari) return;
+    if (!isSafari) {return;}
     const mainContent = document.querySelector('main#main-content');
     if (mainContent) {
       const computedStyle = window.getComputedStyle(mainContent);

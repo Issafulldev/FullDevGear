@@ -237,7 +237,7 @@ const getInitialLang = () => {
     return fromUrl;
   }
   const saved = localStorage.getItem(I18N_STORAGE_KEY);
-  if (saved && SUPPORTED_LANGS.includes(saved)) return saved;
+  if (saved && SUPPORTED_LANGS.includes(saved)) {return saved;}
   return 'en';
 };
 
@@ -299,13 +299,13 @@ export const initI18n = () => {
   const toggleBtn = document.querySelector('[data-lang-toggle]');
   const toggleMenuLink = document.querySelector('[data-lang-toggle-menu]');
   const handler = (e) => {
-    if (e) e.preventDefault();
+    if (e) {e.preventDefault();}
     const now = localStorage.getItem(I18N_STORAGE_KEY) || current;
     const next = now === 'en' ? 'fr' : 'en';
     switchLanguage(next);
   };
-  if (toggleBtn) toggleBtn.addEventListener('click', handler);
-  if (toggleMenuLink) toggleMenuLink.addEventListener('click', handler);
+  if (toggleBtn) {toggleBtn.addEventListener('click', handler);}
+  if (toggleMenuLink) {toggleMenuLink.addEventListener('click', handler);}
 };
 
 

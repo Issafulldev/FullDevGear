@@ -3,261 +3,14 @@ import { initializeTechWave as initializeTechWaveModule } from './modules/tech-w
 import { setupContactForm as setupContactFormModule } from './modules/form.js';
 import { createRouter as createRouterModule } from './modules/router.js';
 import { setupCVScrollActivation } from './modules/cv.js';
+import { setupContactPopup as setupContactPopupModule } from './modules/contact-popup.js';
 
 // Make CV activation available for router module hooks
 window.setupCVScrollActivation = setupCVScrollActivation;
 
 document.addEventListener('DOMContentLoaded', () => {
   const DEBUG = false;
-  // --- Lightweight i18n ---
-  const I18N_STORAGE_KEY = 'fdg_lang';
-  const SUPPORTED_LANGS = ['en', 'fr'];
-  const TRANSLATIONS = {
-    en: {
-      skip_content: 'Skip to content',
-      nav_cv: 'CV',
-      hero_title: '<span class="nowrap-desktop">CODE, NO-CODE, AI:</span> <br> DIGITAL GROWTH, <br> BUSINESS BLISS.',
-      hero_subtitle: 'Transforming ideas into powerful digital solutions. From custom development to no-code platforms and AI integration, I deliver comprehensive web solutions that drive results.',
-      build_gallery_title: 'Build Gallery',
-      build_gallery_desc: 'Explore my completed projects with GitHub previews and live demonstrations.',
-      label_completed: 'Completed',
-      label_active: 'Active',
-      code_craft_title: 'Code & Craft',
-      code_craft_desc: 'Expert development across the full stack, from responsive front-ends to scalable back-end architectures.',
-      digital_alchemy_title: 'Digital Alchemy',
-      digital_alchemy_desc: 'Turning complex business requirements into elegant, user-friendly digital experiences.',
-      tech_horizons_title: 'Tech Horizons',
-      tech_horizons_desc: "We're always looking for new and exciting tech to add to our platform.",
-      solution_stack_title: 'Solution Stack',
-      client_victories_title: 'Client victories',
-      success_playbook_title: 'Success Playbook',
-      skill_spectrum_title: 'Skill Spectrum',
-      trust_chronicles_title: 'Trust Chronicles',
-      zero_to_launch_title: 'Zero To Launch',
-      generic_list_desc: "We've compiled a list of the most successful people in the software industry and what they've done to get there.",
-      contact_title: "Let's Build Tomorrow",
-      form_name_label: 'Name',
-      form_name_placeholder: 'Your Name',
-      form_email_label: 'Email',
-      form_email_placeholder: 'Your Email',
-      form_message_label: 'Message',
-      form_message_placeholder: 'Tell me about your project...',
-      form_submit: 'Send Message',
-      transparent_build_rates_title: 'Transparent Build Rates',
-      roi_pricing_title: 'ROI-Driven Pricing',
-      cv_title: 'Full-stack Web Developer',
-      cv_status: 'Available for opportunities',
-      cv_summary_title: 'Summary',
-      cv_summary_text: 'Passionate Junior Web Developer, recently graduated. Hands-on experience in building web applications using React.js, Node.js, HTML/CSS, and JavaScript. Backed by 7 years of experience in customer success roles within SaaS companies, offering a deep understanding of client needs and excellent communication skills. Eager to contribute to innovative projects within a dynamic team environment.',
-      cv_experience_title: 'Experience - Projects',
-      cv_exp1_title: 'Full Stack Web Developer',
-      cv_exp1_period: '2023 - Today',
-      cv_exp1_subtitle: "Associate's degree in web development",
-      cv_exp1_b1: 'Mastered HTML, CSS, Javascript, Node.js and React',
-      cv_exp1_b2: 'Completed 4 major projects mastering ecommerce aspect of web developing',
-      cv_exp1_b3: 'Got skilled on both frontend and backend web development',
-      cv_exp2_title: 'Customer Success Manager',
-      cv_exp2_period: '2019 - 2023',
-      cv_exp2_subtitle: 'Selligent - Paris',
-      cv_exp2_b1: 'Supported marketing campaigns using CRM and automation tools',
-      cv_exp2_b2: 'Delivered client training on marketing platform features',
-      cv_exp2_b3: 'Managed content localization for diverse markets',
-      cv_exp2_b4: 'Developed onboarding strategies to boost product adoption',
-      cv_exp3_title: 'Customer Success Manager',
-      cv_exp3_period: '2016 - 2019',
-      cv_exp3_subtitle: 'Launchmetrics - Paris',
-      cv_exp3_b1: 'Onboarded new clients',
-      cv_exp3_b2: 'Managed projects in collaboration with Technical Project Managers',
-      cv_exp3_b3: 'Detected opportunities and forwarding it to sales',
-      cv_exp3_b4: 'Kept up-to-date the key opinion leaders and users',
-      cv_exp3_b5: 'Customer Support',
-      cv_education_title: 'Education',
-      cv_edu1_title: "Web Developer Associate's Degree",
-      cv_edu1_subtitle: 'Openclassrooms',
-      cv_edu2_title: "Business Associate's Degree",
-      cv_edu2_subtitle: 'Lycée Saint-Lambert - Paris',
-      cv_skills_title: 'Technical Skills',
-      cv_softskills_title: 'Soft Skills',
-      cv_languages_title: 'Languages',
-      lang_french: 'French',
-      lang_native: 'Native',
-      lang_english: 'English',
-      lang_fluent: 'Fluent',
-      footer_contact_me: 'Contact Me',
-      footer_follow_me: 'Follow Me',
-      footer_quick_links: 'Quick Links',
-      ql_freelance: 'Freelance Services',
-      ql_resume: 'My Resume',
-      ql_contact: 'Contact Form',
-      ql_terms: 'Terms of Service',
-      ql_privacy: 'Privacy Policy',
-    },
-    fr: {
-      skip_content: 'Aller au contenu',
-      nav_cv: 'CV',
-      hero_title: '<span class="nowrap-desktop">CODE, NO-CODE, IA :</span> <br> CROISSANCE DIGITALE, <br> BUSINESS SEREIN.',
-      hero_subtitle: "Je transforme vos idées en solutions digitales performantes. Du sur‑mesure au no‑code, avec intégration de l'IA, je livre des solutions web complètes et efficaces.",
-      build_gallery_title: 'Galerie de Projets',
-      build_gallery_desc: 'Parcourez mes projets réalisés avec aperçu GitHub et démonstrations en ligne.',
-      label_completed: 'Terminé',
-      label_active: 'Actif',
-      code_craft_title: 'Code & Savoir‑faire',
-      code_craft_desc: "Expertise full‑stack, du front réactif aux architectures back‑end scalables.",
-      digital_alchemy_title: 'Alchimie Digitale',
-      digital_alchemy_desc: 'Transformer des besoins complexes en expériences élégantes et fluides.',
-      tech_horizons_title: 'Horizons Tech',
-      tech_horizons_desc: "Nous explorons sans cesse de nouvelles technologies à ajouter à la plateforme.",
-      solution_stack_title: 'Stack de Solutions',
-      client_victories_title: 'Succès Clients',
-      success_playbook_title: 'Playbook du Succès',
-      skill_spectrum_title: 'Spectre de Compétences',
-      trust_chronicles_title: 'Chroniques de Confiance',
-      zero_to_launch_title: 'De Zéro au Lancement',
-      generic_list_desc: "Nous avons compilé les figures les plus marquantes du software et leurs chemins vers la réussite.",
-      contact_title: 'Construisons Demain',
-      form_name_label: 'Nom',
-      form_name_placeholder: 'Votre nom',
-      form_email_label: 'Email',
-      form_email_placeholder: 'Votre email',
-      form_message_label: 'Message',
-      form_message_placeholder: 'Parlez‑moi de votre projet…',
-      form_submit: 'Envoyer',
-      transparent_build_rates_title: 'Tarifs de Construction Transparants',
-      roi_pricing_title: 'Tarification orientée ROI',
-      cv_title: 'Développeur Web Full‑stack',
-      cv_status: 'Disponible pour opportunités',
-      cv_summary_title: 'Résumé',
-      cv_summary_text: "Développeur web junior passionné, récemment diplômé. Expérience pratique en React.js, Node.js, HTML/CSS et JavaScript. Fort de 7 ans en Customer Success dans des SaaS, je comprends les enjeux clients et communique efficacement. Motivé pour contribuer à des projets innovants au sein d'équipes dynamiques.",
-      cv_experience_title: 'Expériences - Projets',
-      cv_exp1_title: 'Développeur Web Full Stack',
-      cv_exp1_period: '2023 - Aujourd\'hui',
-      cv_exp1_subtitle: "Diplôme de développeur web (Bac+2)",
-      cv_exp1_b1: 'Maîtrise de HTML, CSS, Javascript, Node.js et React',
-      cv_exp1_b2: '4 projets majeurs réalisés, focus e‑commerce',
-      cv_exp1_b3: 'Compétences front‑end et back‑end',
-      cv_exp2_title: 'Customer Success Manager',
-      cv_exp2_period: '2019 - 2023',
-      cv_exp2_subtitle: 'Selligent - Paris',
-      cv_exp2_b1: 'Support de campagnes marketing via CRM et automation',
-      cv_exp2_b2: 'Formations clients sur les fonctionnalités de la plateforme',
-      cv_exp2_b3: 'Localisation des contenus pour des marchés variés',
-      cv_exp2_b4: "Stratégies d'onboarding pour booster l'adoption",
-      cv_exp3_title: 'Customer Success Manager',
-      cv_exp3_period: '2016 - 2019',
-      cv_exp3_subtitle: 'Launchmetrics - Paris',
-      cv_exp3_b1: 'Onboarding des nouveaux clients',
-      cv_exp3_b2: 'Gestion de projets avec les chefs de projet techniques',
-      cv_exp3_b3: 'Détection d’opportunités et transmission aux ventes',
-      cv_exp3_b4: 'Mise à jour continue des KOL et utilisateurs',
-      cv_exp3_b5: 'Support client',
-      cv_education_title: 'Formation',
-      cv_edu1_title: 'Diplôme Développeur Web (Bac+2)',
-      cv_edu1_subtitle: 'OpenClassrooms',
-      cv_edu2_title: 'BTS Commerce',
-      cv_edu2_subtitle: 'Lycée Saint‑Lambert - Paris',
-      cv_skills_title: 'Compétences Techniques',
-      cv_softskills_title: 'Soft Skills',
-      cv_languages_title: 'Langues',
-      lang_french: 'Français',
-      lang_native: 'Natif',
-      lang_english: 'Anglais',
-      lang_fluent: 'Courant',
-      footer_contact_me: 'Me contacter',
-      footer_follow_me: 'Me suivre',
-      footer_quick_links: 'Liens rapides',
-      ql_freelance: 'Prestations Freelance',
-      ql_resume: 'Mon CV',
-      ql_contact: 'Formulaire de contact',
-      ql_terms: 'Conditions d\'utilisation',
-      ql_privacy: 'Politique de confidentialité',
-    }
-  };
 
-  const getInitialLang = () => {
-    // 1) URL param has priority
-    const urlParams = new URLSearchParams(window.location.search);
-    const fromUrl = urlParams.get('lang');
-    if (fromUrl && SUPPORTED_LANGS.includes(fromUrl)) {
-      return fromUrl;
-    }
-    // 2) Persisted value
-    const saved = localStorage.getItem(I18N_STORAGE_KEY);
-    if (saved && SUPPORTED_LANGS.includes(saved)) return saved;
-    // 3) Default to English
-    return 'en';
-  };
-
-  const setHtmlLangAttr = (lang) => {
-    document.documentElement.setAttribute('lang', lang);
-  };
-
-  const applyTranslations = (lang) => {
-    const dict = TRANSLATIONS[lang] || TRANSLATIONS.en;
-    // Elements with textContent
-    document.querySelectorAll('[data-i18n]').forEach((el) => {
-      const key = el.getAttribute('data-i18n');
-      if (key && dict[key] != null) {
-        el.textContent = dict[key];
-      }
-    });
-    // Elements with innerHTML
-    document.querySelectorAll('[data-i18n-html]').forEach((el) => {
-      const key = el.getAttribute('data-i18n-html');
-      if (key && dict[key] != null) {
-        el.innerHTML = dict[key];
-      }
-    });
-    // Placeholders
-    document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
-      const key = el.getAttribute('data-i18n-placeholder');
-      if (key && dict[key] != null) {
-        el.setAttribute('placeholder', dict[key]);
-      }
-    });
-
-    // Update toggle label (button and menu item) with flag + code
-    const flag = lang === 'en' ? '🇬🇧' : '🇫🇷';
-    const code = lang.toUpperCase();
-    const toggleBtn = document.querySelector('[data-lang-toggle]');
-    if (toggleBtn) {
-      toggleBtn.textContent = `${flag} ${code}`;
-      toggleBtn.setAttribute('aria-label', lang === 'en' ? 'Change language' : 'Changer de langue');
-      toggleBtn.setAttribute('title', lang === 'en' ? 'Change language' : 'Changer de langue');
-    }
-    const toggleMenuLink = document.querySelector('[data-lang-toggle-menu]');
-    if (toggleMenuLink) {
-      toggleMenuLink.textContent = `${flag} ${code}`;
-      toggleMenuLink.setAttribute('aria-label', lang === 'en' ? 'Change language' : 'Changer de langue');
-      toggleMenuLink.setAttribute('title', lang === 'en' ? 'Change language' : 'Changer de langue');
-    }
-  };
-
-  const switchLanguage = (nextLang) => {
-    const lang = SUPPORTED_LANGS.includes(nextLang) ? nextLang : 'en';
-    localStorage.setItem(I18N_STORAGE_KEY, lang);
-    setHtmlLangAttr(lang);
-    applyTranslations(lang);
-    // Sync URL parameter without reloading
-    const url = new URL(window.location.href);
-    url.searchParams.set('lang', lang);
-    history.replaceState(null, '', url.toString());
-  };
-
-  const initI18n = () => {
-    const current = getInitialLang();
-    setHtmlLangAttr(current);
-    applyTranslations(current);
-    const toggleBtn = document.querySelector('[data-lang-toggle]');
-    const toggleMenuLink = document.querySelector('[data-lang-toggle-menu]');
-    const handler = (e) => {
-      if (e) e.preventDefault();
-      const now = localStorage.getItem(I18N_STORAGE_KEY) || current;
-      const next = now === 'en' ? 'fr' : 'en';
-      switchLanguage(next);
-    };
-    if (toggleBtn) toggleBtn.addEventListener('click', handler);
-    if (toggleMenuLink) toggleMenuLink.addEventListener('click', handler);
-  };
 
   // --- Détection du navigateur pour optimisations spécifiques ---
   const detectBrowser = () => {
@@ -280,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Détection Edge
     const isEdge = /edg/i.test(userAgent);
 
-    if (DEBUG) console.log('Browser Detection:', { isSafari, isChrome, isFirefox, isEdge });
+    if (DEBUG) { console.log('Browser Detection:', { isSafari, isChrome, isFirefox, isEdge }); }
 
     return { isSafari, isChrome, isFirefox, isEdge };
   };
@@ -291,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (browserInfo.isSafari) {
     bodyElement.classList.add('browser-safari');
-    if (DEBUG) console.log('Safari detected - Applying Safari-specific optimizations');
+    if (DEBUG) { console.log('Safari detected - Applying Safari-specific optimizations'); }
   } else if (browserInfo.isChrome) {
     bodyElement.classList.add('browser-chrome');
   } else if (browserInfo.isFirefox) {
@@ -304,9 +57,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- Fonctions d'optimisation Safari (portée globale) ---
   window.forceRepaintSafari = () => {
-    if (!browserInfo.isSafari) return;
+    if (!browserInfo.isSafari) { return; }
 
-    if (DEBUG) console.log('Safari: Force repaint after transition');
+    if (DEBUG) { console.log('Safari: Force repaint after transition'); }
 
     // Méthode 1: Force reflow en lisant des propriétés calculées
     const mainContent = document.querySelector('main#main-content');
@@ -377,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Debug: compter les tuiles animées
       const visibleTiles = waveContainer.querySelectorAll('.tech-tile.visible').length;
       const totalTiles = waveContainer.querySelectorAll('.tech-tile').length;
-      if (DEBUG) console.log(`TechWave Performance: ${visibleTiles}/${totalTiles} tuiles animées`);
+      if (DEBUG) { console.log(`TechWave Performance: ${visibleTiles}/${totalTiles} tuiles animées`); }
     }, {
       root: null, // Observer par rapport à la fenêtre du navigateur (viewport)
       rootMargin: '0px', // Pas de marge - animation exactement quand visible dans la fenêtre
@@ -598,7 +351,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Fonction robuste pour distribuer les technologies sans doublons adjacents
     const shuffleArray = (array) => {
-      if (array.length <= 1) return [...array];
+      if (array.length <= 1) { return [...array]; }
 
       // Étape 1: Analyser la fréquence de chaque technologie
       const techCounts = {};
@@ -613,14 +366,14 @@ document.addEventListener('DOMContentLoaded', () => {
       // Si une technologie apparaît plus de la moitié du nombre total de types,
       // nous devons utiliser une distribution forcée
       if (maxCount > Math.ceil(totalTechs / 2)) {
-        if (DEBUG) console.log('TechWave: Distribution forcée nécessaire - trop de répétitions détectées');
+        if (DEBUG) { console.log('TechWave: Distribution forcée nécessaire - trop de répétitions détectées'); }
         return distributeWithForcedSpacing(array, techCounts);
       }
 
       // Étape 3: Distribution round-robin optimisée pour cas normaux
       const groups = {};
       array.forEach(item => {
-        if (!groups[item.name]) groups[item.name] = [];
+        if (!groups[item.name]) { groups[item.name] = []; }
         groups[item.name].push(item);
       });
 
@@ -674,7 +427,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Regrouper par technologie
       array.forEach(item => {
-        if (!groups[item.name]) groups[item.name] = [];
+        if (!groups[item.name]) { groups[item.name] = []; }
         groups[item.name].push(item);
       });
 
@@ -722,7 +475,7 @@ document.addEventListener('DOMContentLoaded', () => {
         result.push(otherItems[otherIndex++]);
       }
 
-      if (DEBUG) console.log(`TechWave: Distribution forcée appliquée - ${mostFrequentTech} espacé avec ratio ${spacing}:1`);
+      if (DEBUG) { console.log(`TechWave: Distribution forcée appliquée - ${mostFrequentTech} espacé avec ratio ${spacing}:1`); }
       return result;
     };
 
@@ -834,7 +587,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Ensure content width exceeds container by at least one set for seamless looping
       const copiesToAppend = Math.max(2, Math.ceil(containerWidth / singleSetWidth) + 1);
 
-      if (DEBUG) console.log(`TechWave loop: setWidth=${singleSetWidth}px, container=${containerWidth}px, copies=${copiesToAppend}`);
+      if (DEBUG) { console.log(`TechWave loop: setWidth=${singleSetWidth}px, container=${containerWidth}px, copies=${copiesToAppend}`); }
 
       for (let i = 0; i < copiesToAppend; i++) {
         scroller.appendChild(populateFragment(uniqueTechListPart));
@@ -848,7 +601,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function startInfiniteLoopAnimation(scrollerState) {
       const element = scrollerState.element;
-      if (!element) return;
+      if (!element) { return; }
 
       let currentX = 0;
       const SCROLL_SPEED_PX = 0.5; // base speed in px per frame
@@ -958,7 +711,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Lazy‑init Tech Wave: initialize only when container enters viewport
   const initializeTechWave = () => {
     const waveContainer = document.querySelector('.tech-wave-container');
-    if (!waveContainer) return;
+    if (!waveContainer) { return; }
     const start = () => {
       observer && observer.disconnect();
       initializeTechWaveNow();
@@ -985,131 +738,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initI18nModule();
 
   // --- Contact CTA Popup Logic ---
-  const setupContactPopup = () => {
-    const contactCtaBtn = document.getElementById('contact-cta-btn');
-    const contactPopup = document.getElementById('contact-cta-links');
-
-    if (!contactCtaBtn || !contactPopup) {
-      console.warn('Contact CTA button or popup not found! Skipping contact popup setup.');
-      return;
-    }
-
-    let isAnimating = false;
-
-    const focusableSelector = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
-    let lastFocusedBeforeOpen = null;
-
-    const trapFocus = (e) => {
-      const focusable = contactPopup.querySelectorAll(focusableSelector);
-      if (focusable.length === 0) return;
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
-      if (e.key === 'Tab') {
-        if (e.shiftKey && document.activeElement === first) {
-          e.preventDefault();
-          last.focus();
-        } else if (!e.shiftKey && document.activeElement === last) {
-          e.preventDefault();
-          first.focus();
-        }
-      }
-    };
-
-    const showPopup = () => {
-      if (isAnimating) return;
-      isAnimating = true;
-
-      contactCtaBtn.setAttribute('aria-expanded', 'true');
-      contactCtaBtn.classList.add('active');
-      contactPopup.hidden = false;
-
-      // Force reflow to ensure the element is rendered before animation
-      contactPopup.offsetHeight;
-
-      contactPopup.classList.add('show');
-
-      // Focus management
-      lastFocusedBeforeOpen = document.activeElement;
-      const firstFocusable = contactPopup.querySelector(focusableSelector);
-      if (firstFocusable) firstFocusable.focus();
-      document.addEventListener('keydown', trapFocus);
-
-      // Reset animation flag after animation completes
-      setTimeout(() => {
-        isAnimating = false;
-      }, 500); // Match CSS transition duration
-    };
-
-    const hidePopup = () => {
-      if (isAnimating) return;
-      isAnimating = true;
-
-      contactCtaBtn.setAttribute('aria-expanded', 'false');
-      contactCtaBtn.classList.remove('active');
-      contactPopup.classList.remove('show');
-
-      // Restore focus and remove listeners
-      document.removeEventListener('keydown', trapFocus);
-      if (lastFocusedBeforeOpen) {
-        try { lastFocusedBeforeOpen.focus(); } catch (_) { }
-      }
-
-      // Hide element after animation completes
-      setTimeout(() => {
-        contactPopup.hidden = true;
-        isAnimating = false;
-      }, 500); // Match CSS transition duration
-    };
-
-    const togglePopup = () => {
-      const isExpanded = contactCtaBtn.getAttribute('aria-expanded') === 'true';
-      if (isExpanded) {
-        hidePopup();
-      } else {
-        showPopup();
-      }
-    };
-
-    // Button click handler
-    contactCtaBtn.addEventListener('click', (event) => {
-      event.stopPropagation();
-      togglePopup();
-    });
-
-    // Close popup when clicking outside
-    document.addEventListener('click', (event) => {
-      const isExpanded = contactCtaBtn.getAttribute('aria-expanded') === 'true';
-      if (isExpanded && !contactCtaBtn.contains(event.target) && !contactPopup.contains(event.target)) {
-        hidePopup();
-      }
-    });
-
-    // Close popup on Escape key
-    document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape' && contactCtaBtn.getAttribute('aria-expanded') === 'true') {
-        hidePopup();
-        contactCtaBtn.focus(); // Return focus to button for accessibility
-      }
-    });
-
-    // Add smooth hover effects for contact links
-    const contactLinks = contactPopup.querySelectorAll('a[data-contact-link]');
-    contactLinks.forEach(link => {
-      link.addEventListener('mouseenter', () => {
-        if (!isAnimating) {
-          link.style.transform = 'translateX(4px)';
-        }
-      });
-
-      link.addEventListener('mouseleave', () => {
-        if (!isAnimating) {
-          link.style.transform = 'translateX(0)';
-        }
-      });
-    });
-  };
-
-  setupContactPopup();
+  try { setupContactPopupModule(); } catch (_) { /* Ignore errors */ }
 
   // --- Navigation Dynamic Color Logic ---
   // --- Navigation Simple Color Logic (Ultra-optimisé) ---
@@ -1118,7 +747,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- Header Scroll Effect ---
   const setupHeaderScrollEffect = () => {
     const header = document.querySelector('.header-container-logo-cta');
-    if (!header) return;
+    if (!header) { return; }
 
     let isScrolled = false;
     const scrollThreshold = 50; // Pixels de scroll avant d'activer l'effet
@@ -1138,7 +767,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Throttle pour optimiser les performances
     let scrollTimeout;
     const throttledHandleScroll = () => {
-      if (scrollTimeout) return;
+      if (scrollTimeout) { return; }
       scrollTimeout = setTimeout(() => {
         handleScroll();
         scrollTimeout = null;
@@ -1153,370 +782,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   setupHeaderScrollEffect();
 
-  // --- SPA Routing & Transitions ---
-  /* Keep original code path for safety, but prefer modular router */
-  const SPA_ROUTING = (() => {
-    const ROUTES = {
-      '/': 'freelance-content',
-      '/cv': 'cv-content',
-    };
-    const PAGE_TRANSITION_DURATION_MS = 500; // Keep this for consistency if needed for other timing
-
-    let isTransitioning = false;
-    const waveElement = document.getElementById('page-transition-wave');
-    if (!waveElement) {
-      console.error('Page transition wave element (#page-transition-wave) not found. SPA transitions will not work.');
-      return {};
-    }
-
-    // Deprecated: path-based routing replaced by hash routing for static hosting
-    const getPathFromUrl = (url) => {
-      const fromHash = url.split('#')[1] || '';
-      return fromHash ? `/${fromHash}` : '/';
-    };
-
-    /**
-     * Affiche une section donnée avec une transition optionnelle.
-     * @param {string} sectionId L'ID de la section à afficher.
-     * @param {boolean} useTransition Indique si la transition de vague doit être utilisée.
-     */
-    const showSection = (sectionId, useTransition = true) => {
-      if (isTransitioning && useTransition) {
-        console.warn('Transition already in progress. Ignoring new navigation request.');
-        return;
-      }
-      if (useTransition) {
-        isTransitioning = true;
-      }
-
-
-      const allSections = document.querySelectorAll('.main-content-area');
-      const sectionToShow = document.getElementById(sectionId);
-      let sectionToHide = null;
-
-      if (!sectionToShow) {
-        console.error(`Section with ID '${sectionId}' not found.`);
-        if (useTransition) isTransitioning = false;
-        return;
-      }
-
-      // Find the currently visible section
-      allSections.forEach(sec => {
-        if (!sec.hidden && sec.id !== sectionId) { // Ensure it's not the target section itself
-          sectionToHide = sec;
-        }
-      });
-
-      // If the target section is already visible, or no actual change is needed, just finish.
-      if (sectionToHide && sectionToHide.id === sectionToShow.id && useTransition) {
-        console.log('Target section is already visible. No transition needed.');
-        isTransitioning = false;
-        return;
-      }
-
-      // Helper function to apply body class and trigger nav inversion with smooth timing
-      const applyPageStyles = (targetSectionId) => {
-        if (targetSectionId === 'cv-content') {
-          document.body.classList.add('cv-dark-mode');
-        } else {
-          document.body.classList.remove('cv-dark-mode');
-        }
-
-        // Navigation color management removed - using fixed color
-      };
-
-      if (!useTransition) {
-        // Direct display without transition for initial load
-        allSections.forEach(sec => {
-          sec.hidden = true;
-          sec.classList.remove('fade-in', 'fade-out'); // Clean up any lingering animation classes
-        });
-        sectionToShow.hidden = false;
-
-        applyPageStyles(sectionId);
-
-        // Initialize CV scroll activation if navigating to CV page
-        if (sectionId === 'cv-content') {
-          setTimeout(setupCVScrollActivation, 50);
-        }
-
-        return; // Exit as transition is not used
-      }
-
-      // Start the transition (only if useTransition is true)
-      waveElement.style.display = 'block';
-      waveElement.classList.remove('wave-transition-sweep-out');
-
-      // Sur mobile, forcer un repaint immédiat pour éviter les délais
-      const isMobile = window.matchMedia('(max-width: 768px)').matches;
-      if (isMobile) {
-        // Forcer le navigateur à calculer immédiatement la position
-        void waveElement.offsetHeight;
-        // Petit délai pour laisser le navigateur se préparer
-        requestAnimationFrame(() => {
-          waveElement.classList.add('wave-transition-sweep-in');
-        });
-      } else {
-        waveElement.classList.add('wave-transition-sweep-in');
-      }
-
-      waveElement.onanimationend = (event) => {
-        if (event.animationName === 'wave-sweep-in') {
-          waveElement.onanimationend = null; // Remove listener to prevent multiple calls
-
-          // Hide old section if found
-          if (sectionToHide) {
-            sectionToHide.hidden = true;
-            sectionToHide.classList.remove('fade-in', 'fade-out');
-          }
-
-          // Show new section
-          sectionToShow.hidden = false;
-          sectionToShow.classList.remove('fade-in', 'fade-out');
-
-          // Scroll to top now - invisible because wave covers the screen
-          window.scrollTo(0, 0);
-
-          // Apply page styles with smooth timing
-          applyPageStyles(sectionId);
-
-          // Start sweep-out animation
-          waveElement.classList.remove('wave-transition-sweep-in');
-          waveElement.classList.add('wave-transition-sweep-out');
-
-          waveElement.onanimationend = (event) => {
-            if (event.animationName === 'wave-sweep-out') {
-              waveElement.onanimationend = null;
-              waveElement.style.display = 'none';
-              waveElement.classList.remove('wave-transition-sweep-out');
-              isTransitioning = false;
-
-
-
-              // Safari: Force repaint après transition pour éviter le contenu figé
-              setTimeout(() => window.forceRepaintSafari(), 50);
-
-              // Initialize CV scroll activation if navigating to CV page
-              if (sectionId === 'cv-content') {
-                setTimeout(setupCVScrollActivation, 100);
-              }
-            }
-          };
-        }
-      };
-    };
-
-    const updateNavActive = (currentPath) => {
-      const navLinks = document.querySelectorAll('nav[aria-label="Main navigation"] a');
-      navLinks.forEach(link => {
-        const sectionId = link.getAttribute('data-section-toggle');
-        const linkPath = Object.keys(ROUTES).find(key => ROUTES[key] === sectionId) || '/';
-
-        if (linkPath === currentPath) {
-          link.classList.add('nav-active');
-        } else {
-          link.classList.remove('nav-active');
-        }
-      });
-    };
-
-    const navigateTo = (path, push = true, useTransition = true) => {
-      const sectionId = ROUTES[path];
-      if (!sectionId) {
-        if (DEBUG) console.warn(`Route not found for path: ${path}. Defaulting to freelance-content.`);
-        path = '/';
-      }
-
-      // Utiliser showSection qui contient déjà toute la logique d'animation
-      showSection(ROUTES[path], useTransition);
-
-      updateNavActive(path);
-
-      if (push) {
-        const hash = `#${path === '/' ? '' : path.replace(/^\//, '')}`;
-        if (window.location.hash !== hash) {
-          window.location.hash = hash;
-        }
-      }
-    };
-
-    // Initialisation: Cacher toutes les sections et afficher celle par défaut SANS transition.
-    document.querySelectorAll('.main-content-area').forEach(section => {
-      section.hidden = true;
-    });
-
-    // Event listeners for main navigation
-    document.querySelectorAll('nav[aria-label="Main navigation"] a').forEach(link => {
-      link.addEventListener('click', e => {
-        const sectionId = link.getAttribute('data-section-toggle');
-        const path = Object.keys(ROUTES).find(key => ROUTES[key] === sectionId) || '/';
-
-        const currentPath = window.location.hash.replace(/^#/, '') ? `/${window.location.hash.replace(/^#/, '')}` : '/';
-        if (currentPath !== path) {
-          e.preventDefault();
-          navigateTo(path, true, true); // Use transition for clicks
-        }
-      });
-    });
-
-    // Event listeners for footer navigation
-    document.querySelectorAll('footer nav a').forEach(link => {
-      link.addEventListener('click', e => {
-        const href = link.getAttribute('href');
-        let path = null;
-        if (href === '#freelance') {
-          path = '/';
-        } else if (href === '#cv') {
-          path = '/cv';
-        }
-
-        const currentPath = window.location.hash.replace(/^#/, '') ? `/${window.location.hash.replace(/^#/, '')}` : '/';
-        if (path && currentPath !== path) {
-          e.preventDefault();
-          navigateTo(path, true, true); // Use transition for clicks
-        }
-      });
-    });
-
-    // Hash-based back/forward handling
-    const getPathFromHash = () => {
-      const raw = window.location.hash.replace(/^#/, '');
-      return raw ? `/${raw}` : '/';
-    };
-    window.addEventListener('hashchange', () => {
-      const path = getPathFromHash();
-      navigateTo(path, false, true);
-    });
-
-    // Initial load: navigate using hash (static hosting safe)
-    const initialPath = getPathFromHash();
-    navigateTo(initialPath, false, false);
-
-    // After initial load and navigation, make main content visible
-    // This is to prevent FOUC on the initial load.
-    const mainContent = document.querySelector('main#main-content');
-    if (mainContent) {
-      mainContent.style.opacity = '1';
-    }
-
-    return {
-      navigateTo,
-      showSection,
-      updateNavActive
-    };
-  })();
+  // Routing handled via module
 
   // Initialize modular router (non-breaking; it uses same DOM hooks)
-  try { createRouterModule(); } catch (_) { }
+  try { createRouterModule(); } catch (_) { /* Ignore errors */ }
 
-  // --- CV Sections Scroll Activation for Mobile ---
-  let cvSectionObserver = null; // Track the current observer to avoid multiple instances
-
-  const setupCVScrollActivationInline = () => {
-    // Only activate on mobile/tablet devices or when hover is not available
-    const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches ||
-      window.matchMedia('(max-width: 1024px)').matches;
-
-    if (!isTouchDevice) {
-      return; // Exit early on desktop devices with hover capability
-    }
-
-    // Clean up existing observer to avoid duplicates
-    if (cvSectionObserver) {
-      cvSectionObserver.disconnect();
-      cvSectionObserver = null;
-    }
-
-    const cvSections = document.querySelectorAll('#cv-content .cv-section');
-
-    if (cvSections.length === 0) {
-      return; // No CV sections found
-    }
-
-    // Configuration for the intersection observer
-    const observerOptions = {
-      root: null, // Use viewport as root
-      rootMargin: '-10% 0px -10% 0px', // Trigger when section is 10% visible from top and bottom (less restrictive for mobile)
-      threshold: [0.2, 0.5] // Trigger at 20% and 50% visibility (easier to trigger on mobile)
-    };
-
-    // Track currently active sections to avoid unnecessary DOM manipulations
-    const activeSections = new Set();
-
-    cvSectionObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        const section = entry.target;
-        const isVisible = entry.isIntersecting && entry.intersectionRatio >= 0.2;
-
-        if (isVisible && !activeSections.has(section)) {
-          // Section is becoming visible - activate it
-          section.classList.add('cv-section-active');
-          activeSections.add(section);
-
-          // Add a subtle vibration feedback on mobile if supported
-          if (navigator.vibrate && window.DeviceMotionEvent) {
-            navigator.vibrate(50);
-          }
-        } else if (!isVisible && activeSections.has(section)) {
-          // Section is becoming hidden - deactivate it
-          section.classList.remove('cv-section-active');
-          activeSections.delete(section);
-        }
-      });
-    }, observerOptions);
-
-    // Start observing all CV sections
-    cvSections.forEach(section => {
-      cvSectionObserver.observe(section);
-    });
-
-    // Clean up observer when navigating away from CV
-    const cleanupCVSections = () => {
-      const isCvPage = document.body.classList.contains('cv-dark-mode');
-      if (!isCvPage) {
-        // Clean up active states when leaving CV page
-        activeSections.clear();
-        cvSections.forEach(section => {
-          section.classList.remove('cv-section-active');
-        });
-      }
-    };
-
-    // Listen for page changes to clean up CV sections
-    document.addEventListener('DOMContentLoaded', cleanupCVSections);
-    window.addEventListener('hashchange', cleanupCVSections);
-
-    // Handle orientation changes and resize events
-    let resizeTimeout;
-    window.addEventListener('resize', () => {
-      clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(() => {
-        // Re-trigger intersection checks after resize
-        cvSections.forEach(section => {
-          if (cvSectionObserver) {
-            cvSectionObserver.unobserve(section);
-            cvSectionObserver.observe(section);
-          }
-        });
-      }, 250);
-    });
-  };
-
-  // Initialize CV scroll activation
-  setupCVScrollActivationInline();
-
-  // Re-initialize when navigating to CV page
-  const reinitializeCVOnPageChange = () => {
-    const isCvPage = document.body.classList.contains('cv-dark-mode');
-    if (isCvPage) {
-      // Small delay to ensure DOM is ready
-      setTimeout(setupCVScrollActivation, 100);
-    }
-  };
-
-  // Listen for page changes to reinitialize CV functionality
-  window.addEventListener('hashchange', reinitializeCVOnPageChange);
-  try { window.addEventListener('hashchange', () => setupCVScrollActivation()); } catch (_) { }
+  // CV scroll activation handled by module/router hooks
 
   // --- Performance Optimization: Pause animations during scroll ---
   let scrollTimeout;
@@ -1550,7 +821,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- Contact form client-side validation & async submit ---
   const setupContactForm = () => {
     const form = document.querySelector('form[data-form-submit="contact"]');
-    if (!form) return;
+    if (!form) { return; }
     const nameInput = form.querySelector('#contact-name');
     const emailInput = form.querySelector('#contact-email');
     const messageInput = form.querySelector('#contact-message');
@@ -1560,7 +831,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const errMessage = form.querySelector('#error-message');
 
     const setError = (el, errEl, message) => {
-      if (errEl) errEl.textContent = message || '';
+      if (errEl) { errEl.textContent = message || ''; }
       if (message) {
         el.setAttribute('aria-invalid', 'true');
       } else {
@@ -1609,8 +880,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const ok = [validateName(), validateEmail(), validateMessage()].every(Boolean);
       // Honeypot check
       const honey = form.querySelector('input[name="_honey"]');
-      if (honey && honey.value) return; // silently drop bots
-      if (!ok) return;
+      if (honey && honey.value) { return; } // silently drop bots
+      if (!ok) { return; }
 
       const submitBtn = form.querySelector('button[type="submit"]');
       const prevLabel = submitBtn.textContent;

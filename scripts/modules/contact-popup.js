@@ -11,7 +11,7 @@ export function setupContactPopup() {
 
   const trapFocus = (e) => {
     const focusable = contactPopup.querySelectorAll(focusableSelector);
-    if (focusable.length === 0) return;
+    if (focusable.length === 0) { return; }
     const first = focusable[0];
     const last = focusable[focusable.length - 1];
     if (e.key === 'Tab') {
@@ -26,7 +26,7 @@ export function setupContactPopup() {
   };
 
   const showPopup = () => {
-    if (isAnimating) return;
+    if (isAnimating) { return; }
     isAnimating = true;
     contactCtaBtn.setAttribute('aria-expanded', 'true');
     contactCtaBtn.classList.add('active');
@@ -35,7 +35,7 @@ export function setupContactPopup() {
     contactPopup.classList.add('show');
     lastFocusedBeforeOpen = document.activeElement;
     const firstFocusable = contactPopup.querySelector(focusableSelector);
-    if (firstFocusable) firstFocusable.focus();
+    if (firstFocusable) { firstFocusable.focus(); }
     document.addEventListener('keydown', trapFocus);
     setTimeout(() => {
       isAnimating = false;
@@ -43,7 +43,7 @@ export function setupContactPopup() {
   };
 
   const hidePopup = () => {
-    if (isAnimating) return;
+    if (isAnimating) { return; }
     isAnimating = true;
     contactCtaBtn.setAttribute('aria-expanded', 'false');
     contactCtaBtn.classList.remove('active');
@@ -52,7 +52,7 @@ export function setupContactPopup() {
     if (lastFocusedBeforeOpen) {
       try {
         lastFocusedBeforeOpen.focus();
-      } catch (_) { }
+      } catch (_) { /* Ignore focus errors */ }
     }
     setTimeout(() => {
       contactPopup.hidden = true;
@@ -62,8 +62,8 @@ export function setupContactPopup() {
 
   const togglePopup = () => {
     const isExpanded = contactCtaBtn.getAttribute('aria-expanded') === 'true';
-    if (isExpanded) hidePopup();
-    else showPopup();
+    if (isExpanded) { hidePopup(); }
+    else { showPopup(); }
   };
 
   contactCtaBtn.addEventListener('click', (event) => {
@@ -72,7 +72,7 @@ export function setupContactPopup() {
   });
   document.addEventListener('click', (event) => {
     const isExpanded = contactCtaBtn.getAttribute('aria-expanded') === 'true';
-    if (isExpanded && !contactCtaBtn.contains(event.target) && !contactPopup.contains(event.target)) hidePopup();
+    if (isExpanded && !contactCtaBtn.contains(event.target) && !contactPopup.contains(event.target)) { hidePopup(); }
   });
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && contactCtaBtn.getAttribute('aria-expanded') === 'true') {

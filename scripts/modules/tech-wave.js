@@ -2,7 +2,7 @@ const DEBUG = false;
 
 export function initializeTechWave() {
   const waveContainer = document.querySelector('.tech-wave-container');
-  if (!waveContainer) return;
+  if (!waveContainer) {return;}
 
   const start = () => {
     observer && observer.disconnect();
@@ -18,7 +18,7 @@ export function initializeTechWave() {
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) start();
+        if (entry.isIntersecting) {start();}
       });
     },
     { root: null, rootMargin: '0px 0px 100px 0px', threshold: 0 },
@@ -33,8 +33,8 @@ export function initializeTechWave() {
       (entries) => {
         entries.forEach((entry) => {
           const tile = entry.target;
-          if (entry.isIntersecting) tile.classList.add('visible');
-          else tile.classList.remove('visible');
+          if (entry.isIntersecting) {tile.classList.add('visible');}
+          else {tile.classList.remove('visible');}
         });
         if (DEBUG) {
           const visibleTiles = waveContainer.querySelectorAll('.tech-tile.visible').length;
@@ -163,10 +163,10 @@ export function initializeTechWave() {
     let globalSpeedMultiplier = 1.0;
 
     const shuffleArray = (array) => {
-      if (array.length <= 1) return [...array];
+      if (array.length <= 1) {return [...array];}
       const groups = {};
       array.forEach((item) => {
-        if (!groups[item.name]) groups[item.name] = [];
+        if (!groups[item.name]) {groups[item.name] = [];}
         groups[item.name].push(item);
       });
       Object.keys(groups).forEach((name) => {
@@ -180,14 +180,14 @@ export function initializeTechWave() {
       const maxGroupSize = Math.max(...Object.values(groups).map((g) => g.length));
       for (let round = 0; round < maxGroupSize; round++) {
         const roundOrder = [...groupNames];
-        if (round % 3 === 1) roundOrder.reverse();
+        if (round % 3 === 1) {roundOrder.reverse();}
         else if (round % 3 === 2) {
           for (let i = 0; i < roundOrder.length - 1; i += 2) {
             [roundOrder[i], roundOrder[i + 1]] = [roundOrder[i + 1], roundOrder[i]];
           }
         }
         roundOrder.forEach((name) => {
-          if (groups[name][round]) result.push(groups[name][round]);
+          if (groups[name][round]) {result.push(groups[name][round]);}
         });
       }
       return result;
@@ -208,7 +208,7 @@ export function initializeTechWave() {
       tile.classList.add('tech-tile');
       const techNameUpper = tech.name.toUpperCase();
       const styleInfo = techStyleMap[techNameUpper] || DEFAULT_STYLE;
-      if (styleInfo.featured) tile.classList.add('featured-tile');
+      if (styleInfo.featured) {tile.classList.add('featured-tile');}
       tile.style.backgroundColor = styleInfo.tileBackground;
       tile.style.setProperty('--tile-glow-color', styleInfo.tileBackground);
       tileVisibilityObserver.observe(tile);
@@ -220,9 +220,9 @@ export function initializeTechWave() {
       logoElement.alt = tech.name;
       logoElement.loading = 'lazy';
       logoElement.classList.remove('logo-use-original-colors', 'logo-force-color-white', 'logo-force-color-black');
-      if (styleInfo.iconColor === 'original') logoElement.classList.add('logo-use-original-colors');
-      else if (styleInfo.iconColor === '#FFFFFF') logoElement.classList.add('logo-force-color-white');
-      else if (styleInfo.iconColor === '#000000') logoElement.classList.add('logo-force-color-black');
+      if (styleInfo.iconColor === 'original') {logoElement.classList.add('logo-use-original-colors');}
+      else if (styleInfo.iconColor === '#FFFFFF') {logoElement.classList.add('logo-force-color-white');}
+      else if (styleInfo.iconColor === '#000000') {logoElement.classList.add('logo-force-color-black');}
       frontFace.appendChild(logoElement);
       const nameElement = document.createElement('div');
       nameElement.classList.add('tech-tile-name');
@@ -279,7 +279,7 @@ export function initializeTechWave() {
       document.body.removeChild(tempScroller);
       const containerWidth = containerElement.clientWidth;
       const copiesToAppend = Math.max(2, Math.ceil(containerWidth / singleSetWidth) + 1);
-      for (let i = 0; i < copiesToAppend; i++) scroller.appendChild(populateFragment(uniqueTechListPart));
+      for (let i = 0; i < copiesToAppend; i++) {scroller.appendChild(populateFragment(uniqueTechListPart));}
       containerElement.appendChild(scroller);
       const contentTotalWidth = scroller.scrollWidth;
       return { scrollerElement: scroller, singleSetWidth, contentTotalWidth };
@@ -287,7 +287,7 @@ export function initializeTechWave() {
 
     function startInfiniteLoopAnimation(scrollerState) {
       const element = scrollerState.element;
-      if (!element) return;
+      if (!element) {return;}
       let currentX = 0;
       const SCROLL_SPEED_PX = 0.5;
       const setWidth = scrollerState.singleSetWidth || 0;
@@ -296,8 +296,8 @@ export function initializeTechWave() {
           const dir = scrollerState.baseSign;
           const applied = dir * SCROLL_SPEED_PX * globalSpeedMultiplier;
           currentX += applied;
-          if (dir < 0 && Math.abs(currentX) >= setWidth) currentX += setWidth;
-          if (dir > 0 && currentX > 0) currentX -= setWidth;
+          if (dir < 0 && Math.abs(currentX) >= setWidth) {currentX += setWidth;}
+          if (dir > 0 && currentX > 0) {currentX -= setWidth;}
           element.style.transform = `translateX(${currentX}px)`;
         }
         scrollerState.animationFrameId = requestAnimationFrame(step);
@@ -315,8 +315,8 @@ export function initializeTechWave() {
     animationStates[1].contentTotalWidth = scrollerData2.contentTotalWidth;
     animationStates[1].singleSetWidth = scrollerData2.singleSetWidth;
 
-    if (scrollerData1.scrollerElement) void scrollerData1.scrollerElement.offsetHeight;
-    if (scrollerData2.scrollerElement) void scrollerData2.scrollerElement.offsetHeight;
+    if (scrollerData1.scrollerElement) {void scrollerData1.scrollerElement.offsetHeight;}
+    if (scrollerData2.scrollerElement) {void scrollerData2.scrollerElement.offsetHeight;}
 
     animationStates.forEach((state) => {
       if (state && state.element && state.contentTotalWidth > 0 && state.singleSetWidth > 0) {

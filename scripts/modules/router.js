@@ -16,26 +16,26 @@ export function createRouter() {
 
   const showSection = (sectionId, useTransition = true) => {
     if (isTransitioning && useTransition) {
-      if (DEBUG) console.warn('Transition in progress.');
+      if (DEBUG) {console.warn('Transition in progress.');}
       return;
     }
-    if (useTransition) isTransitioning = true;
+    if (useTransition) {isTransitioning = true;}
 
     const allSections = document.querySelectorAll('.main-content-area');
     const sectionToShow = document.getElementById(sectionId);
     let sectionToHide = null;
     if (!sectionToShow) {
       console.error(`Section with ID '${sectionId}' not found.`);
-      if (useTransition) isTransitioning = false;
+      if (useTransition) {isTransitioning = false;}
       return;
     }
     allSections.forEach((sec) => {
-      if (!sec.hidden && sec.id !== sectionId) sectionToHide = sec;
+      if (!sec.hidden && sec.id !== sectionId) {sectionToHide = sec;}
     });
 
     const applyPageStyles = (targetSectionId) => {
-      if (targetSectionId === 'cv-content') document.body.classList.add('cv-dark-mode');
-      else document.body.classList.remove('cv-dark-mode');
+      if (targetSectionId === 'cv-content') {document.body.classList.add('cv-dark-mode');}
+      else {document.body.classList.remove('cv-dark-mode');}
     };
 
     if (!useTransition) {
@@ -45,7 +45,7 @@ export function createRouter() {
       });
       sectionToShow.hidden = false;
       applyPageStyles(sectionId);
-      if (sectionId === 'cv-content') setTimeout(() => window.setupCVScrollActivation && window.setupCVScrollActivation(), 50);
+      if (sectionId === 'cv-content') {setTimeout(() => window.setupCVScrollActivation && window.setupCVScrollActivation(), 50);}
       return;
     }
 
@@ -55,7 +55,7 @@ export function createRouter() {
     if (isMobile) {
       void waveElement.offsetHeight;
       requestAnimationFrame(() => waveElement.classList.add('wave-transition-sweep-in'));
-    } else waveElement.classList.add('wave-transition-sweep-in');
+    } else {waveElement.classList.add('wave-transition-sweep-in');}
 
     waveElement.onanimationend = (event) => {
       if (event.animationName === 'wave-sweep-in') {
@@ -77,7 +77,7 @@ export function createRouter() {
             waveElement.classList.remove('wave-transition-sweep-out');
             isTransitioning = false;
             setTimeout(() => window.forceRepaintSafari && window.forceRepaintSafari(), 50);
-            if (sectionId === 'cv-content') setTimeout(() => window.setupCVScrollActivation && window.setupCVScrollActivation(), 100);
+            if (sectionId === 'cv-content') {setTimeout(() => window.setupCVScrollActivation && window.setupCVScrollActivation(), 100);}
           }
         };
       }
@@ -89,22 +89,22 @@ export function createRouter() {
     navLinks.forEach((link) => {
       const sectionId = link.getAttribute('data-section-toggle');
       const linkPath = Object.keys(ROUTES).find((key) => ROUTES[key] === sectionId) || '/';
-      if (linkPath === currentPath) link.classList.add('nav-active');
-      else link.classList.remove('nav-active');
+      if (linkPath === currentPath) {link.classList.add('nav-active');}
+      else {link.classList.remove('nav-active');}
     });
   };
 
   const navigateTo = (path, push = true, useTransition = true) => {
     const sectionId = ROUTES[path];
     if (!sectionId) {
-      if (DEBUG) console.warn(`Route not found for path: ${path}. Defaulting to freelance-content.`);
+      if (DEBUG) {console.warn(`Route not found for path: ${path}. Defaulting to freelance-content.`);}
       path = '/';
     }
     showSection(ROUTES[path], useTransition);
     updateNavActive(path);
     if (push) {
       const hash = `#${path === '/' ? '' : path.replace(/^\//, '')}`;
-      if (window.location.hash !== hash) window.location.hash = hash;
+      if (window.location.hash !== hash) {window.location.hash = hash;}
     }
   };
 
@@ -129,8 +129,8 @@ export function createRouter() {
     link.addEventListener('click', (e) => {
       const href = link.getAttribute('href');
       let path = null;
-      if (href === '#freelance') path = '/';
-      else if (href === '#cv') path = '/cv';
+      if (href === '#freelance') {path = '/';}
+      else if (href === '#cv') {path = '/cv';}
       const currentPath = window.location.hash.replace(/^#/, '') ? `/${window.location.hash.replace(/^#/, '')}` : '/';
       if (path && currentPath !== path) {
         e.preventDefault();
@@ -148,7 +148,7 @@ export function createRouter() {
   navigateTo(initialPath, false, false);
 
   const mainContent = document.querySelector('main#main-content');
-  if (mainContent) mainContent.style.opacity = '1';
+  if (mainContent) {mainContent.style.opacity = '1';}
 
   return { navigateTo, updateNavActive };
 }
