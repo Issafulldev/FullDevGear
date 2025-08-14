@@ -267,19 +267,19 @@ const applyTranslations = (lang) => {
   const dict = TRANSLATIONS[lang] || TRANSLATIONS.en;
   document.querySelectorAll('[data-i18n]').forEach((el) => {
     const key = el.getAttribute('data-i18n');
-    if (key && dict[key] != null) {
+    if (key && dict[key] !== null) {
       el.textContent = dict[key];
     }
   });
   document.querySelectorAll('[data-i18n-html]').forEach((el) => {
     const key = el.getAttribute('data-i18n-html');
-    if (key && dict[key] != null) {
+    if (key && dict[key] !== null) {
       el.innerHTML = dict[key];
     }
   });
   document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
     const key = el.getAttribute('data-i18n-placeholder');
-    if (key && dict[key] != null) {
+    if (key && dict[key] !== null) {
       el.setAttribute('placeholder', dict[key]);
     }
   });

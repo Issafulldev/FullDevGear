@@ -100,10 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // --- Constantes globales pour la configuration ---
-  const REM_TO_PX = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
-  const TILE_WIDTH_REM = 6.5;
-  const GAP_REM = 1.5;
-  const EFFECTIVE_UNIT_WIDTH_PX = (TILE_WIDTH_REM + GAP_REM) * REM_TO_PX;
+  // Tech wave constants moved to tech-wave module
 
 
 

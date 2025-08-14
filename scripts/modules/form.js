@@ -156,7 +156,9 @@ function startCountdown(element) {
 // Fonction pour mettre à jour une bannière existante lors du changement de langue
 function updateExistingBanner() {
   const existingBanner = document.querySelector('.form-success-banner');
-  if (!existingBanner) return;
+  if (!existingBanner) {
+    return;
+  }
 
   // Récupérer les données de soumission si disponibles
   let submissionData = null;
@@ -326,12 +328,13 @@ export function setupContactForm() {
     submitBtn.disabled = true;
     submitBtn.textContent = 'Sending…';
 
+    let timeoutId;
     try {
       const formData = new FormData(form);
 
       // Options améliorées pour compatibility mobile
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 secondes timeout
+      timeoutId = setTimeout(() => controller.abort(), 30000); // 30 secondes timeout
 
       const fetchOptions = {
         method: 'POST',

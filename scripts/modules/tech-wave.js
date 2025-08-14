@@ -26,8 +26,7 @@ export function initializeTechWave() {
   observer.observe(waveContainer);
 
   function initializeTechWaveNow() {
-    const TILE_WIDTH_REM = 6.5;
-    const GAP_REM = 1.5;
+    const GAP_REM = 1.5; // Gap utilisé pour les tuiles
 
     const tileVisibilityObserver = new IntersectionObserver(
       (entries) => {
