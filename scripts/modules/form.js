@@ -1,6 +1,18 @@
 // Form success storage key
 import { getTranslation, onLanguageChange } from './i18n.js';
 
+// Configuration pour fallback mobile
+const FALLBACK_EMAIL = 'issa@fulldevgear.com';
+
+// Fonction de fallback mailto pour mobile
+function createMailtoFallback(name, email, message) {
+  const subject = encodeURIComponent('New message from FullDevGear');
+  const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
+  const mailtoUrl = `mailto:${FALLBACK_EMAIL}?subject=${subject}&body=${body}`;
+
+  return mailtoUrl;
+}
+
 const FORM_SUCCESS_KEY = 'fdg_contact_submitted';
 const COOLDOWN_HOURS = 24;
 
@@ -353,6 +365,20 @@ export function setupContactForm() {
         try {
           return await fetch(form.action, fetchOptions);
         } catch (error) {
+          console.log('Fetch error details:', error.message, error.name, error);
+
+          // Détecter les erreurs DNS spécifiquement
+          const isDNSError = error.message.includes('DNS') ||
+            error.message.includes('resolve') ||
+            error.message.includes('ENOTFOUND') ||
+            error.message.includes('getaddrinfo') ||
+            (error.name === 'TypeError' && error.message.includes('Failed to fetch'));
+
+          if (isDNSError) {
+            console.log('DNS error detected, will use mailto fallback');
+            throw new Error('DNS_ERROR_FALLBACK_NEEDED');
+          }
+
           if (retries > 0 && (error.name === 'TypeError' || error.name === 'NetworkError')) {
             console.log(`Retrying request... ${retries} attempts left`);
             await new Promise(resolve => setTimeout(resolve, 1000)); // Attendre 1 seconde
@@ -360,7 +386,7 @@ export function setupContactForm() {
           }
 
           // Si fetch échoue complètement sur mobile, utiliser soumission classique
-          console.log('Fetch failed, falling back to traditional form submission');
+          console.log('Fetch failed, falling back to mailto');
           throw new Error('FALLBACK_NEEDED');
         }
       };
@@ -441,11 +467,52 @@ export function setupContactForm() {
       clearTimeout(timeoutId); // Nettoyer le timeout en cas d'erreur
       console.error('Form submission error:', err);
 
-      // Fallback vers soumission classique si nécessaire (mobile)
-      if (err.message === 'FALLBACK_NEEDED') {
-        console.log('Using traditional form submission fallback');
+      // Fallback pour problèmes DNS ou réseau mobile
+      if (err.message === 'FALLBACK_NEEDED' ||
+        err.message === 'DNS_ERROR_FALLBACK_NEEDED' ||
+        err.message.includes('DNS') ||
+        err.message.includes('fetch')) {
+        console.log('Network/DNS issue detected, offering mailto fallback');
 
-        // Ajouter les données nécessaires au localStorage quand même
+        // Créer le lien mailto
+        const mailtoUrl = createMailtoFallback(
+          nameInput.value.trim(),
+          emailInput.value.trim(),
+          messageInput.value.trim()
+        );
+
+        // Afficher un message explicatif et proposer le fallback
+        const currentLang = localStorage.getItem('fdg_lang') || 'en';
+        const messages = {
+          en: {
+            title: 'Connection issue detected',
+            text: 'Unable to send via our form service. You can send your message directly via email:',
+            button: '📧 Send via Email App'
+          },
+          fr: {
+            title: 'Problème de connexion détecté',
+            text: 'Impossible d\'envoyer via notre formulaire. Vous pouvez envoyer votre message directement par email :',
+            button: '📧 Envoyer via Email'
+          }
+        };
+
+        const msg = messages[currentLang] || messages.en;
+
+        status.innerHTML = `
+          <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 8px; padding: 1rem; margin: 1rem 0;">
+            <p style="margin: 0 0 0.5rem 0; color: #856404;"><strong>${msg.title}</strong></p>
+            <p style="margin: 0 0 1rem 0; color: #856404; font-size: 0.9rem;">
+              ${msg.text}
+            </p>
+            <a href="${mailtoUrl}" 
+               style="display: inline-block; background: #007bff; color: white; padding: 0.5rem 1rem; 
+                      text-decoration: none; border-radius: 4px; font-weight: bold;">
+              ${msg.button}
+            </a>
+          </div>
+        `;
+
+        // Sauvegarder dans localStorage quand même pour le cooldown
         const submissionData = {
           timestamp: Date.now(),
           name: nameInput.value.trim(),
@@ -453,8 +520,6 @@ export function setupContactForm() {
         };
         localStorage.setItem(FORM_SUCCESS_KEY, JSON.stringify(submissionData));
 
-        // Soumettre le formulaire de manière classique
-        form.submit();
         return;
       }
 
