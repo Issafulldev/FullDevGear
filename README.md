@@ -14,7 +14,7 @@ Professional portfolio website showcasing full-stack development capabilities an
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/fulldevgear-portfolio.git
+git clone https://github.com/issafulldev/FullDevGear.git
 cd fulldevgear-portfolio
 
 # Install dependencies
