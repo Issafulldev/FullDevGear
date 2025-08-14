@@ -67,6 +67,20 @@ main#main-content>section#freelance-content>article.late-animation-item {
   -webkit-transform: translateZ(0);
 }
 
+.wave-transition-sweep-in-reverse {
+  animation: wave-sweep-in-reverse var(--animation-duration-fast) var(--animation-timing-ease-in-out) forwards;
+  /* Force le rendu immédiat sur mobile */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
+.wave-transition-sweep-out-reverse {
+  animation: wave-sweep-out-reverse var(--animation-duration-fast) var(--animation-timing-ease-in-out) forwards;
+  /* Force le rendu immédiat sur mobile */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
 /* --- Keyframes --- */
 @keyframes fadeInDown {
   from {
@@ -155,6 +169,27 @@ main#main-content>section#freelance-content>article.late-animation-item {
 
   to {
     transform: translateX(100%);
+  }
+}
+
+/* Animations sens inverse */
+@keyframes wave-sweep-in-reverse {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0%);
+  }
+}
+
+@keyframes wave-sweep-out-reverse {
+  from {
+    transform: translateX(0%);
+  }
+
+  to {
+    transform: translateX(-100%);
   }
 }
 

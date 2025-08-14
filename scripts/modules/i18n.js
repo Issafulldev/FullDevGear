@@ -38,6 +38,15 @@ const TRANSLATIONS = {
     form_message_label: 'Message',
     form_message_placeholder: 'Tell me about your project...',
     form_submit: 'Send Message',
+    // Success banner
+    success_title: 'Message sent successfully',
+    success_message: 'Thank you for contacting us! We will study your project carefully and get back to you very quickly to discuss the next steps.',
+    success_btn_portfolio: 'Discover my projects',
+    success_btn_home: 'Back to home',
+    cooldown_title: 'Send another form in',
+    cooldown_subtitle: 'We will contact you well before that!',
+    resend_title: 'Another project?',
+    resend_btn: 'New message',
     transparent_build_rates_title: 'Transparent Build Rates',
     roi_pricing_title: 'ROI-Driven Pricing',
     cv_title: 'Full-stack Web Developer',
@@ -151,6 +160,15 @@ const TRANSLATIONS = {
     form_message_label: 'Message',
     form_message_placeholder: 'Parlez‑moi de votre projet…',
     form_submit: 'Envoyer',
+    // Bannière de succès
+    success_title: 'Message envoyé avec succès',
+    success_message: 'Merci de nous avoir contactés ! Nous allons étudier votre projet avec attention et revenir vers vous très rapidement pour discuter de la suite.',
+    success_btn_portfolio: 'Découvrir mes projets',
+    success_btn_home: 'Retour à l\'accueil',
+    cooldown_title: 'Envoyer un autre formulaire dans',
+    cooldown_subtitle: 'Nous vous recontacterons bien avant !',
+    resend_title: 'Un autre projet ?',
+    resend_btn: 'Nouveau message',
     transparent_build_rates_title: 'Tarifs de Construction Transparants',
     roi_pricing_title: 'Tarification orientée ROI',
     cv_title: 'Développeur Web Full‑stack',
@@ -237,7 +255,7 @@ const getInitialLang = () => {
     return fromUrl;
   }
   const saved = localStorage.getItem(I18N_STORAGE_KEY);
-  if (saved && SUPPORTED_LANGS.includes(saved)) {return saved;}
+  if (saved && SUPPORTED_LANGS.includes(saved)) { return saved; }
   return 'en';
 };
 
@@ -282,11 +300,18 @@ const applyTranslations = (lang) => {
   }
 };
 
+// Fonction pour écouter les changements de langue
+let langChangeCallbacks = [];
+
 const switchLanguage = (nextLang) => {
   const lang = SUPPORTED_LANGS.includes(nextLang) ? nextLang : 'en';
   localStorage.setItem(I18N_STORAGE_KEY, lang);
   setHtmlLangAttr(lang);
   applyTranslations(lang);
+
+  // Notifier tous les callbacks
+  langChangeCallbacks.forEach(callback => callback(lang));
+
   const url = new URL(window.location.href);
   url.searchParams.set('lang', lang);
   history.replaceState(null, '', url.toString());
@@ -299,13 +324,28 @@ export const initI18n = () => {
   const toggleBtn = document.querySelector('[data-lang-toggle]');
   const toggleMenuLink = document.querySelector('[data-lang-toggle-menu]');
   const handler = (e) => {
-    if (e) {e.preventDefault();}
+    if (e) { e.preventDefault(); }
     const now = localStorage.getItem(I18N_STORAGE_KEY) || current;
     const next = now === 'en' ? 'fr' : 'en';
     switchLanguage(next);
   };
-  if (toggleBtn) {toggleBtn.addEventListener('click', handler);}
-  if (toggleMenuLink) {toggleMenuLink.addEventListener('click', handler);}
+  if (toggleBtn) { toggleBtn.addEventListener('click', handler); }
+  if (toggleMenuLink) { toggleMenuLink.addEventListener('click', handler); }
+};
+
+// Export pour obtenir la langue actuelle et les traductions
+export const getCurrentLang = () => {
+  return localStorage.getItem(I18N_STORAGE_KEY) || getInitialLang();
+};
+
+export const getTranslation = (key) => {
+  const lang = getCurrentLang();
+  const dict = TRANSLATIONS[lang] || TRANSLATIONS.en;
+  return dict[key] || key;
+};
+
+export const onLanguageChange = (callback) => {
+  langChangeCallbacks.push(callback);
 };
 
 

@@ -147,10 +147,11 @@ body.cv-dark-mode .header-title-mobile .header-tagline-mobile {
   /* safe-area padding reverted */
 }
 
-/* Desktop Navigation - Top Position */
+/* Desktop Navigation - Centré par rapport au logo (6rem de hauteur + 1rem de padding) */
 @media (min-width: 768px) {
   .header-container nav {
-    top: 2.5rem;
+    top: 2rem;
+    /* 1rem padding + 1rem pour centrer dans les 6rem du logo */
     bottom: auto;
     transform: translateX(-50%);
   }
@@ -160,6 +161,12 @@ body.cv-dark-mode .header-title-mobile .header-tagline-mobile {
   display: flex;
   gap: 5rem;
   list-style: none;
+  position: relative;
+}
+
+.header-container nav ul li {
+  position: relative;
+  z-index: 2;
 }
 
 .header-container nav ul li a {
@@ -169,8 +176,15 @@ body.cv-dark-mode .header-title-mobile .header-tagline-mobile {
   display: flex;
   align-items: center;
   white-space: nowrap;
-  transition: color var(--animation-duration-smooth) var(--animation-timing-smooth);
+  transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
   opacity: 0.7;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  position: relative;
+}
+
+.header-container nav ul li a:hover {
+  opacity: 0.9;
 }
 
 .header-container nav ul li a.nav-active {
@@ -179,17 +193,42 @@ body.cv-dark-mode .header-title-mobile .header-tagline-mobile {
   opacity: 1;
 }
 
-.header-container nav ul li a::before {
-  content: "•";
-  margin-right: 0.4em;
-  font-size: 1.1em;
+/* Capsule liquid glass qui se déplace */
+.header-container nav ul::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 20px;
+  transition: all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1),
+    0 1px 3px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  z-index: 1;
   opacity: 0;
-  transition: opacity var(--animation-duration-smooth) var(--animation-timing-smooth);
+  transform: scale(0.9);
 }
 
-.header-container nav ul li a.nav-active::before {
+.header-container nav ul.nav-has-active::before {
   opacity: 1;
+  transform: scale(1);
 }
+
+/* Propriétés CSS personnalisées pour le positionnement dynamique */
+.header-container nav ul {
+  --capsule-left: 0px;
+  --capsule-width: 80px;
+}
+
+.header-container nav ul::before {
+  left: var(--capsule-left);
+  width: var(--capsule-width);
+}
+
+/* Navbar uniforme sur toutes les pages */
 
 /* Nav Inverted State - Removed (using fixed color like contact button) */
 
@@ -389,6 +428,20 @@ body.cv-dark-mode #lang-toggle:hover {
   /* On mobile: show language entry inside contact popup */
   .contact-popup .lang-menu-item {
     display: list-item;
+  }
+
+  /* Ajustements pour mobile du liquid glass */
+  .header-container nav ul {
+    gap: 3rem;
+  }
+
+  .header-container nav ul li a {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+  }
+
+  .header-container nav ul::before {
+    border-radius: 18px;
   }
 }
 
