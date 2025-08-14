@@ -328,7 +328,42 @@ export function setupContactForm() {
 
     try {
       const formData = new FormData(form);
-      const res = await fetch(form.action, { method: 'POST', body: formData, headers: { Accept: 'application/json' } });
+
+      // Options améliorées pour compatibility mobile
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 secondes timeout
+
+      const fetchOptions = {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        },
+        signal: controller.signal,
+        // Spécifique pour FormSubmit et mobile
+        mode: 'cors',
+        credentials: 'omit'
+      };
+
+      // Fonction de retry pour les connexions mobiles instables
+      const makeRequest = async (retries = 2) => {
+        try {
+          return await fetch(form.action, fetchOptions);
+        } catch (error) {
+          if (retries > 0 && (error.name === 'TypeError' || error.name === 'NetworkError')) {
+            console.log(`Retrying request... ${retries} attempts left`);
+            await new Promise(resolve => setTimeout(resolve, 1000)); // Attendre 1 seconde
+            return makeRequest(retries - 1);
+          }
+
+          // Si fetch échoue complètement sur mobile, utiliser soumission classique
+          console.log('Fetch failed, falling back to traditional form submission');
+          throw new Error('FALLBACK_NEEDED');
+        }
+      };
+
+      const res = await makeRequest();
+      clearTimeout(timeoutId); // Nettoyer le timeout si la requête réussit
 
       if (res.ok) {
         // Store success in localStorage
@@ -386,10 +421,49 @@ export function setupContactForm() {
         }, 1000);
 
       } else {
-        status.textContent = 'An error occurred. Please try again later.';
+        // Essayer de récupérer plus d'informations sur l'erreur
+        let errorMessage = 'An error occurred. Please try again later.';
+        try {
+          const errorData = await res.json();
+          if (errorData.error) {
+            errorMessage = errorData.error;
+          }
+        } catch (e) {
+          // Ignorer les erreurs de parsing JSON
+        }
+        status.textContent = errorMessage;
+        console.error('Form submission failed:', res.status, res.statusText);
       }
     } catch (err) {
-      status.textContent = 'Network error. Please try again later.';
+      clearTimeout(timeoutId); // Nettoyer le timeout en cas d'erreur
+      console.error('Form submission error:', err);
+
+      // Fallback vers soumission classique si nécessaire (mobile)
+      if (err.message === 'FALLBACK_NEEDED') {
+        console.log('Using traditional form submission fallback');
+
+        // Ajouter les données nécessaires au localStorage quand même
+        const submissionData = {
+          timestamp: Date.now(),
+          name: nameInput.value.trim(),
+          email: emailInput.value.trim()
+        };
+        localStorage.setItem(FORM_SUCCESS_KEY, JSON.stringify(submissionData));
+
+        // Soumettre le formulaire de manière classique
+        form.submit();
+        return;
+      }
+
+      // Messages d'erreur plus spécifiques
+      let errorMessage = 'Network error. Please try again later.';
+      if (err.name === 'AbortError') {
+        errorMessage = 'Request timeout. Please check your connection and try again.';
+      } else if (err.name === 'TypeError') {
+        errorMessage = 'Connection failed. Please check your internet connection.';
+      }
+
+      status.textContent = errorMessage;
     } finally {
       submitBtn.disabled = false;
       submitBtn.textContent = prevLabel;
