@@ -285,6 +285,15 @@ export function initializeTechWave() {
       frontFace.classList.add('tile-face', 'tile-front');
       const logoElement = document.createElement('img');
       logoElement.classList.add('tech-tile-logo');
+      logoElement.width = 96;
+      logoElement.height = 96;
+      if (tech.name.toLowerCase() === 'html5') {
+        logoElement.loading = 'eager';
+        logoElement.setAttribute('fetchpriority', 'high');
+      } else {
+        logoElement.loading = 'lazy';
+        logoElement.removeAttribute('fetchpriority');
+      }
       logoElement.src = tech.path;
       logoElement.alt = tech.name;
       logoElement.loading = 'lazy';

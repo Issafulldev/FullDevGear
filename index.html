@@ -6,6 +6,8 @@
   <meta name="description" content="FullDevGear – Full‑stack web development, no‑code solutions and AI integration. Portfolio, freelance services, and resume.">
   <meta name="robots" content="index,follow">
   <meta name="theme-color" content="#000000">
+  <link rel="preconnect" href="https://fonts.googleapis.com" fetchpriority="low">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin fetchpriority="low">
   <meta property="og:title" content="FullDevGear – Code, No‑Code, AI">
   <meta property="og:description" content="Transform your ideas into high‑performance digital solutions: websites, apps, automations and AI.">
   <meta property="og:type" content="website">
@@ -24,12 +26,12 @@
   <link rel="preload" href="styles/base/reset.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <link rel="preload" href="styles/base/layout.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <link rel="preload" href="styles/components/header.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <link rel="preload" href="styles/components/footer.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <link rel="preload" href="styles/components/tech-wave.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <link rel="preload" href="styles/components/forms.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <link rel="preload" href="styles/pages/cv.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <link rel="preload" href="styles/pages/build-gallery.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <link rel="preload" href="styles/utils/animations.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="styles/components/footer.css" as="style" media="(min-width: 768px)" onload="this.media='all';this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="styles/components/tech-wave.css" as="style" media="(min-width: 768px)" onload="this.media='all';this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="styles/components/forms.css" as="style" media="(min-width: 768px)" onload="this.media='all';this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="styles/pages/cv.css" as="style" media="(min-width: 768px)" onload="this.media='all';this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="styles/pages/build-gallery.css" as="style" media="(min-width: 768px)" onload="this.media='all';this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="styles/utils/animations.css" as="style" media="(min-width: 768px)" onload="this.media='all';this.onload=null;this.rel='stylesheet'">
   <noscript>
     <link rel="stylesheet" href="styles/base/variables.css">
     <link rel="stylesheet" href="styles/base/reset.css">
@@ -116,7 +118,7 @@
 
       <div class="tech-wave-container"></div>
 
-      <article id="build-gallery" class="late-animation-item" data-animation-item tabindex="-1">
+      <article id="build-gallery" data-animation-item tabindex="-1">
         <h2 data-i18n="build_gallery_title">Build Gallery</h2>
         <p data-i18n="build_gallery_desc">
           Explore my completed projects with GitHub previews and live demonstrations.
@@ -283,12 +285,12 @@
         </div>
       </article>
 
-      <article class="main-tech-horizons late-animation-item" data-animation-item hidden>
+      <article class="main-tech-horizons" data-animation-item hidden>
         <h2 data-i18n="code_craft_title">Code & Craft</h2>
         <p data-i18n="code_craft_desc">Expert development across the full stack, from responsive front-ends to scalable back-end architectures.</p>
       </article>
 
-      <article class="success-playbook late-animation-item" data-animation-item hidden>
+      <article class="success-playbook" data-animation-item hidden>
         <h2 data-i18n="digital_alchemy_title">Digital Alchemy</h2>
         <p data-i18n="digital_alchemy_desc">Turning complex business requirements into elegant, user-friendly digital experiences.</p>
         <div class="success-playbook-list">
@@ -305,7 +307,7 @@
         </div>
       </article>
 
-      <article class="testimonials late-animation-item" data-animation-item hidden>
+      <article class="testimonials" data-animation-item hidden>
         <h2>Full-stack Fluency</h2>
         <p>Proficient across technologies and platforms, delivering end-to-end solutions.</p>
         <div class="testimonials-list" data-list-container="testimonials">
@@ -313,7 +315,7 @@
         </div>
       </article>
 
-      <article data-animation-item class="late-animation-item" hidden>
+      <article data-animation-item hidden>
         <h2 data-i18n="tech_horizons_title">Tech Horizons</h2>
         <p data-i18n="tech_horizons_desc">
           We're always looking for new and exciting tech to add to our platform.
@@ -323,7 +325,7 @@
         </div>
       </article>
 
-      <article data-animation-item class="late-animation-item" hidden>
+      <article data-animation-item hidden>
         <h2 data-i18n="solution_stack_title">Solution Stack</h2>
         <p data-i18n="solution_stack_desc"></p>
         <div class="solution-stack-list" data-list-container="solution-stack">
@@ -331,7 +333,7 @@
         </div>
       </article>
 
-      <article data-animation-item class="late-animation-item" hidden>
+      <article data-animation-item hidden>
         <h2 data-i18n="client_victories_title">Client victories</h2>
         <p data-i18n="client_victories_desc"></p>
         <div class="client-victories-list" data-list-container="client-victories">
@@ -339,7 +341,7 @@
         </div>
       </article>
 
-      <article data-animation-item class="late-animation-item" hidden>
+      <article data-animation-item hidden>
         <h2 data-i18n="success_playbook_title">Success Playbook</h2>
         <p data-i18n="success_playbook_desc"></p>
         <div class="success-playbook-list" data-list-container="success-playbook-alt">
@@ -347,7 +349,7 @@
         </div>
       </article>
 
-      <article data-animation-item class="late-animation-item" hidden>
+      <article data-animation-item hidden>
         <h2 data-i18n="skill_spectrum_title">Skill Spectrum</h2>
         <p data-i18n="skill_spectrum_desc"></p>
         <div class="skill-spectrum-list" data-list-container="skill-spectrum">
@@ -355,7 +357,7 @@
         </div>
       </article>
 
-      <article data-animation-item class="late-animation-item" hidden>
+      <article data-animation-item hidden>
         <h2 data-i18n="trust_chronicles_title">Trust Chronicles</h2>
         <p data-i18n="trust_chronicles_desc"></p>
         <div class="trust-chronicles-list" data-list-container="trust-chronicles">
@@ -363,7 +365,7 @@
         </div>
       </article>
 
-      <article data-animation-item class="late-animation-item" hidden>
+      <article data-animation-item hidden>
         <h2 data-i18n="zero_to_launch_title">Zero To Launch</h2>
         <p data-i18n="zero_to_launch_desc"></p>
         <div class="zero-to-launch-list" data-list-container="zero-to-launch">
@@ -371,7 +373,7 @@
         </div>
       </article>
 
-      <article data-animation-item class="late-animation-item">
+      <article data-animation-item>
         <h2 data-i18n="contact_title">Let's Build Tomorrow</h2>
         <form action="https://formsubmit.co/issa@fulldevgear.com" method="POST" data-form-submit="contact" novalidate>
           <!-- FormSubmit config -->
@@ -403,7 +405,7 @@
         </form>
       </article>
 
-      <article data-animation-item class="late-animation-item" hidden>
+      <article data-animation-item hidden>
         <h2 data-i18n="transparent_build_rates_title">Transparent Build Rates</h2>
         <p data-i18n="transparent_build_rates_desc"></p>
         <div class="transparent-build-rates-list" data-list-container="build-rates">
@@ -411,7 +413,7 @@
         </div>
       </article>
 
-      <article data-animation-item class="late-animation-item" hidden>
+      <article data-animation-item hidden>
         <h2 data-i18n="roi_pricing_title">ROI-Driven Pricing</h2>
         <p data-i18n="roi_pricing_desc"></p>
         <div class="roi-driven-pricing-list" data-list-container="roi-pricing">

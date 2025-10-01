@@ -1,15 +1,42 @@
-import { initI18n as initI18nModule } from './modules/i18n.js';
-import { initializeTechWave as initializeTechWaveModule } from './modules/tech-wave.js';
-import { setupContactForm as setupContactFormModule } from './modules/form.js';
-import { createRouter as createRouterModule } from './modules/router.js';
-import { setupCVScrollActivation } from './modules/cv.js';
-import { setupContactPopup as setupContactPopupModule } from './modules/contact-popup.js';
+let initI18nModule;
+let initializeTechWaveModule;
+let setupContactFormModule;
+let createRouterModule;
+let setupCVScrollActivation;
+let setupContactPopupModule;
 
-// Make CV activation available for router module hooks
-window.setupCVScrollActivation = setupCVScrollActivation;
+const loadModule = async (importer, property) => {
+  const module = await importer();
+  return module[property];
+};
+
+loadModule(() => import('./modules/cv.js'), 'setupCVScrollActivation')
+  .then((fn) => {
+    setupCVScrollActivation = fn;
+    window.setupCVScrollActivation = setupCVScrollActivation;
+  })
+  .catch(() => { /* ignore */ });
 
 document.addEventListener('DOMContentLoaded', () => {
   const DEBUG = false;
+
+  const scheduleIdle = (callback, timeout = 1200) => {
+    if (typeof callback !== 'function') { return; }
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(callback, { timeout });
+    } else {
+      setTimeout(callback, 0);
+    }
+  };
+
+  const scheduleAfterLoad = (callback, timeout = 1200) => {
+    if (typeof callback !== 'function') { return; }
+    if (document.readyState === 'complete') {
+      scheduleIdle(callback, timeout);
+    } else {
+      window.addEventListener('load', () => scheduleIdle(callback, timeout), { once: true });
+    }
+  };
 
 
 
@@ -20,13 +47,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Tech wave data moved to module
   // Initialize tech wave module
-  initializeTechWaveModule();
+  const techWaveLayer = document.querySelector('.tech-wave-container');
+  if (techWaveLayer) {
+    scheduleAfterLoad(async () => {
+      if (!initializeTechWaveModule) {
+        initializeTechWaveModule = await loadModule(() => import('./modules/tech-wave.js'), 'initializeTechWave');
+      }
+      initializeTechWaveModule();
+    }, 2400);
+  }
 
   // Initialize i18n after initial DOM is ready
-  initI18nModule();
+  (async () => {
+    if (!initI18nModule) {
+      initI18nModule = await loadModule(() => import('./modules/i18n.js'), 'initI18n');
+    }
+    initI18nModule();
+  })();
 
   // --- Contact CTA Popup Logic ---
-  try { setupContactPopupModule(); } catch (_) { /* Ignore errors */ }
+  scheduleIdle(async () => {
+    if (!setupContactPopupModule) {
+      setupContactPopupModule = await loadModule(() => import('./modules/contact-popup.js'), 'setupContactPopup');
+    }
+    try { setupContactPopupModule(); } catch (_) { /* Ignore errors */ }
+  });
 
   // --- Navigation Dynamic Color Logic ---
   // --- Navigation Simple Color Logic (Ultra-optimisé) ---
@@ -73,7 +118,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // Routing handled via module
 
   // Initialize modular router (non-breaking; it uses same DOM hooks)
-  try { createRouterModule(); } catch (_) { /* Ignore errors */ }
+  (async () => {
+    if (!createRouterModule) {
+      createRouterModule = await loadModule(() => import('./modules/router.js'), 'createRouter');
+    }
+    try { createRouterModule(); } catch (_) { /* Ignore errors */ }
+  })();
 
   // CV scroll activation handled by module/router hooks
 
@@ -107,28 +157,26 @@ document.addEventListener('DOMContentLoaded', () => {
   }, { passive: true });
 
   // Contact form handled by module - no duplication needed
-  setupContactFormModule();
+  scheduleAfterLoad(async () => {
+    if (!setupContactFormModule) {
+      setupContactFormModule = await loadModule(() => import('./modules/form.js'), 'setupContactForm');
+    }
+    try { setupContactFormModule(); } catch (_) { /* Ignore errors */ }
+  }, 1800);
 
   // --- PWA Service Worker registration ---
   if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      const swUrl = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
-        ? '/sw.js'
-        : '/sw.js';
+    scheduleAfterLoad(() => {
+      const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      if (isLocalhost) {
+        if (DEBUG) { console.info('Service worker registration skipped on localhost.'); }
+        return;
+      }
 
-      fetch(swUrl, { method: 'HEAD', cache: 'no-store' })
-        .then((response) => {
-          if (response.ok) {
-            navigator.serviceWorker.register(swUrl).catch((error) => {
-              if (DEBUG) { console.warn('Service worker registration failed:', error); }
-            });
-          } else if (DEBUG) {
-            console.warn(`Service worker skipped: ${swUrl} responded with ${response.status}`);
-          }
-        })
-        .catch((error) => {
-          if (DEBUG) { console.warn('Service worker skipped: sw.js not reachable.', error); }
-        });
+      const swUrl = '/sw.js';
+      navigator.serviceWorker.register(swUrl).catch((error) => {
+        if (DEBUG) { console.warn('Service worker registration failed:', error); }
+      });
     });
   }
 });

@@ -23,10 +23,6 @@ main#main-content>section>article[data-animation-item]:not(.main-title) {
   animation-delay: var(--delay-article-content);
 }
 
-main#main-content>section#freelance-content>article.late-animation-item {
-  animation-delay: var(--delay-late-article-content);
-}
-
 .fade-in {
   animation: fadeIn var(--animation-duration-default) var(--animation-timing-ease-out) forwards;
 }
