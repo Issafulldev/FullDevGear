@@ -15,7 +15,6 @@
   <link rel="preload" href="styles/fonts.css" as="style" onload="this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="styles/fonts.css"></noscript>
   <meta name="twitter:card" content="summary_large_image">
-  <script src="https://kit.fontawesome.com/13e3207f1d.js" crossorigin="anonymous"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -60,7 +59,10 @@
       <div class="header-container-logo-cta">
         <div class="header-logo">
           <a href="#freelance">
-            <img id="header-logo" src="./assets/logos/logosite.PNG" alt="FullDevGear Logo" width="80" height="80" loading="eager">
+            <picture>
+              <source srcset="./assets/logos/logosite-256.webp" type="image/webp">
+              <img id="header-logo" src="./assets/logos/logosite-256.png" alt="FullDevGear Logo" width="80" height="80" loading="eager">
+            </picture>
             <div class="header-text-container">
               <div class="header-title-lines">
                 <p class="title-line">FULL</p>
@@ -162,12 +164,12 @@
               </div>
               <div class="project-links">
                 <a href="https://github.com/Issafulldev/ReactKasa" target="_blank" rel="noopener noreferrer" class="project-link github">
-                  <i class="fab fa-github"></i>
-                  GitHub
+                  <img src="./assets/icons/github.svg" width="18" height="18" alt="" aria-hidden="true" class="project-link-icon">
+                  <span>GitHub</span>
                 </a>
                 <a href="https://kasa.fulldevgear.com/" target="_blank" rel="noopener noreferrer" class="project-link demo">
-                  <i class="fas fa-external-link-alt"></i>
-                  Live Demo
+                  <img src="./assets/icons/external-link.svg" width="18" height="18" alt="" aria-hidden="true" class="project-link-icon">
+                  <span>Live Demo</span>
                 </a>
               </div>
             </div>
@@ -215,12 +217,12 @@
               </div>
               <div class="project-links">
                 <a href="https://github.com/Issafulldev/Kanap" target="_blank" rel="noopener noreferrer" class="project-link github">
-                  <i class="fab fa-github"></i>
-                  GitHub
+                  <img src="./assets/icons/github.svg" width="18" height="18" alt="" aria-hidden="true" class="project-link-icon">
+                  <span>GitHub</span>
                 </a>
                 <a href="https://kanap.fulldevgear.com/" target="_blank" rel="noopener noreferrer" class="project-link demo">
-                  <i class="fas fa-external-link-alt"></i>
-                  Live Demo
+                  <img src="./assets/icons/external-link.svg" width="18" height="18" alt="" aria-hidden="true" class="project-link-icon">
+                  <span>Live Demo</span>
                 </a>
               </div>
             </div>
@@ -268,12 +270,12 @@
               </div>
               <div class="project-links">
                 <a href="https://github.com/Issafulldev/FullDevGear" target="_blank" rel="noopener noreferrer" class="project-link github">
-                  <i class="fab fa-github"></i>
-                  GitHub
+                  <img src="./assets/icons/github.svg" width="18" height="18" alt="" aria-hidden="true" class="project-link-icon">
+                  <span>GitHub</span>
                 </a>
                 <a href="https://www.fulldevgear.com/" target="_blank" rel="noopener noreferrer" class="project-link demo">
-                  <i class="fas fa-external-link-alt"></i>
-                  Live Demo
+                  <img src="./assets/icons/external-link.svg" width="18" height="18" alt="" aria-hidden="true" class="project-link-icon">
+                  <span>Live Demo</span>
                 </a>
               </div>
             </div>
@@ -640,7 +642,10 @@
       <div class="footer-section footer-logo-section">
         <div class="footer-logo">
           <a href="#freelance">
-            <img id="footer-logo" src="./assets/logos/logosite.PNG" alt="FullDevGear Logo" width="50" height="50" loading="lazy">
+            <picture>
+              <source srcset="./assets/logos/logosite-256.webp" type="image/webp">
+              <img id="footer-logo" src="./assets/logos/logosite-256.png" alt="FullDevGear Logo" width="50" height="50" loading="lazy">
+            </picture>
             <div class="footer-text-container">
               <div class="footer-title-lines">
                 <p class="footer-title-line">FULL</p>
@@ -656,16 +661,19 @@
       <div class="footer-section footer-contact-info">
         <h4 data-i18n="footer_contact_me">Contact Me</h4>
         <address>
-          <a href="mailto:issa@fulldevgear.com"><i class="fa-solid fa-envelope"></i> issa@fulldevgear.com</a><br>
+          <a href="mailto:issa@fulldevgear.com">
+            <img src="./assets/icons/email.svg" width="18" height="18" alt="" aria-hidden="true" class="contact-icon">
+            <span>issa@fulldevgear.com</span>
+          </a><br>
         </address>
       </div>
 
       <div class="footer-section footer-social-media">
         <h4 data-i18n="footer_follow_me">Follow Me</h4>
         <ul class="social-icons">
-          <li><a href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile"><i class="fab fa-linkedin"></i></a></li>
-          <li><a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile"><i class="fab fa-github"></i></a></li>
-          <li><a href="https://twitter.com/yourusername" target="_blank" rel="noopener noreferrer" aria-label="Twitter Profile"><i class="fa-brands fa-x-twitter"></i></a></li>
+          <li><a href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile"><img src="./assets/icons/linkedin.svg" width="20" height="20" alt="" aria-hidden="true" class="social-icon"></a></li>
+          <li><a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile"><img src="./assets/icons/github.svg" width="20" height="20" alt="" aria-hidden="true" class="social-icon"></a></li>
+          <li><a href="https://twitter.com/yourusername" target="_blank" rel="noopener noreferrer" aria-label="Twitter Profile"><img src="./assets/icons/twitter-x.svg" width="20" height="20" alt="" aria-hidden="true" class="social-icon"></a></li>
         </ul>
       </div>
       
