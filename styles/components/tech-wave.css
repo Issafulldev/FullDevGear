@@ -16,6 +16,7 @@
   opacity: 0;
   animation: fadeInUp var(--animation-duration-smooth) var(--animation-timing-ease-out) forwards;
   animation-delay: var(--delay-tech-wave);
+  min-height: 17rem;
 }
 
 /* Mobile adjustments reverted */

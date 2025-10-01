@@ -179,7 +179,7 @@ export function createRouter() {
 
       // Double délai pour s'assurer du rendu complet
       requestAnimationFrame(() => {
-        setTimeout(positionCapsule, 10);
+        requestAnimationFrame(positionCapsule);
       });
     } else if (navUl) {
       navUl.classList.remove('nav-has-active');
