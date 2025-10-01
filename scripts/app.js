@@ -201,7 +201,15 @@ document.addEventListener('DOMContentLoaded', () => {
       const swUrl = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
         ? '/sw.js'
         : './sw.js';
-      navigator.serviceWorker.register(swUrl).catch(() => { });
+      fetch(swUrl, { method: 'HEAD' }).then((response) => {
+        if (response.ok) {
+          navigator.serviceWorker.register(swUrl).catch(() => { });
+        } else if (DEBUG) {
+          console.warn(`Service worker not registered because ${swUrl} returned ${response.status}`);
+        }
+      }).catch(() => {
+        if (DEBUG) { console.warn('Service worker not registered: sw.js not found.'); }
+      });
     });
   }
 });
