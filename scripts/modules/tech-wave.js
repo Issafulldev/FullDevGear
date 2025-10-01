@@ -9,6 +9,8 @@ export function initializeTechWave() {
   let globalSpeedMultiplier = 1.0;
   let isWaveActive = false;
   let speedUpdateScheduled = false;
+  let animationFrameId = null;
+  let lastFrameTimestamp = null;
 
   const setWaveActive = (isActive) => {
     if (isWaveActive === isActive) { return; }
@@ -24,7 +26,56 @@ export function initializeTechWave() {
     if (!isActive) {
       globalSpeedMultiplier = 1.0;
       speedUpdateScheduled = false;
+      stopAnimationLoop();
+    } else {
+      startAnimationLoop();
     }
+  };
+
+  const startAnimationLoop = () => {
+    if (animationFrameId !== null) { return; }
+    lastFrameTimestamp = null;
+    const tick = (timestamp) => {
+      if (!isWaveActive) {
+        animationFrameId = null;
+        lastFrameTimestamp = null;
+        return;
+      }
+
+      if (lastFrameTimestamp === null) { lastFrameTimestamp = timestamp; }
+      const deltaMs = Math.min(64, timestamp - lastFrameTimestamp);
+      lastFrameTimestamp = timestamp;
+      const frames = deltaMs / (1000 / 60);
+      const SCROLL_SPEED_PX = 0.5;
+
+      animationStates.forEach((state) => {
+        if (state.isPaused || !state.element || !state.singleSetWidth) { return; }
+        if (typeof state.offsetX !== 'number') { state.offsetX = 0; }
+        state.offsetX += state.baseSign * SCROLL_SPEED_PX * globalSpeedMultiplier * frames;
+
+        if (state.baseSign < 0 && Math.abs(state.offsetX) >= state.singleSetWidth) {
+          state.offsetX += state.singleSetWidth;
+        }
+
+        if (state.baseSign > 0 && state.offsetX > 0) {
+          state.offsetX -= state.singleSetWidth;
+        }
+
+        state.element.style.transform = `translate3d(${state.offsetX}px, 0, 0)`;
+      });
+
+      animationFrameId = requestAnimationFrame(tick);
+    };
+
+    animationFrameId = requestAnimationFrame(tick);
+  };
+
+  const stopAnimationLoop = () => {
+    if (animationFrameId !== null) {
+      cancelAnimationFrame(animationFrameId);
+      animationFrameId = null;
+    }
+    lastFrameTimestamp = null;
   };
 
   const initializeTechWaveNow = () => {
@@ -185,8 +236,8 @@ export function initializeTechWave() {
     const shuffledPart2 = shuffledUniqueTechnologies.slice(midPoint);
 
     animationStates = [
-      { isReverse: false, baseSign: -1, isPaused: false, animationFrameId: null, element: null, contentTotalWidth: 0 },
-      { isReverse: true, baseSign: 1, isPaused: false, animationFrameId: null, element: null, contentTotalWidth: 0 },
+      { isReverse: false, baseSign: -1, isPaused: !isWaveActive, element: null, contentTotalWidth: 0, singleSetWidth: 0, offsetX: 0 },
+      { isReverse: true, baseSign: 1, isPaused: !isWaveActive, element: null, contentTotalWidth: 0, singleSetWidth: 0, offsetX: 0 },
     ];
 
     function createTechTile(tech, currentAnimState) {
@@ -270,46 +321,22 @@ export function initializeTechWave() {
       return { scrollerElement: scroller, singleSetWidth, contentTotalWidth };
     }
 
-    function startInfiniteLoopAnimation(scrollerState) {
-      const element = scrollerState.element;
-      if (!element) { return; }
-      let currentX = 0;
-      const SCROLL_SPEED_PX = 0.5;
-      const setWidth = scrollerState.singleSetWidth || 0;
-      const step = () => {
-        if (!scrollerState.isPaused && element) {
-          const dir = scrollerState.baseSign;
-          const applied = dir * SCROLL_SPEED_PX * globalSpeedMultiplier;
-          currentX += applied;
-          if (dir < 0 && Math.abs(currentX) >= setWidth) { currentX += setWidth; }
-          if (dir > 0 && currentX > 0) { currentX -= setWidth; }
-          element.style.transform = `translateX(${currentX}px)`;
-        }
-        scrollerState.animationFrameId = requestAnimationFrame(step);
-      };
-      scrollerState.animationFrameId = requestAnimationFrame(step);
-    }
-
     const scrollerData1 = createAndAttachScroller(shuffledPart1, animationStates[0], waveContainer);
     animationStates[0].element = scrollerData1.scrollerElement;
     animationStates[0].contentTotalWidth = scrollerData1.contentTotalWidth;
     animationStates[0].singleSetWidth = scrollerData1.singleSetWidth;
+    animationStates[0].offsetX = 0;
 
     const scrollerData2 = createAndAttachScroller(shuffledPart2, animationStates[1], waveContainer);
     animationStates[1].element = scrollerData2.scrollerElement;
     animationStates[1].contentTotalWidth = scrollerData2.contentTotalWidth;
     animationStates[1].singleSetWidth = scrollerData2.singleSetWidth;
+    animationStates[1].offsetX = 0;
 
     if (scrollerData1.scrollerElement) { void scrollerData1.scrollerElement.offsetHeight; }
     if (scrollerData2.scrollerElement) { void scrollerData2.scrollerElement.offsetHeight; }
 
-    animationStates.forEach((state) => {
-      if (state && state.element && state.contentTotalWidth > 0 && state.singleSetWidth > 0) {
-        setTimeout(() => startInfiniteLoopAnimation(state), 16);
-      } else {
-        console.warn('TechWave: Cannot start loop due to invalid state.', state);
-      }
-    });
+    if (isWaveActive) { startAnimationLoop(); }
 
     const updateSpeed = (event) => {
       if (speedUpdateScheduled) { return; }
@@ -337,6 +364,9 @@ export function initializeTechWave() {
       speedUpdateScheduled = false;
       globalSpeedMultiplier = 1.0;
     });
+    waveContainer.addEventListener('touchstart', () => { globalSpeedMultiplier = 1.0; }, { passive: true });
+    waveContainer.addEventListener('touchend', () => { globalSpeedMultiplier = 1.0; }, { passive: true });
+    waveContainer.addEventListener('touchcancel', () => { globalSpeedMultiplier = 1.0; }, { passive: true });
   }
 
   const visibilityObserver = new IntersectionObserver((entries) => {
