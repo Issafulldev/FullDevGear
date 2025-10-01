@@ -14,17 +14,18 @@ main#main-content article:not(.main-title) {
 }
 
 main#main-content article h2 {
-  font-size: 1.75rem;
-  color: var(--color-text-medium);
-  margin-bottom: 1rem;
+  font-size: clamp(2rem, 3vw + 1rem, 3rem);
+  color: #111111;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
 }
 
 main#main-content article p,
 main#main-content article ul li {
   font-size: 1rem;
-  line-height: 1.6;
-  color: var(--color-text-subtle);
-  margin-bottom: 5.5rem;
+  line-height: 1.75;
+  color: #2b2b2b;
+  margin-bottom: 2rem;
 }
 
 /* Mobile: reduce excessive spacing for better density */
