@@ -62,15 +62,10 @@ export function createRouter() {
 
     if (!useTransition) {
       allSections.forEach((sec) => {
-        if (sec === sectionToShow) {
-          sec.classList.remove('fade-in', 'fade-out');
-          return;
-        }
         setSectionVisibility(sec, false);
         sec.classList.remove('fade-in', 'fade-out');
       });
       setSectionVisibility(sectionToShow, true);
-      sectionToShow.classList.remove('fade-in', 'fade-out');
       applyPageStyles(sectionId);
 
       // Nettoyer le gestionnaire de scroll si pas de transition

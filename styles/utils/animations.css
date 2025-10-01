@@ -4,10 +4,12 @@
 
 /* --- SPA & Animation Classes --- */
 main#main-content .main-content-area {
+  display: none;
   opacity: 0;
 }
 
 main#main-content .main-content-area:not([hidden]) {
+  display: block;
   opacity: 1;
 }
 
@@ -21,6 +23,10 @@ main#main-content>section>article[data-animation-item]:not(.main-title) {
   opacity: 0;
   animation: fadeInUp var(--animation-duration-default) var(--animation-timing-ease-out) forwards;
   animation-delay: var(--delay-article-content);
+}
+
+main#main-content>section#freelance-content>article.late-animation-item {
+  animation-delay: var(--delay-late-article-content);
 }
 
 .fade-in {

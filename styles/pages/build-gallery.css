@@ -6,9 +6,11 @@
   background-color: var(--color-footer-bg);
   margin: 3rem 0;
   padding: 2.5rem 1rem;
-  min-height: 400px;
   border-top: 1px solid var(--color-border-medium);
   border-bottom: 1px solid var(--color-border-medium);
+  opacity: 0;
+  animation: zoomIn var(--animation-duration-default) var(--animation-timing-ease-out) forwards;
+  animation-delay: var(--delay-late-article-content);
 }
 
 #build-gallery h2 {
@@ -74,7 +76,6 @@
 #build-gallery .project-preview {
   position: relative;
   height: 260px;
-  min-height: 260px;
   background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
   display: flex;
   align-items: center;

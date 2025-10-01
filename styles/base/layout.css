@@ -8,10 +8,6 @@ main#main-content {
   /* Offset for fixed header with extra large logo */
 }
 
-main#main-content {
-  min-height: 100vh;
-}
-
 main#main-content article:not(.main-title) {
   padding: 1rem;
   margin-bottom: 3rem;
