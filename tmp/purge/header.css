@@ -1,0 +1,546 @@
+/* ==========================================================================
+   Header & Navigation - FullDevGear
+   ========================================================================== */
+
+/* --- Header --- */
+.header-container-logo-cta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  padding: 1rem;
+  background-color: var(--color-background-light);
+  z-index: var(--z-index-header-top);
+  transition: all 0.3s ease;
+  will-change: transform, opacity, background-color, border-radius;
+  backface-visibility: hidden;
+  min-height: 8rem;
+}
+
+/* État du header lors du scroll */
+.header-container-logo-cta.scrolled {
+  background-color: rgba(230, 230, 230, 0.9);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom-left-radius: 0.75rem;
+  border-bottom-right-radius: 0.75rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* État du header lors du scroll sur la page CV */
+body.cv-dark-mode .header-container-logo-cta.scrolled {
+  background-color: rgba(0, 0, 0, 0.9);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Titre FullDevGear blanc sur la page CV */
+body.cv-dark-mode .title-line {
+  color: var(--color-text-light);
+}
+
+body.cv-dark-mode .title-dash {
+  color: var(--color-text-light);
+}
+
+body.cv-dark-mode .header-logo .header-tagline {
+  color: var(--color-text-light);
+}
+
+body.cv-dark-mode .mobile-title-line {
+  color: var(--color-text-light);
+}
+
+body.cv-dark-mode .mobile-title-dash {
+  color: var(--color-text-light);
+}
+
+body.cv-dark-mode .header-title-mobile .header-tagline-mobile {
+  color: var(--color-text-light);
+}
+
+.header-logo a {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  height: 6rem;
+  padding-top: 0.9rem;
+  position: relative;
+}
+
+.header-text-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+/* Styles pour le titre multi-lignes */
+.header-title-lines {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.05rem;
+}
+
+.title-line {
+  color: var(--color-text-dark);
+  font-weight: 900;
+  font-family: 'Archivo Black', sans-serif;
+  margin: 0;
+  padding: 0;
+  font-size: 1.2rem;
+  line-height: 0.75;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  transition: color var(--animation-duration-smooth) var(--animation-timing-smooth);
+}
+
+.title-dash {
+  font-weight: 900;
+  color: var(--color-text-dark);
+}
+
+.header-logo .header-tagline {
+  font-size: 0.5rem;
+  color: var(--color-text-dark);
+  margin: 0.1rem 0 0 0;
+  font-weight: 700;
+  font-family: 'Archivo Black', sans-serif;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+#header-logo {
+  width: auto;
+  height: calc(((1.2rem * 0.75 * 3) + 0.05rem + 0.05rem + 0.15rem + 0.5rem + 0.1rem) * 1.32);
+  /* 3 lignes titre (avec gaps entre) + gap titre/tagline + tagline + marge + 32% */
+  max-width: 5.94rem;
+  object-fit: contain;
+  animation: logoFloat 6s ease-in-out infinite, logoGlow 5s ease-in-out infinite;
+  transition: all 0.3s ease;
+  position: relative;
+  top: -20%;
+}
+
+
+
+.header-container-logo-cta .header-logo {
+  opacity: 0;
+  animation: fadeInDown var(--animation-duration-default) var(--animation-timing-ease-out) forwards;
+  animation-delay: var(--delay-header-logo);
+}
+
+/* Masquer le titre mobile sur desktop */
+@media (min-width: 769px) {
+  .header-title-mobile {
+    display: none !important;
+  }
+}
+
+.header-container-logo-cta #contact-cta-btn {
+  opacity: 0;
+  animation: fadeInDown var(--animation-duration-default) var(--animation-timing-ease-out) forwards;
+  animation-delay: var(--delay-contact-cta);
+}
+
+/* Make language toggle appear with the contact button */
+.header-container-logo-cta #lang-toggle {
+  opacity: 0;
+  animation: fadeInDown var(--animation-duration-default) var(--animation-timing-ease-out) forwards;
+  animation-delay: var(--delay-contact-cta);
+}
+
+/* --- Navigation --- */
+.header-container nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--color-accent-yellow);
+  color: var(--color-text-dark);
+  padding: 1rem 1.25rem;
+  border-radius: 1.875rem;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1100;
+  opacity: 0;
+  animation: navFadeIn 0.6s ease-out forwards;
+  animation-delay: var(--delay-nav-slide);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  will-change: background-color, color;
+  backface-visibility: hidden;
+  /* safe-area padding reverted */
+}
+
+/* Desktop Navigation - Centré par rapport au logo (6rem de hauteur + 1rem de padding) */
+@media (min-width: 768px) {
+  .header-container nav {
+    top: 2rem;
+    /* 1rem padding + 1rem pour centrer dans les 6rem du logo */
+    bottom: auto;
+    transform: translateX(-50%);
+  }
+}
+
+.header-container nav ul {
+  display: flex;
+  gap: 5rem;
+  list-style: none;
+  position: relative;
+}
+
+.header-container nav ul li {
+  position: relative;
+  z-index: 2;
+}
+
+.header-container nav ul li a {
+  color: var(--color-text-dark);
+  font-weight: 500;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+  opacity: 0.7;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  position: relative;
+}
+
+.header-container nav ul li a:hover {
+  opacity: 0.9;
+}
+
+.header-container nav ul li a.nav-active {
+  color: var(--color-text-dark);
+  font-weight: 600;
+  opacity: 1;
+}
+
+/* Capsule liquid glass qui se déplace */
+.header-container nav ul::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 20px;
+  transition: all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1),
+    0 1px 3px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  z-index: 1;
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+.header-container nav ul.nav-has-active::before {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Propriétés CSS personnalisées pour le positionnement dynamique */
+.header-container nav ul {
+  --capsule-left: 0px;
+  --capsule-width: 80px;
+}
+
+.header-container nav ul::before {
+  left: var(--capsule-left);
+  width: var(--capsule-width);
+}
+
+/* Navbar uniforme sur toutes les pages */
+
+/* Nav Inverted State - Removed (using fixed color like contact button) */
+
+/* --- Contact CTA --- */
+#contact-cta-btn {
+  --contact-btn-height: 2.75rem;
+  background-color: var(--color-accent-yellow);
+  color: var(--color-text-dark);
+  height: var(--contact-btn-height);
+  min-width: var(--contact-btn-height);
+  padding: 0 1rem;
+  margin-right: 0;
+  /* spacing handled by container gap */
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: background-color 0.25s ease, color 0.25s ease, transform 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: none;
+}
+
+#contact-cta-btn.active {
+  background-color: var(--color-text-dark);
+  color: var(--color-text-light);
+  transform: translateY(0);
+}
+
+#contact-cta-btn:hover {
+  background-color: var(--color-text-dark);
+  color: var(--color-text-light);
+  transform: translateY(-1px);
+}
+
+#contact-cta-btn {
+  position: relative;
+}
+
+#contact-cta-btn:focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 2px;
+}
+
+.header-cta {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Language toggle button */
+#lang-toggle {
+  --contact-btn-height: 2.75rem;
+  background-color: transparent;
+  color: var(--color-text-dark);
+  height: var(--contact-btn-height);
+  min-width: var(--contact-btn-height);
+  padding: 0 0.75rem;
+  border: 2px solid var(--color-text-dark);
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+#lang-toggle:hover {
+  background-color: var(--color-accent-yellow);
+  border-color: var(--color-accent-yellow);
+  color: var(--color-text-dark);
+}
+
+#lang-toggle:focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* Dark mode adaptation on CV page */
+body.cv-dark-mode #lang-toggle {
+  color: var(--color-text-light);
+  border-color: var(--color-text-light);
+}
+
+body.cv-dark-mode #lang-toggle:hover {
+  background-color: var(--color-accent-yellow);
+  border-color: var(--color-accent-yellow);
+  color: var(--color-text-dark);
+}
+
+/* Hide language entry inside contact menu on desktop by default */
+.contact-popup .lang-menu-item {
+  display: none;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .header-container-logo-cta {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  /* Case 1: Logo à gauche */
+  .header-logo {
+    grid-column: 1;
+    justify-self: start;
+    display: block;
+    opacity: 0;
+    animation: fadeInDown var(--animation-duration-default) var(--animation-timing-ease-out) forwards;
+    animation-delay: var(--delay-header-logo);
+  }
+
+  .header-logo a {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding-top: 0.495rem;
+    position: relative;
+  }
+
+  .header-logo a img {
+    width: auto;
+    height: calc(((1.1rem * 0.75 * 3) + 0.05rem + 0.05rem + 0.1rem + 0.45rem + 0.1rem) * 1.32);
+    /* Mobile : 3 lignes titre (avec gaps entre) + gap titre/tagline + tagline + marge + 32% */
+    max-width: 4.224rem;
+    object-fit: contain;
+    position: relative;
+    top: 0%;
+  }
+
+  /* Spécificité plus élevée pour mobile avec ID */
+  #header-logo {
+    top: 0% !important;
+  }
+
+  /* Page CV - Texte blanc en mode mobile */
+  body.cv-dark-mode .header-title-mobile .mobile-title-lines .mobile-title-line {
+    color: var(--color-text-light) !important;
+  }
+
+  body.cv-dark-mode .header-title-mobile .mobile-title-lines .mobile-title-dash {
+    color: var(--color-text-light) !important;
+  }
+
+  body.cv-dark-mode .header-title-mobile .header-tagline-mobile {
+    color: var(--color-text-light) !important;
+  }
+
+  .header-logo a p {
+    display: none;
+    /* Masquer le texte dans la case logo */
+  }
+
+  .header-logo .header-text-container {
+    display: none;
+    /* Masquer le texte et tagline dans la case logo sur mobile */
+  }
+
+  /* Afficher le tagline sous le titre mobile */
+  .header-title-mobile .header-tagline-mobile {
+    display: block !important;
+    font-size: 0.5rem !important;
+    color: var(--color-text-dark) !important;
+    margin: 0.1rem 0 0 0 !important;
+    font-weight: 700 !important;
+    font-family: 'Archivo Black', sans-serif !important;
+    text-align: left !important;
+    letter-spacing: 0.12em !important;
+    text-transform: uppercase !important;
+  }
+
+  /* Case 2: Texte au centre - Élément HTML dédié */
+  .header-title-mobile {
+    display: block !important;
+    grid-column: 2;
+    justify-self: center;
+    align-self: center;
+    opacity: 0;
+    animation: fadeInDown var(--animation-duration-default) var(--animation-timing-ease-out) forwards;
+    animation-delay: var(--delay-header-logo);
+  }
+
+  /* Styles pour mobile - structure multilignes */
+  .mobile-title-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.15rem;
+  }
+
+  .mobile-title-lines {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.05rem;
+  }
+
+  .header-title-mobile .mobile-title-lines .mobile-title-line {
+    font-family: 'Archivo Black', sans-serif !important;
+    font-size: 1.2rem !important;
+    font-weight: 900 !important;
+    color: var(--color-text-dark) !important;
+    text-decoration: none !important;
+    transition: color 0.3s ease;
+    letter-spacing: -0.01em !important;
+    text-transform: uppercase !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 0.75 !important;
+  }
+
+  .mobile-title-dash {
+    font-weight: 900;
+    color: var(--color-text-dark);
+  }
+
+  .header-title-mobile a:hover {
+    color: var(--color-primary);
+  }
+
+  /* Case 3: Bouton de contact à droite */
+  .header-cta {
+    grid-column: 3;
+    justify-self: end;
+    gap: 0.25rem;
+  }
+
+  /* On mobile: hide inline language toggle to declutter header */
+  #lang-toggle {
+    display: none;
+  }
+
+  /* Improve spacing for the popup language item */
+  .contact-popup .lang-menu-item a {
+    font-weight: 700;
+  }
+
+  /* On mobile: show language entry inside contact popup */
+  .contact-popup .lang-menu-item {
+    display: list-item;
+  }
+
+  /* Ajustements pour mobile du liquid glass */
+  .header-container nav ul {
+    gap: 3rem;
+  }
+
+  .header-container nav ul li a {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+  }
+
+  .header-container nav ul::before {
+    border-radius: 18px;
+  }
+}
+
+@media (min-width: 992px) {
+  .header-container nav {
+    padding: 1rem 2rem;
+  }
+
+  .header-logo .header-tagline {
+    font-size: 0.6rem;
+  }
+
+  .title-line {
+    font-size: 1.4rem;
+  }
+
+  #header-logo {
+    height: calc(((1.4rem * 0.75 * 3) + 0.05rem + 0.05rem + 0.15rem + 0.6rem + 0.1rem) * 1.32);
+    /* 3 lignes titre (avec gaps entre) + gap titre/tagline + tagline + marge + 32% */
+    max-width: 7.26rem;
+  }
+}

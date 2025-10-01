@@ -1,0 +1,217 @@
+/* ==========================================================================
+   Footer - FullDevGear
+   ========================================================================== */
+
+footer {
+  background-color: var(--color-footer-bg);
+  color: var(--color-footer-text);
+  padding: 3rem 1rem 1rem;
+  margin-top: auto;
+  z-index: var(--z-index-footer);
+}
+
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 2rem;
+  max-width: 75rem;
+  margin: 0 auto;
+}
+
+.footer-section {
+  flex: 1 1 12.5rem;
+  min-width: 12.5rem;
+  margin-bottom: 2rem;
+}
+
+.footer-logo-section .footer-logo a {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
+  position: relative;
+}
+
+.footer-text-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+/* Styles pour le titre footer multi-lignes */
+.footer-title-lines {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.05rem;
+}
+
+.footer-title-line {
+  color: var(--color-text-light);
+  font-weight: 900;
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 1.2rem;
+  margin: 0;
+  padding: 0;
+  line-height: 0.75;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+.footer-title-dash {
+  font-weight: 900;
+  color: var(--color-text-light);
+}
+
+.footer-tagline {
+  font-size: 0.5rem;
+  color: var(--color-text-light);
+  margin: 0.1rem 0 0 0;
+  font-weight: 700;
+  font-family: 'Archivo Black', sans-serif;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Footer logo animation */
+#footer-logo {
+  width: auto;
+  height: calc(((1.2rem * 0.75 * 3) + 0.05rem + 0.05rem + 0.15rem + 0.5rem + 0.1rem) * 1.32);
+  /* 3 lignes titre (avec gaps entre) + gap titre/tagline + tagline + marge + 32% */
+  max-width: 5.28rem;
+  object-fit: contain;
+  animation: logoFloatFooter 6s ease-in-out infinite, logoGlow 5s ease-in-out infinite;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+/* Desktop: Same dimensions as header */
+@media (min-width: 768px) {
+  #footer-logo {
+    height: calc(((1.4rem * 0.75 * 3) + 0.05rem + 0.05rem + 0.15rem + 0.6rem + 0.1rem) * 1.32);
+    /* 3 lignes titre (avec gaps entre) + gap titre/tagline + tagline + marge + 32% */
+    max-width: 6.6rem;
+  }
+
+  .footer-title-line {
+    font-size: 1.4rem;
+  }
+
+  .footer-logo-section .footer-logo a {
+    gap: 0.8rem;
+    height: auto;
+  }
+
+  .footer-tagline {
+    font-size: 0.6rem;
+  }
+}
+
+/* Mobile: Ensure footer uses same structure as desktop */
+@media (max-width: 767px) {
+  .footer-title-line {
+    font-size: 1.2rem;
+  }
+
+  .footer-tagline {
+    font-size: 0.5rem;
+  }
+}
+
+/* Animation spécifique pour le footer logo avec décalage */
+@keyframes logoFloatFooter {
+
+  0%,
+  100% {
+    transform: translateY(-20%) rotate(0deg);
+  }
+
+  33% {
+    transform: translateY(calc(-20% - 3px)) rotate(1deg);
+  }
+
+  66% {
+    transform: translateY(calc(-20% - 1px)) rotate(-1deg);
+  }
+}
+
+
+
+.footer-section h4 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--color-text-light);
+  border-bottom: 1px solid var(--color-border-medium);
+  padding-bottom: 0.5rem;
+}
+
+.footer-contact-info address {
+  font-style: normal;
+  line-height: 1.6;
+}
+
+.footer-contact-info address a,
+.footer-contact-info address span {
+  color: var(--color-footer-text);
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.footer-contact-info address a:hover {
+  color: var(--color-accent-yellow);
+}
+
+.footer-contact-info address i.fa-solid {
+  margin-right: 0.75rem;
+  color: var(--color-accent-yellow);
+  width: 1.25em;
+  text-align: center;
+  font-size: 1rem;
+}
+
+.social-icons {
+  list-style: none;
+  display: flex;
+  gap: 1.25rem;
+}
+
+.social-icons li a {
+  color: var(--color-footer-text);
+  font-size: 1.75rem;
+  transition: color 0.3s ease, transform 0.2s ease;
+  display: inline-block;
+}
+
+.social-icons li a:hover {
+  color: var(--color-accent-yellow);
+  transform: scale(1.1);
+}
+
+.footer-nav ul {
+  list-style: none;
+}
+
+.footer-nav ul li a {
+  color: var(--color-footer-text);
+  display: block;
+  padding: 0.3rem 0;
+  transition: color 0.3s ease, padding-left 0.3s ease;
+}
+
+.footer-nav ul li a:hover {
+  color: var(--color-accent-yellow);
+  padding-left: 0.5rem;
+}
+
+.footer-copyright {
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-border-medium);
+  font-size: 0.875rem;
+  color: var(--color-text-footer-copyright);
+}

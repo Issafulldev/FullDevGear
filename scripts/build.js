@@ -25,8 +25,8 @@ function walk(dir, exts) {
   const out = [];
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     const p = path.join(dir, entry.name);
-    if (entry.isDirectory()) {out.push(...walk(p, exts));}
-    else if (!exts || exts.includes(path.extname(p))) {out.push(p);}
+    if (entry.isDirectory()) { out.push(...walk(p, exts)); }
+    else if (!exts || exts.includes(path.extname(p))) { out.push(p); }
   }
   return out;
 }
@@ -51,7 +51,7 @@ async function buildHtml() {
 
 async function buildCss() {
   const cssDir = path.join(ROOT, 'styles');
-  if (!fs.existsSync(cssDir)) {return;}
+  if (!fs.existsSync(cssDir)) { return; }
   const files = walk(cssDir, ['.css']);
   for (const file of files) {
     const rel = path.relative(ROOT, file);
@@ -65,7 +65,7 @@ async function buildCss() {
 
 async function buildJs() {
   const jsDir = path.join(ROOT, 'scripts');
-  if (!fs.existsSync(jsDir)) {return;}
+  if (!fs.existsSync(jsDir)) { return; }
   const files = walk(jsDir, ['.js']);
   for (const file of files) {
     const rel = path.relative(ROOT, file);
@@ -79,7 +79,7 @@ async function buildJs() {
 
 async function copyAssets() {
   const assetsDir = path.join(ROOT, 'assets');
-  if (!fs.existsSync(assetsDir)) {return;}
+  if (!fs.existsSync(assetsDir)) { return; }
   const files = walk(assetsDir);
   for (const file of files) {
     const rel = path.relative(ROOT, file);
@@ -99,17 +99,17 @@ async function copyAssets() {
 async function main() {
   const target = process.argv[2] || 'all';
   ensureDir(DIST);
-  if (target === 'all' || target === 'html') {await buildHtml();}
-  if (target === 'all' || target === 'css') {await buildCss();}
-  if (target === 'all' || target === 'js') {await buildJs();}
-  if (target === 'all') {await copyAssets();}
+  if (target === 'all' || target === 'html') { await buildHtml(); }
+  if (target === 'all' || target === 'css') { await buildCss(); }
+  if (target === 'all' || target === 'js') { await buildJs(); }
+  if (target === 'all') { await copyAssets(); }
   // Generate Workbox service worker with precache of dist assets
   try {
     // Lazy-require to avoid hard dependency during dev if not installed
     workboxBuild = workboxBuild || require('workbox-build');
     await workboxBuild.generateSW({
       globDirectory: DIST,
-      globPatterns: ['**/*.{html,js,css,webmanifest,svg,png,webp,jpg,jpeg,gif}'],
+      globPatterns: ['**/*.{html,js,css,webmanifest,svg,png,webp,jpg,jpeg,gif,woff2}'],
       swDest: path.join(DIST, 'sw.js'),
       clientsClaim: true,
       skipWaiting: true,
@@ -134,6 +134,15 @@ async function main() {
           urlPattern: ({ request }) => ['style', 'script', 'worker'].includes(request.destination),
           handler: 'StaleWhileRevalidate',
           options: { cacheName: 'static-resources' },
+        },
+        {
+          urlPattern: ({ request }) => request.destination === 'font',
+          handler: 'CacheFirst',
+          options: {
+            cacheName: 'fonts',
+            expiration: { maxEntries: 30, maxAgeSeconds: 365 * 24 * 60 * 60 },
+            cacheableResponse: { statuses: [0, 200] },
+          },
         },
       ],
       navigateFallback: 'index.html',

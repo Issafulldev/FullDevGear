@@ -12,6 +12,8 @@
   <meta property="og:image" content="./assets/projects/FullDevGear/FullDevGear-preview.webp">
   <meta property="og:url" content="https://www.fulldevgear.com/">
   <link rel="canonical" href="https://www.fulldevgear.com/">
+  <link rel="preload" href="styles/fonts.css" as="style" onload="this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="styles/fonts.css"></noscript>
   <meta name="twitter:card" content="summary_large_image">
   <script src="https://kit.fontawesome.com/13e3207f1d.js" crossorigin="anonymous"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -121,7 +123,16 @@
           <!-- Project 1 - ReactKasa -->
           <div class="project-card">
             <div class="project-preview">
-              <img src="./assets/projects/Kasa/kasa-preview.webp" alt="Kasa - Real Estate Rental Platform Screenshot" class="project-preview-image" loading="lazy" width="1200" height="800">
+              <img
+                src="./assets/projects/Kasa/kasa-preview-medium.webp"
+                srcset="./assets/projects/Kasa/kasa-preview-small.webp 480w, ./assets/projects/Kasa/kasa-preview-medium.webp 800w, ./assets/projects/Kasa/kasa-preview-large.webp 1200w"
+                sizes="(max-width: 600px) 90vw, (max-width: 1200px) 45vw, 30vw"
+                alt="Kasa - Real Estate Rental Platform Screenshot"
+                class="project-preview-image"
+                loading="lazy"
+                decoding="async"
+                width="1200"
+                height="800">
             </div>
             <div class="project-info">
               <div class="project-header">
@@ -165,7 +176,16 @@
           <!-- Project 2 - Kanap -->
           <div class="project-card">
             <div class="project-preview">
-              <img src="./assets/projects/Kanap/kanap-preview.webp" alt="Kanap - Furniture E-commerce Screenshot" class="project-preview-image" loading="lazy" width="1200" height="800">
+              <img
+                src="./assets/projects/Kanap/kanap-preview-medium.webp"
+                srcset="./assets/projects/Kanap/kanap-preview-small.webp 480w, ./assets/projects/Kanap/kanap-preview-medium.webp 800w, ./assets/projects/Kanap/kanap-preview-large.webp 1200w"
+                sizes="(max-width: 600px) 90vw, (max-width: 1200px) 45vw, 30vw"
+                alt="Kanap - Furniture E-commerce Screenshot"
+                class="project-preview-image"
+                loading="lazy"
+                decoding="async"
+                width="1200"
+                height="800">
             </div>
             <div class="project-info">
               <div class="project-header">
@@ -209,7 +229,16 @@
           <!-- Project 3 - FullDevGear -->
           <div class="project-card">
             <div class="project-preview">
-              <img src="./assets/projects/FullDevGear/FullDevGear-preview.webp" alt="FullDevGear - Portfolio & Freelance Hub Screenshot" class="project-preview-image" loading="lazy" width="1200" height="800">
+              <img
+                src="./assets/projects/FullDevGear/FullDevGear-preview-medium.webp"
+                srcset="./assets/projects/FullDevGear/FullDevGear-preview-small.webp 480w, ./assets/projects/FullDevGear/FullDevGear-preview-medium.webp 800w, ./assets/projects/FullDevGear/FullDevGear-preview-large.webp 1200w"
+                sizes="(max-width: 600px) 90vw, (max-width: 1200px) 45vw, 30vw"
+                alt="FullDevGear - Portfolio & Freelance Hub Screenshot"
+                class="project-preview-image"
+                loading="lazy"
+                decoding="async"
+                width="1200"
+                height="800">
             </div>
             <div class="project-info">
               <div class="project-header">

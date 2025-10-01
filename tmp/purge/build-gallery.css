@@ -1,0 +1,365 @@
+/* ==========================================================================
+   Build Gallery Component - FullDevGear
+   ========================================================================== */
+
+#build-gallery {
+  background-color: var(--color-footer-bg);
+  margin: 3rem 0;
+  padding: 2.5rem 1rem;
+  border-top: 1px solid var(--color-border-medium);
+  border-bottom: 1px solid var(--color-border-medium);
+  opacity: 0;
+  animation: zoomIn var(--animation-duration-default) var(--animation-timing-ease-out) forwards;
+  animation-delay: var(--delay-late-article-content);
+}
+
+#build-gallery h2 {
+  font-size: 2rem;
+  font-weight: 900;
+  margin: 0 1rem 1rem;
+  color: #ffffff !important;
+}
+
+#build-gallery p {
+  color: #ffffff !important;
+  margin: 0 1rem 2rem;
+  max-width: none;
+}
+
+#build-gallery .build-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+  padding: 0.5rem;
+  align-items: stretch;
+}
+
+#build-gallery .project-card {
+  background: white;
+  border: 1px solid var(--color-border-light);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  position: relative;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+#build-gallery .project-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--color-primary);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+  transform-origin: left;
+  z-index: 1;
+}
+
+#build-gallery .project-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+  border-color: var(--color-primary);
+}
+
+#build-gallery .project-card:hover::before {
+  transform: scaleX(1);
+}
+
+#build-gallery .project-preview {
+  position: relative;
+  height: 260px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+#build-gallery .project-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+#build-gallery .project-card:hover .project-preview img {
+  transform: scale(1.05);
+}
+
+/* Project preview images */
+#build-gallery .project-preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+#build-gallery .project-card:hover .project-preview-image {
+  transform: scale(1.05);
+}
+
+#build-gallery .project-info {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+#build-gallery .project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  gap: 1rem;
+}
+
+#build-gallery .project-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-text-medium);
+  margin: 0;
+  line-height: 1.3;
+}
+
+#build-gallery .project-status {
+  background: linear-gradient(135deg, var(--color-primary), #0056b3);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+#build-gallery .project-status.completed {
+  background: linear-gradient(135deg, #28a745, #20c997);
+}
+
+#build-gallery .project-status.in-progress {
+  background: linear-gradient(135deg, #ffc107, #fd7e14);
+}
+
+#build-gallery .project-description {
+  color: var(--color-text-subtle);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  flex-grow: 1;
+}
+
+#build-gallery .project-tech-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+#build-gallery .tech-badge {
+  background: #222222;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  border-radius: 25px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: none;
+}
+
+#build-gallery .tech-badge .tech-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  transition: all 0.3s ease;
+}
+
+/* Icon Colors - Base state is colored */
+#build-gallery .tech-badge[data-tech="html5"] .tech-icon {
+  filter: invert(35%) sepia(89%) saturate(1464%) hue-rotate(8deg) brightness(96%) contrast(93%);
+}
+
+#build-gallery .tech-badge[data-tech="css"] .tech-icon {
+  filter: invert(23%) sepia(89%) saturate(2851%) hue-rotate(269deg) brightness(71%) contrast(107%);
+}
+
+#build-gallery .tech-badge[data-tech="javascript"] .tech-icon {
+  filter: invert(89%) sepia(58%) saturate(2834%) hue-rotate(359deg) brightness(104%) contrast(97%);
+}
+
+#build-gallery .tech-badge[data-tech="react"] .tech-icon {
+  filter: invert(74%) sepia(23%) saturate(1647%) hue-rotate(170deg) brightness(103%) contrast(96%);
+}
+
+#build-gallery .tech-badge[data-tech="nodejs"] .tech-icon {
+  filter: invert(42%) sepia(98%) saturate(1352%) hue-rotate(87deg) brightness(119%) contrast(119%);
+}
+
+#build-gallery .tech-badge[data-tech="vite"] .tech-icon {
+  filter: none;
+}
+
+#build-gallery .tech-badge[data-tech="scss"] .tech-icon {
+  filter: invert(70%) sepia(45%) saturate(1200%) hue-rotate(295deg) brightness(110%) contrast(95%);
+}
+
+#build-gallery .project-links {
+  display: flex;
+  gap: 1rem;
+  margin-top: auto;
+}
+
+#build-gallery .project-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  flex: 1;
+  justify-content: center;
+  min-height: 44px;
+  /* touch target */
+}
+
+#build-gallery .project-link.github {
+  background: var(--color-text-dark);
+  color: white;
+  border: 2px solid var(--color-text-dark);
+}
+
+#build-gallery .project-link.github:hover {
+  background: transparent;
+  color: var(--color-text-dark);
+  transform: translateY(-2px);
+}
+
+#build-gallery .project-link.demo {
+  background: transparent;
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+}
+
+#build-gallery .project-link.demo:hover {
+  background: var(--color-primary);
+  color: white;
+  transform: translateY(-2px);
+}
+
+#build-gallery .project-link i {
+  font-size: 1rem;
+}
+
+/* --- Hover-capable devices (Desktop) --- */
+@media (hover: hover) and (pointer: fine) {
+  #build-gallery .tech-badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  }
+
+  #build-gallery .tech-badge:hover .tech-icon {
+    transform: scale(1.1);
+  }
+
+  /* Add colored glow on individual icon hover */
+  #build-gallery .tech-badge[data-tech="html5"]:hover .tech-icon {
+    filter: invert(35%) sepia(89%) saturate(1464%) hue-rotate(8deg) brightness(96%) contrast(93%) drop-shadow(0 0 6px rgba(227, 79, 38, 0.6));
+  }
+
+  #build-gallery .tech-badge[data-tech="css"]:hover .tech-icon {
+    filter: invert(23%) sepia(89%) saturate(2851%) hue-rotate(269deg) brightness(71%) contrast(107%) drop-shadow(0 0 6px rgba(102, 51, 153, 0.6));
+  }
+
+  #build-gallery .tech-badge[data-tech="javascript"]:hover .tech-icon {
+    filter: invert(89%) sepia(58%) saturate(2834%) hue-rotate(359deg) brightness(104%) contrast(97%) drop-shadow(0 0 6px rgba(247, 223, 30, 0.6));
+  }
+
+  #build-gallery .tech-badge[data-tech="react"]:hover .tech-icon {
+    filter: invert(74%) sepia(23%) saturate(1647%) hue-rotate(170deg) brightness(103%) contrast(96%) drop-shadow(0 0 6px rgba(97, 218, 251, 0.6));
+  }
+
+  #build-gallery .tech-badge[data-tech="nodejs"]:hover .tech-icon {
+    filter: invert(42%) sepia(98%) saturate(1352%) hue-rotate(87deg) brightness(119%) contrast(119%) drop-shadow(0 0 6px rgba(104, 160, 99, 0.6));
+  }
+
+  #build-gallery .tech-badge[data-tech="vite"]:hover .tech-icon {
+    filter: drop-shadow(0 0 8px rgba(65, 209, 255, 0.6)) drop-shadow(0 0 12px rgba(255, 234, 131, 0.4));
+  }
+
+  #build-gallery .tech-badge[data-tech="scss"]:hover .tech-icon {
+    filter: invert(70%) sepia(45%) saturate(1200%) hue-rotate(295deg) brightness(110%) contrast(95%) drop-shadow(0 0 6px rgba(230, 150, 190, 0.6));
+  }
+}
+
+/* --- Touch devices (Mobile) --- */
+@media (hover: none) and (pointer: coarse) {
+  #build-gallery .tech-badge:active {
+    transform: scale(0.95);
+  }
+}
+
+/* Responsive styles for Build Gallery */
+@media (max-width: 768px) {
+  #build-gallery {
+    padding: 2rem 1rem;
+  }
+
+  #build-gallery .build-gallery-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  #build-gallery .project-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  #build-gallery .project-links {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  #build-gallery .project-link {
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  #build-gallery .tech-badge {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.8rem;
+    gap: 0.4rem;
+  }
+
+  #build-gallery .tech-badge .tech-icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  #build-gallery .project-preview {
+    height: 200px;
+  }
+
+  #build-gallery .project-title {
+    font-size: 1.1rem;
+  }
+
+  #build-gallery .project-description {
+    font-size: 0.9rem;
+  }
+}
