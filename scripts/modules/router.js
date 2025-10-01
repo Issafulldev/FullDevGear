@@ -56,8 +56,8 @@ export function createRouter() {
     const setSectionVisibility = (section, isVisible) => {
       section.hidden = !isVisible;
       section.setAttribute('aria-hidden', String(!isVisible));
-      if (!isVisible) { section.setAttribute('inert', ''); }
-      else { section.removeAttribute('inert'); }
+      if (!isVisible) { section.setAttribute('inert', ''); section.style.position = 'absolute'; section.style.pointerEvents = 'none'; }
+      else { section.removeAttribute('inert'); section.style.position = ''; section.style.pointerEvents = ''; }
     };
 
     if (!useTransition) {

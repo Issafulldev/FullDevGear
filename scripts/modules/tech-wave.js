@@ -11,6 +11,8 @@ export function initializeTechWave() {
   let speedUpdateScheduled = false;
   let animationFrameId = null;
   let lastFrameTimestamp = null;
+  let smoothPauseTimer = null;
+  let smoothResumeTimer = null;
 
   const setWaveActive = (isActive) => {
     if (isWaveActive === isActive) { return; }
@@ -27,8 +29,10 @@ export function initializeTechWave() {
       globalSpeedMultiplier = 1.0;
       speedUpdateScheduled = false;
       stopAnimationLoop();
+      clearSmoothTimers();
     } else {
       startAnimationLoop();
+      scheduleSmoothPause();
     }
   };
 
@@ -78,6 +82,30 @@ export function initializeTechWave() {
     lastFrameTimestamp = null;
   };
 
+  const clearSmoothTimers = () => {
+    if (smoothPauseTimer) {
+      clearTimeout(smoothPauseTimer);
+      smoothPauseTimer = null;
+    }
+    if (smoothResumeTimer) {
+      clearTimeout(smoothResumeTimer);
+      smoothResumeTimer = null;
+    }
+  };
+
+  const scheduleSmoothPause = () => {
+    clearSmoothTimers();
+    smoothPauseTimer = setTimeout(() => {
+      if (!isWaveActive) { return; }
+      globalSpeedMultiplier = Math.max(0.18, globalSpeedMultiplier * 0.82);
+      smoothResumeTimer = setTimeout(() => {
+        if (!isWaveActive) { return; }
+        globalSpeedMultiplier = Math.min(1.15, globalSpeedMultiplier * 1.22);
+        scheduleSmoothPause();
+      }, 1800);
+    }, 7200);
+  };
+
   const initializeTechWaveNow = () => {
     if (hasInitialized) { return; }
     hasInitialized = true;
@@ -125,6 +153,11 @@ export function initializeTechWave() {
       { name: 'Claude', path: './assets/icons/claude.svg' },
       { name: 'Gemini', path: './assets/icons/googlegemini.svg' },
     ];
+
+    const MAX_TILES_MOBILE = 24;
+    const MAX_TILES_DESKTOP = BASE_TECHNOLOGIES.length;
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    const limitedTechnologies = isMobile ? BASE_TECHNOLOGIES.slice(0, MAX_TILES_MOBILE) : BASE_TECHNOLOGIES;
 
     const TECH_BRAND_COLORS_FOR_TILES = [
       // Web Fundamentals
@@ -230,7 +263,7 @@ export function initializeTechWave() {
       return result;
     };
 
-    const shuffledUniqueTechnologies = shuffleArray(BASE_TECHNOLOGIES);
+    const shuffledUniqueTechnologies = shuffleArray(limitedTechnologies);
     const midPoint = Math.ceil(shuffledUniqueTechnologies.length / 2);
     const shuffledPart1 = shuffledUniqueTechnologies.slice(0, midPoint);
     const shuffledPart2 = shuffledUniqueTechnologies.slice(midPoint);
@@ -336,7 +369,10 @@ export function initializeTechWave() {
     if (scrollerData1.scrollerElement) { void scrollerData1.scrollerElement.offsetHeight; }
     if (scrollerData2.scrollerElement) { void scrollerData2.scrollerElement.offsetHeight; }
 
-    if (isWaveActive) { startAnimationLoop(); }
+    if (isWaveActive) {
+      startAnimationLoop();
+      scheduleSmoothPause();
+    }
 
     const updateSpeed = (event) => {
       if (speedUpdateScheduled) { return; }
