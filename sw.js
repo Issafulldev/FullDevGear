@@ -11,7 +11,5 @@ self.addEventListener('activate', (event) => {
   event.waitUntil(self.clients.claim());
 });
 
-self.addEventListener('fetch', () => {
-  // No caching during development placeholder.
-});
+// Remove the no-op fetch handler to avoid browser warning. Add caching logic here if needed.
 

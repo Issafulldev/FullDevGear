@@ -4,12 +4,10 @@
 
 /* --- SPA & Animation Classes --- */
 main#main-content .main-content-area {
-  display: none;
   opacity: 0;
 }
 
 main#main-content .main-content-area:not([hidden]) {
-  display: block;
   opacity: 1;
 }
 
