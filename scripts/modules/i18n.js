@@ -23,13 +23,23 @@ const TRANSLATIONS = {
     tech_horizons_title: 'Tech Horizons',
     tech_horizons_desc: "We're always looking for new and exciting tech to add to our platform.",
     solution_stack_title: 'Solution Stack',
+    solution_stack_desc:
+      'Audit, UX wireframes, front-end builds with React/Vite, secure Node.js APIs, and automation pipelines delivered as a single cohesive stack tailored to each mission.',
     client_victories_title: 'Client victories',
+    client_victories_desc:
+      'Delivered e-commerce revamps, automated onboarding flows, and customer success dashboards that increased conversion and support KPIs for SaaS teams.',
     success_playbook_title: 'Success Playbook',
+    success_playbook_desc:
+      'Every engagement follows a shaped sprint: kickoff, prototype within two weeks, weekly stakeholder demos, and a hardening phase before launch.',
     skill_spectrum_title: 'Skill Spectrum',
+    skill_spectrum_desc:
+      'From TypeScript and React to Express, PostgreSQL, and no-code tools, I connect the right technologies to meet budget, speed, and scalability goals.',
     trust_chronicles_title: 'Trust Chronicles',
+    trust_chronicles_desc:
+      'All projects ship with structured documentation, async status reports, and post-launch monitoring so teams keep control once the handover is done.',
     zero_to_launch_title: 'Zero To Launch',
-    generic_list_desc:
-      "We've compiled a list of the most successful people in the software industry and what they've done to get there.",
+    zero_to_launch_desc:
+      'Start with a strategy workshop, validate with a clickable prototype, iterate through implementation sprints, and deploy with metrics hooked to your objectives.',
     contact_title: "Let's Build Tomorrow",
     form_name_label: 'Name',
     form_name_placeholder: 'Your Name',
@@ -48,7 +58,11 @@ const TRANSLATIONS = {
     resend_title: 'Another project?',
     resend_btn: 'New message',
     transparent_build_rates_title: 'Transparent Build Rates',
+    transparent_build_rates_desc:
+      'Budgets are scoped per mission: discovery from EUR 600, feature sprints from EUR 900, and monthly care plans from EUR 350 with clear deliverables.',
     roi_pricing_title: 'ROI-Driven Pricing',
+    roi_pricing_desc:
+      'Pricing adapts to the outcome—fixed bids for defined scopes, usage-based automation fees, or performance clauses when revenue targets are shared.',
     cv_title: 'Full-stack Web Developer',
     cv_status: 'Available for opportunities',
     cv_summary_title: 'Summary',
@@ -145,13 +159,23 @@ const TRANSLATIONS = {
     tech_horizons_desc:
       'Nous explorons sans cesse de nouvelles technologies à ajouter à la plateforme.',
     solution_stack_title: 'Stack de Solutions',
+    solution_stack_desc:
+      'Audit, maquettage UX, front-end React/Vite, APIs Node.js sécurisées et automatisation livrés comme une stack cohésive adaptée à chaque mission.',
     client_victories_title: 'Succès Clients',
+    client_victories_desc:
+      'Refonte e-commerce, automatisation des onboarding et tableaux de bord Customer Success ont fait grimper conversions et KPIs support pour des équipes SaaS.',
     success_playbook_title: 'Playbook du Succès',
+    success_playbook_desc:
+      'Chaque mission suit un sprint cadré : kickoff, prototype en deux semaines, démos hebdo et phase de stabilisation avant mise en ligne.',
     skill_spectrum_title: 'Spectre de Compétences',
+    skill_spectrum_desc:
+      'De TypeScript et React à Express, PostgreSQL ou outils no-code, j’assemble la techno adaptée aux objectifs de budget, vitesse et scalabilité.',
     trust_chronicles_title: 'Chroniques de Confiance',
+    trust_chronicles_desc:
+      'Documentation structurée, reporting asynchrone et suivi post-lancement garantissent une prise en main durable après la livraison.',
     zero_to_launch_title: 'De Zéro au Lancement',
-    generic_list_desc:
-      "Nous avons compilé les figures les plus marquantes du software et leurs chemins vers la réussite.",
+    zero_to_launch_desc:
+      'On démarre par un atelier stratégique, validation par prototype interactif, itérations en sprints et déploiement avec métriques liées à vos objectifs.',
     contact_title: 'Construisons Demain',
     form_name_label: 'Nom',
     form_name_placeholder: 'Votre nom',
@@ -170,7 +194,11 @@ const TRANSLATIONS = {
     resend_title: 'Un autre projet ?',
     resend_btn: 'Nouveau message',
     transparent_build_rates_title: 'Tarifs de Construction Transparants',
+    transparent_build_rates_desc:
+      'Les budgets sont cadrés par mission : cadrage dès 600 €, sprints fonctionnels dès 900 €, plans de run mensuels dès 350 € avec livrables définis.',
     roi_pricing_title: 'Tarification orientée ROI',
+    roi_pricing_desc:
+      'Tarification alignée sur la valeur : forfait fixe quand le scope est verrouillé, frais à l’usage pour les automatisations, clauses de performance quand le CA est partagé.',
     cv_title: 'Développeur Web Full‑stack',
     cv_status: 'Disponible pour opportunités',
     cv_summary_title: 'Résumé',

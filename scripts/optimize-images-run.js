@@ -50,7 +50,7 @@ async function optimizeAll() {
   for (const dir of CONFIG.directories) {
     const abs = path.resolve(process.cwd(), dir);
     for await (const file of walk(abs)) {
-      if (!isRaster(file)) {continue;}
+      if (!isRaster(file)) { continue; }
       const out = await optimizeFile(file);
       console.log(`Optimized: ${path.relative(process.cwd(), file)} → ${path.relative(process.cwd(), out)}`);
       optimized++;

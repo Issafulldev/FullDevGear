@@ -4,45 +4,34 @@ export function initializeTechWave() {
   const waveContainer = document.querySelector('.tech-wave-container');
   if (!waveContainer) { return; }
 
-  const start = () => {
-    observer && observer.disconnect();
-    initializeTechWaveNow();
+  let hasInitialized = false;
+  let animationStates = [];
+  let globalSpeedMultiplier = 1.0;
+  let isWaveActive = false;
+  let speedUpdateScheduled = false;
+
+  const setWaveActive = (isActive) => {
+    if (isWaveActive === isActive) { return; }
+    isWaveActive = isActive;
+    waveContainer.classList.toggle('is-visible', isActive);
+
+    if (!hasInitialized || animationStates.length === 0) { return; }
+
+    animationStates.forEach((state) => {
+      state.isPaused = !isActive;
+    });
+
+    if (!isActive) {
+      globalSpeedMultiplier = 1.0;
+      speedUpdateScheduled = false;
+    }
   };
 
-  const rect = waveContainer.getBoundingClientRect();
-  if (rect.top < window.innerHeight && rect.bottom > 0) {
-    initializeTechWaveNow();
-    return;
-  }
+  const initializeTechWaveNow = () => {
+    if (hasInitialized) { return; }
+    hasInitialized = true;
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) { start(); }
-      });
-    },
-    { root: null, rootMargin: '0px 0px 100px 0px', threshold: 0 },
-  );
-  observer.observe(waveContainer);
-
-  function initializeTechWaveNow() {
     const GAP_REM = 1.5; // Gap utilisé pour les tuiles
-
-    const tileVisibilityObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const tile = entry.target;
-          if (entry.isIntersecting) { tile.classList.add('visible'); }
-          else { tile.classList.remove('visible'); }
-        });
-        if (DEBUG) {
-          const visibleTiles = waveContainer.querySelectorAll('.tech-tile.visible').length;
-          const totalTiles = waveContainer.querySelectorAll('.tech-tile').length;
-          console.log(`TechWave Performance: ${visibleTiles}/${totalTiles} tiles animated`);
-        }
-      },
-      { root: null, rootMargin: '0px', threshold: 0.1 },
-    );
 
     const BASE_TECHNOLOGIES = [
       { name: 'HTML5', path: './assets/icons/html5.svg' },
@@ -159,8 +148,6 @@ export function initializeTechWave() {
 
     waveContainer.innerHTML = '';
 
-    let globalSpeedMultiplier = 1.0;
-
     const shuffleArray = (array) => {
       if (array.length <= 1) { return [...array]; }
       const groups = {};
@@ -197,7 +184,7 @@ export function initializeTechWave() {
     const shuffledPart1 = shuffledUniqueTechnologies.slice(0, midPoint);
     const shuffledPart2 = shuffledUniqueTechnologies.slice(midPoint);
 
-    const animationStates = [
+    animationStates = [
       { isReverse: false, baseSign: -1, isPaused: false, animationFrameId: null, element: null, contentTotalWidth: 0 },
       { isReverse: true, baseSign: 1, isPaused: false, animationFrameId: null, element: null, contentTotalWidth: 0 },
     ];
@@ -210,7 +197,6 @@ export function initializeTechWave() {
       if (styleInfo.featured) { tile.classList.add('featured-tile'); }
       tile.style.backgroundColor = styleInfo.tileBackground;
       tile.style.setProperty('--tile-glow-color', styleInfo.tileBackground);
-      tileVisibilityObserver.observe(tile);
       const frontFace = document.createElement('div');
       frontFace.classList.add('tile-face', 'tile-front');
       const logoElement = document.createElement('img');
@@ -325,21 +311,56 @@ export function initializeTechWave() {
       }
     });
 
-    waveContainer.addEventListener('mousemove', (event) => {
-      const rect = waveContainer.getBoundingClientRect();
-      const mouseX = event.clientX - rect.left;
-      const containerWidth = rect.width;
-      const MIN_SPEED_FACTOR = 0.6;
-      const MAX_SPEED_FACTOR = 1.4;
-      const SPEED_DECAY_RATE = 2;
-      const normalizedDist = Math.abs(mouseX - containerWidth / 2) / (containerWidth / 2);
-      globalSpeedMultiplier =
-        MIN_SPEED_FACTOR + (MAX_SPEED_FACTOR - MIN_SPEED_FACTOR) * Math.pow(normalizedDist, SPEED_DECAY_RATE);
-      globalSpeedMultiplier = Math.max(0.1, Math.min(globalSpeedMultiplier, 2.0));
-    });
+    const updateSpeed = (event) => {
+      if (speedUpdateScheduled) { return; }
+      speedUpdateScheduled = true;
+      const pointerClientX = event.clientX;
+      requestAnimationFrame(() => {
+        speedUpdateScheduled = false;
+        if (!isWaveActive) { return; }
+
+        const rect = waveContainer.getBoundingClientRect();
+        const mouseX = pointerClientX - rect.left;
+        const containerWidth = rect.width;
+        const MIN_SPEED_FACTOR = 0.6;
+        const MAX_SPEED_FACTOR = 1.4;
+        const SPEED_DECAY_RATE = 2;
+        const normalizedDist = Math.abs(mouseX - containerWidth / 2) / (containerWidth / 2);
+        globalSpeedMultiplier =
+          MIN_SPEED_FACTOR + (MAX_SPEED_FACTOR - MIN_SPEED_FACTOR) * Math.pow(normalizedDist, SPEED_DECAY_RATE);
+        globalSpeedMultiplier = Math.max(0.1, Math.min(globalSpeedMultiplier, 2.0));
+      });
+    };
+
+    waveContainer.addEventListener('mousemove', updateSpeed);
     waveContainer.addEventListener('mouseleave', () => {
+      speedUpdateScheduled = false;
       globalSpeedMultiplier = 1.0;
     });
+  }
+
+  const visibilityObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.target !== waveContainer) { return; }
+      if (entry.isIntersecting) {
+        initializeTechWaveNow();
+        setWaveActive(true);
+      } else {
+        setWaveActive(false);
+      }
+    });
+  }, {
+    root: null,
+    threshold: 0.25,
+    rootMargin: '0px 0px -15% 0px',
+  });
+
+  visibilityObserver.observe(waveContainer);
+
+  const initialRect = waveContainer.getBoundingClientRect();
+  if (initialRect.top < window.innerHeight && initialRect.bottom > 0) {
+    initializeTechWaveNow();
+    setWaveActive(true);
   }
 }
 

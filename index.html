@@ -45,9 +45,10 @@
     <link rel="stylesheet" href="styles/pages/build-gallery.css">
     <link rel="stylesheet" href="styles/utils/animations.css">
   </noscript>
-  <link rel="icon" type="image/png" href="./assets/logos/logosite.PNG">
-  <link rel="shortcut icon" type="image/png" href="./assets/logos/logosite.PNG">
-  <link rel="apple-touch-icon" href="./assets/logos/logosite.PNG">
+  <link rel="icon" type="image/png" sizes="192x192" href="./assets/logos/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="./assets/logos/icon-512.png">
+  <link rel="shortcut icon" type="image/png" href="./assets/logos/icon-192.png">
+  <link rel="apple-touch-icon" href="./assets/logos/icon-180.png">
   <link rel="manifest" href="./manifest.webmanifest">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -105,8 +106,8 @@
       </nav>
     </div>
   </header>
-  <main id="main-content">
-    <section id="freelance-content" class="main-container-freelance main-content-area" data-section-id="freelance" data-animation-group>
+  <main id="main-content" tabindex="-1">
+    <section id="freelance-content" class="main-container-freelance main-content-area" data-section-id="freelance" data-animation-group aria-live="polite" aria-hidden="false">
       <article class="main-title" data-animation-item>
         <h1 data-i18n-html="hero_title"><span class="nowrap-desktop">CODE, NO-CODE, AI:</span> <br> DIGITAL GROWTH, <br> BUSINESS BLISS.</h1>
         <p data-i18n="hero_subtitle">Transforming ideas into powerful digital solutions. From custom development to no-code platforms and AI integration, I deliver comprehensive web solutions that drive results.</p>
@@ -114,7 +115,7 @@
 
       <div class="tech-wave-container"></div>
 
-      <article id="build-gallery" class="late-animation-item" data-animation-item>
+      <article id="build-gallery" class="late-animation-item" data-animation-item tabindex="-1">
         <h2 data-i18n="build_gallery_title">Build Gallery</h2>
         <p data-i18n="build_gallery_desc">
           Explore my completed projects with GitHub previews and live demonstrations.
@@ -296,9 +297,7 @@
 
       <article data-animation-item class="late-animation-item" hidden>
         <h2 data-i18n="solution_stack_title">Solution Stack</h2>
-        <p data-i18n="generic_list_desc">
-          We've compiled a list of the most successful people in the software industry and what they've done to get there.
-        </p>
+        <p data-i18n="solution_stack_desc"></p>
         <div class="solution-stack-list" data-list-container="solution-stack">
           <ul></ul>
         </div>
@@ -306,9 +305,7 @@
 
       <article data-animation-item class="late-animation-item" hidden>
         <h2 data-i18n="client_victories_title">Client victories</h2>
-        <p data-i18n="generic_list_desc">
-          We've compiled a list of the most successful people in the software industry and what they've done to get there.
-        </p>
+        <p data-i18n="client_victories_desc"></p>
         <div class="client-victories-list" data-list-container="client-victories">
           <ul></ul>
         </div>
@@ -316,9 +313,7 @@
 
       <article data-animation-item class="late-animation-item" hidden>
         <h2 data-i18n="success_playbook_title">Success Playbook</h2>
-        <p data-i18n="generic_list_desc">
-          We've compiled a list of the most successful people in the software industry and what they've done to get there.
-        </p>
+        <p data-i18n="success_playbook_desc"></p>
         <div class="success-playbook-list" data-list-container="success-playbook-alt">
           <ul></ul>
         </div>
@@ -326,9 +321,7 @@
 
       <article data-animation-item class="late-animation-item" hidden>
         <h2 data-i18n="skill_spectrum_title">Skill Spectrum</h2>
-        <p data-i18n="generic_list_desc">
-          We've compiled a list of the most successful people in the software industry and what they've done to get there.
-        </p>
+        <p data-i18n="skill_spectrum_desc"></p>
         <div class="skill-spectrum-list" data-list-container="skill-spectrum">
           <ul></ul>
         </div>
@@ -336,9 +329,7 @@
 
       <article data-animation-item class="late-animation-item" hidden>
         <h2 data-i18n="trust_chronicles_title">Trust Chronicles</h2>
-        <p data-i18n="generic_list_desc">
-          We've compiled a list of the most successful people in the software industry and what they've done to get there.
-        </p>
+        <p data-i18n="trust_chronicles_desc"></p>
         <div class="trust-chronicles-list" data-list-container="trust-chronicles">
           <ul></ul>
         </div>
@@ -346,9 +337,7 @@
 
       <article data-animation-item class="late-animation-item" hidden>
         <h2 data-i18n="zero_to_launch_title">Zero To Launch</h2>
-        <p data-i18n="generic_list_desc">
-          We've compiled a list of the most successful people in the software industry and what they've done to get there.
-        </p>
+        <p data-i18n="zero_to_launch_desc"></p>
         <div class="zero-to-launch-list" data-list-container="zero-to-launch">
           <ul></ul>
         </div>
@@ -388,9 +377,7 @@
 
       <article data-animation-item class="late-animation-item" hidden>
         <h2 data-i18n="transparent_build_rates_title">Transparent Build Rates</h2>
-        <p>
-          We've compiled a list of the most successful people in the software industry and what they've done to get there.
-        </p>
+        <p data-i18n="transparent_build_rates_desc"></p>
         <div class="transparent-build-rates-list" data-list-container="build-rates">
           <ul></ul>
         </div>
@@ -398,16 +385,14 @@
 
       <article data-animation-item class="late-animation-item" hidden>
         <h2 data-i18n="roi_pricing_title">ROI-Driven Pricing</h2>
-        <p>
-          We've compiled a list of the most successful people in the software industry and what they've done to get there.
-        </p>
+        <p data-i18n="roi_pricing_desc"></p>
         <div class="roi-driven-pricing-list" data-list-container="roi-pricing">
           <ul></ul>
         </div>
       </article>
     </section>
 
-    <section id="cv-content" class="main-container-cv main-content-area" data-section-id="cv" data-animation-group hidden>
+    <section id="cv-content" class="main-container-cv main-content-area" data-section-id="cv" data-animation-group hidden aria-live="polite" aria-hidden="true" inert>
       <article data-animation-item>
         <div class="cv-header">
           <div class="cv-name-container">

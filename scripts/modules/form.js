@@ -203,7 +203,14 @@ function updateExistingBanner() {
 
     if (portfolioBtn) {
       portfolioBtn.addEventListener('click', () => {
-        window.location.hash = '#/build';
+        window.location.hash = '#/';
+        requestAnimationFrame(() => {
+          const gallery = document.getElementById('build-gallery');
+          if (gallery) {
+            gallery.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            gallery.focus({ preventScroll: true });
+          }
+        });
       });
     }
 
@@ -253,7 +260,11 @@ export function setupContactForm() {
         if (portfolioBtn) {
           portfolioBtn.addEventListener('click', () => {
             // Naviguer vers la galerie de projets
-            window.location.hash = '#/build';
+            window.location.hash = '#/';
+            requestAnimationFrame(() => {
+              const gallery = document.getElementById('build-gallery');
+              if (gallery) { gallery.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+            });
           });
         }
 
@@ -426,7 +437,11 @@ export function setupContactForm() {
               if (portfolioBtn) {
                 portfolioBtn.addEventListener('click', () => {
                   // Naviguer vers la galerie de projets
-                  window.location.hash = '#/build';
+                  window.location.hash = '#/';
+                  requestAnimationFrame(() => {
+                    const gallery = document.getElementById('build-gallery');
+                    if (gallery) { gallery.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+                  });
                 });
               }
 

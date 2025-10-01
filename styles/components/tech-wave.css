@@ -34,16 +34,15 @@
   position: relative;
   transition: box-shadow 0.3s ease-out;
   cursor: pointer;
-  /* Animation désactivée par défaut - activée seulement quand visible */
 }
 
-.tech-tile.visible {
+.tech-wave-container.is-visible .tech-tile {
   animation: halo-pulse 4s infinite ease-in-out;
 }
 
 /* Support pour prefers-reduced-motion uniquement */
 @media (prefers-reduced-motion: reduce) {
-  .tech-tile.visible {
+  .tech-wave-container.is-visible .tech-tile {
     animation: none !important;
   }
 }

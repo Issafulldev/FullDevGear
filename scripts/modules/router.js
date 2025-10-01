@@ -53,12 +53,19 @@ export function createRouter() {
       else { document.body.classList.remove('cv-dark-mode'); }
     };
 
+    const setSectionVisibility = (section, isVisible) => {
+      section.hidden = !isVisible;
+      section.setAttribute('aria-hidden', String(!isVisible));
+      if (!isVisible) { section.setAttribute('inert', ''); }
+      else { section.removeAttribute('inert'); }
+    };
+
     if (!useTransition) {
       allSections.forEach((sec) => {
-        sec.hidden = true;
+        setSectionVisibility(sec, false);
         sec.classList.remove('fade-in', 'fade-out');
       });
-      sectionToShow.hidden = false;
+      setSectionVisibility(sectionToShow, true);
       applyPageStyles(sectionId);
 
       // Nettoyer le gestionnaire de scroll si pas de transition
@@ -92,10 +99,10 @@ export function createRouter() {
       if (event.animationName === expectedInAnimation) {
         waveElement.onanimationend = null;
         if (sectionToHide) {
-          sectionToHide.hidden = true;
+          setSectionVisibility(sectionToHide, false);
           sectionToHide.classList.remove('fade-in', 'fade-out');
         }
-        sectionToShow.hidden = false;
+        setSectionVisibility(sectionToShow, true);
         sectionToShow.classList.remove('fade-in', 'fade-out');
 
         // Scroll pour navigation normale (Home → CV) ou navigation reverse après animation
