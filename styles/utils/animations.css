@@ -50,35 +50,30 @@ main#main-content>section#freelance-content>article.late-animation-item {
   /* Optimisations pour mobile */
   will-change: transform;
   backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
 }
 
 .wave-transition-sweep-in {
   animation: wave-sweep-in var(--animation-duration-fast) var(--animation-timing-ease-in-out) forwards;
   /* Force le rendu immédiat sur mobile */
   transform: translateZ(0);
-  -webkit-transform: translateZ(0);
 }
 
 .wave-transition-sweep-out {
   animation: wave-sweep-out var(--animation-duration-fast) var(--animation-timing-ease-in-out) forwards;
   /* Force le rendu immédiat sur mobile */
   transform: translateZ(0);
-  -webkit-transform: translateZ(0);
 }
 
 .wave-transition-sweep-in-reverse {
   animation: wave-sweep-in-reverse var(--animation-duration-fast) var(--animation-timing-ease-in-out) forwards;
   /* Force le rendu immédiat sur mobile */
   transform: translateZ(0);
-  -webkit-transform: translateZ(0);
 }
 
 .wave-transition-sweep-out-reverse {
   animation: wave-sweep-out-reverse var(--animation-duration-fast) var(--animation-timing-ease-in-out) forwards;
   /* Force le rendu immédiat sur mobile */
   transform: translateZ(0);
-  -webkit-transform: translateZ(0);
 }
 
 /* --- Keyframes --- */
@@ -433,9 +428,7 @@ main#main-content>section#freelance-content>article.late-animation-item {
   .main-content-area {
     /* Forcer l'accélération matérielle sur mobile */
     transform: translateZ(0);
-    -webkit-transform: translateZ(0);
     backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
     /* Optimiser le rendu des changements de visibilité */
     will-change: auto;
   }

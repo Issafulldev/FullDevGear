@@ -129,7 +129,6 @@ export function createRouter() {
             }
 
             isTransitioning = false;
-            setTimeout(() => window.forceRepaintSafari && window.forceRepaintSafari(), 50);
             if (sectionId === 'cv-content') { setTimeout(() => window.setupCVScrollActivation && window.setupCVScrollActivation(), 100); }
           }
         };
