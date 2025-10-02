@@ -54,18 +54,29 @@ export function createRouter() {
     };
 
     const setSectionVisibility = (section, isVisible) => {
-      section.hidden = !isVisible;
-      section.setAttribute('aria-hidden', String(!isVisible));
-      if (!isVisible) { section.setAttribute('inert', ''); section.style.position = 'absolute'; section.style.pointerEvents = 'none'; }
-      else { section.removeAttribute('inert'); section.style.position = ''; section.style.pointerEvents = ''; }
+      const isCurrentlyHidden = section.hasAttribute('hidden');
+
+      if (isVisible) {
+        if (isCurrentlyHidden) { section.hidden = false; }
+        section.setAttribute('aria-hidden', 'false');
+        section.removeAttribute('inert');
+        section.style.position = '';
+        section.style.pointerEvents = '';
+      } else {
+        if (!isCurrentlyHidden) { section.hidden = true; }
+        section.setAttribute('aria-hidden', 'true');
+        section.setAttribute('inert', '');
+        section.style.position = 'absolute';
+        section.style.pointerEvents = 'none';
+      }
     };
 
     if (!useTransition) {
       allSections.forEach((sec) => {
-        setSectionVisibility(sec, false);
+        const shouldBeVisible = sec === sectionToShow;
+        setSectionVisibility(sec, shouldBeVisible);
         sec.classList.remove('fade-in', 'fade-out');
       });
-      setSectionVisibility(sectionToShow, true);
       applyPageStyles(sectionId);
 
       // Nettoyer le gestionnaire de scroll si pas de transition

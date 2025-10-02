@@ -20,11 +20,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <!-- CSS modular links (avoid @import blocking) -->
-  <link rel="preload" href="styles/base/variables.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <link rel="preload" href="styles/base/reset.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <link rel="preload" href="styles/base/layout.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <link rel="preload" href="styles/components/header.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <link rel="preload" href="styles/components/footer.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="stylesheet" href="styles/base/variables.css">
+  <link rel="stylesheet" href="styles/base/reset.css">
+  <link rel="stylesheet" href="styles/base/layout.css">
+  <link rel="stylesheet" href="styles/components/header.css">
+  <link rel="stylesheet" href="styles/components/footer.css">
   <link rel="preload" href="styles/components/tech-wave.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <link rel="preload" href="styles/components/forms.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <link rel="preload" href="styles/pages/cv.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -116,7 +116,7 @@
 
       <div class="tech-wave-container"></div>
 
-      <article id="build-gallery" class="late-animation-item" data-animation-item tabindex="-1">
+      <article id="build-gallery" class="late-animation-item" data-animation-item tabindex="-1" aria-hidden="false">
         <h2 data-i18n="build_gallery_title">Build Gallery</h2>
         <p data-i18n="build_gallery_desc">
           Explore my completed projects with GitHub previews and live demonstrations.
