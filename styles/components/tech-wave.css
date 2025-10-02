@@ -33,19 +33,14 @@
   height: 6.5rem;
   border-radius: 8px;
   position: relative;
-  transition: box-shadow 0.3s ease-out;
+  transform: translateY(12px) scale(0.94);
+  transition: transform 0.45s cubic-bezier(0.19, 1, 0.22, 1);
+  will-change: transform;
   cursor: pointer;
 }
 
 .tech-wave-container.is-visible .tech-tile {
-  animation: halo-pulse 4s infinite ease-in-out;
-}
-
-/* Support pour prefers-reduced-motion uniquement */
-@media (prefers-reduced-motion: reduce) {
-  .tech-wave-container.is-visible .tech-tile {
-    animation: none !important;
-  }
+  transform: translateY(0) scale(1);
 }
 
 .tile-face {
@@ -93,9 +88,8 @@
 
 /* Effet hover simple et performant */
 @media (hover: hover) and (pointer: fine) {
-  .tech-tile:hover {
-    transform: translateY(-2px);
-    transition: transform 0.2s ease-out, box-shadow 0.3s ease-out;
+  .tech-wave-container.is-visible .tech-tile:hover {
+    transform: translateY(-6px) scale(1.04);
   }
 }
 

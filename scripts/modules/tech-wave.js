@@ -121,11 +121,9 @@ export function initializeTechWave() {
       { name: 'Vue.js', path: './assets/icons/vuedotjs.svg' },
       { name: 'Angular', path: './assets/icons/angular.svg' },
       { name: 'Svelte', path: './assets/icons/svelte.svg' },
-      { name: 'Next.js', path: './assets/icons/nextdotjs.svg' },
       { name: 'Tailwind', path: './assets/icons/tailwindcss.svg' },
       { name: 'Bootstrap', path: './assets/icons/bootstrap.svg' },
       { name: 'Sass', path: './assets/icons/sass.svg' },
-      { name: 'SCSS', path: './assets/icons/scss.svg' },
       { name: 'Node.js', path: './assets/icons/nodedotjs.svg' },
       { name: 'Express', path: './assets/icons/express.svg' },
       { name: 'Fastify', path: './assets/icons/fastify.svg' },
@@ -171,13 +169,11 @@ export function initializeTechWave() {
       { name: 'vue.js', tileBackground: '#4FC08D', iconColor: '#FFFFFF', textColor: '#FFFFFF', description: 'Created by ex-Googler' },
       { name: 'angular', tileBackground: '#DD0031', iconColor: '#FFFFFF', textColor: '#FFFFFF', description: 'TypeScript by default', featured: true },
       { name: 'svelte', tileBackground: '#FF3E00', iconColor: '#FFFFFF', textColor: '#FFFFFF', description: 'No runtime needed' },
-      { name: 'next.js', tileBackground: '#0070F3', iconColor: '#FFFFFF', textColor: '#FFFFFF', description: 'SSR & static generation', featured: true },
 
       // CSS Frameworks & Tools
       { name: 'tailwind', tileBackground: '#06B6D4', iconColor: '#FFFFFF', textColor: '#FFFFFF', description: '500+ utility classes', featured: true },
       { name: 'bootstrap', tileBackground: '#7952B3', iconColor: '#FFFFFF', textColor: '#FFFFFF', description: 'Created by Twitter 2011', featured: true },
       { name: 'sass', tileBackground: '#CC6699', iconColor: '#FFFFFF', textColor: '#FFFFFF', description: 'First CSS preprocessor' },
-      { name: 'scss', tileBackground: '#CC6699', iconColor: '#FFFFFF', textColor: '#FFFFFF', description: 'Modern Sass syntax' },
 
       // Backend & Runtimes
       { name: 'node.js', tileBackground: '#339933', iconColor: '#FFFFFF', textColor: '#FFFFFF', description: "Uses Chrome's V8 engine", featured: true },

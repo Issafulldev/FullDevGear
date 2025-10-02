@@ -188,18 +188,6 @@ main#main-content>section#freelance-content>article.late-animation-item {
   }
 }
 
-@keyframes halo-pulse {
-
-  0%,
-  100% {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 0 6px var(--tile-glow-color, rgba(200, 200, 200, 0.5)), 0 0 12px var(--tile-glow-color, rgba(210, 210, 210, 0.3));
-  }
-
-  50% {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 0 12px var(--tile-glow-color, rgba(220, 220, 220, 0.7)), 0 0 22px var(--tile-glow-color, rgba(230, 230, 230, 0.5));
-  }
-}
-
 /* navInvert animations removed - using fixed color like contact button */
 
 /* Animations légères optimisées pour la performance */
