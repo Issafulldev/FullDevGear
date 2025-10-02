@@ -13,6 +13,12 @@ export function initializeTechWave() {
   let lastFrameTimestamp = null;
   let smoothPauseTimer = null;
   let smoothResumeTimer = null;
+  let isUserDragging = false;
+  let dragPointerId = null;
+  let lastDragClientX = 0;
+  let accumulatedDragDistance = 0;
+  let suppressTileClick = false;
+  let suppressTileClickTimeoutId = null;
 
   const setWaveActive = (isActive) => {
     if (isWaveActive === isActive) { return; }
@@ -31,6 +37,9 @@ export function initializeTechWave() {
       stopAnimationLoop();
       clearSmoothTimers();
     } else {
+      if (isUserDragging) {
+        finishUserDrag();
+      }
       startAnimationLoop();
       scheduleSmoothPause();
     }
@@ -40,7 +49,7 @@ export function initializeTechWave() {
     if (animationFrameId !== null) { return; }
     lastFrameTimestamp = null;
     const tick = (timestamp) => {
-      if (!isWaveActive) {
+      if (!isWaveActive || isUserDragging) {
         animationFrameId = null;
         lastFrameTimestamp = null;
         return;
@@ -97,13 +106,83 @@ export function initializeTechWave() {
     clearSmoothTimers();
     smoothPauseTimer = setTimeout(() => {
       if (!isWaveActive) { return; }
-      globalSpeedMultiplier = Math.max(0.18, globalSpeedMultiplier * 0.82);
+      if (!isUserDragging) {
+        globalSpeedMultiplier = Math.max(0.18, globalSpeedMultiplier * 0.82);
+      }
       smoothResumeTimer = setTimeout(() => {
         if (!isWaveActive) { return; }
-        globalSpeedMultiplier = Math.min(1.15, globalSpeedMultiplier * 1.22);
-        scheduleSmoothPause();
+        if (!isUserDragging) {
+          globalSpeedMultiplier = Math.min(1.15, globalSpeedMultiplier * 1.22);
+          scheduleSmoothPause();
+        }
       }, 1800);
     }, 7200);
+  };
+
+  const applyManualDeltaToStates = (deltaX) => {
+    if (!deltaX || !Number.isFinite(deltaX)) { return; }
+    animationStates.forEach((state) => {
+      if (!state.element || !state.singleSetWidth) { return; }
+      state.offsetX = (typeof state.offsetX === 'number') ? state.offsetX + deltaX : deltaX;
+      const width = state.singleSetWidth;
+      if (width > 0) {
+        while (state.offsetX <= -width) { state.offsetX += width; }
+        while (state.offsetX > 0) { state.offsetX -= width; }
+      }
+      state.element.style.transform = `translate3d(${state.offsetX}px, 0, 0)`;
+    });
+  };
+
+  const beginUserDrag = (event) => {
+    if (isUserDragging) { return; }
+    isUserDragging = true;
+    dragPointerId = event.pointerId;
+    lastDragClientX = event.clientX;
+    accumulatedDragDistance = 0;
+    if (suppressTileClickTimeoutId) {
+      clearTimeout(suppressTileClickTimeoutId);
+      suppressTileClickTimeoutId = null;
+    }
+    suppressTileClick = false;
+    waveContainer.classList.add('is-user-dragging');
+    clearSmoothTimers();
+    stopAnimationLoop();
+    globalSpeedMultiplier = 1.0;
+    speedUpdateScheduled = false;
+    try { waveContainer.setPointerCapture(event.pointerId); } catch (_) { /* ignore */ }
+  };
+
+  const continueUserDrag = (event) => {
+    if (!isUserDragging || event.pointerId !== dragPointerId) { return; }
+    const deltaX = event.clientX - lastDragClientX;
+    if (deltaX === 0) { return; }
+    lastDragClientX = event.clientX;
+    accumulatedDragDistance += Math.abs(deltaX);
+    if (accumulatedDragDistance > 6) { suppressTileClick = true; }
+    applyManualDeltaToStates(deltaX);
+  };
+
+  const finishUserDrag = () => {
+    if (!isUserDragging) { return; }
+    const pointerId = dragPointerId;
+    isUserDragging = false;
+    dragPointerId = null;
+    lastDragClientX = 0;
+    accumulatedDragDistance = 0;
+    waveContainer.classList.remove('is-user-dragging');
+    if (pointerId !== null && waveContainer.releasePointerCapture) {
+      try { waveContainer.releasePointerCapture(pointerId); } catch (_) { /* ignore */ }
+    }
+    if (suppressTileClick) {
+      suppressTileClickTimeoutId = setTimeout(() => {
+        suppressTileClick = false;
+        suppressTileClickTimeoutId = null;
+      }, 180);
+    }
+    if (isWaveActive) {
+      startAnimationLoop();
+      scheduleSmoothPause();
+    }
   };
 
   const initializeTechWaveNow = () => {
@@ -305,6 +384,7 @@ export function initializeTechWave() {
       let flipTimeoutId = null;
       const FLIP_TIMEOUT_MS = 10000;
       const flipCard = () => {
+        if (suppressTileClick) { return; }
         tile.classList.toggle('is-flipped');
         if (flipTimeoutId) {
           clearTimeout(flipTimeoutId);
@@ -399,6 +479,29 @@ export function initializeTechWave() {
     waveContainer.addEventListener('touchstart', () => { globalSpeedMultiplier = 1.0; }, { passive: true });
     waveContainer.addEventListener('touchend', () => { globalSpeedMultiplier = 1.0; }, { passive: true });
     waveContainer.addEventListener('touchcancel', () => { globalSpeedMultiplier = 1.0; }, { passive: true });
+
+    const pointerDownHandler = (event) => {
+      if (event.pointerType !== 'touch' && event.pointerType !== 'pen') { return; }
+      beginUserDrag(event);
+    };
+
+    const pointerMoveHandler = (event) => {
+      if (event.pointerType !== 'touch' && event.pointerType !== 'pen') { return; }
+      if (!isUserDragging || event.pointerId !== dragPointerId) { return; }
+      event.preventDefault();
+      continueUserDrag(event);
+    };
+
+    const pointerEndHandler = (event) => {
+      if (event.pointerType !== 'touch' && event.pointerType !== 'pen') { return; }
+      if (event.pointerId !== dragPointerId && dragPointerId !== null) { return; }
+      finishUserDrag();
+    };
+
+    waveContainer.addEventListener('pointerdown', pointerDownHandler);
+    waveContainer.addEventListener('pointermove', pointerMoveHandler, { passive: false });
+    waveContainer.addEventListener('pointerup', pointerEndHandler);
+    waveContainer.addEventListener('pointercancel', pointerEndHandler);
   }
 
   const visibilityObserver = new IntersectionObserver((entries) => {

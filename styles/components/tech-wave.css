@@ -17,6 +17,7 @@
   animation: fadeInUp var(--animation-duration-smooth) var(--animation-timing-ease-out) forwards;
   animation-delay: var(--delay-tech-wave);
   min-height: 17rem;
+  touch-action: pan-y;
 }
 
 /* Mobile adjustments reverted */
@@ -90,6 +91,16 @@
 @media (hover: hover) and (pointer: fine) {
   .tech-wave-container.is-visible .tech-tile:hover {
     transform: translateY(-6px) scale(1.04);
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .tech-wave-container.is-user-dragging {
+    cursor: grabbing;
+  }
+
+  .tech-wave-container.is-user-dragging .tech-tile {
+    transition: none;
   }
 }
 
