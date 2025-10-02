@@ -233,10 +233,6 @@ form[data-form-submit="contact"] button[type="submit"]:active {
   background-image: url('../../assets/icons/telegram.svg');
 }
 
-.contact-popup ul li a[data-contact-link="whatsapp"]::after {
-  background-image: url('../../assets/icons/whatsapp.svg');
-}
-
 .contact-popup ul li a[data-contact-link="email"]::after {
   background-image: url('../../assets/icons/email.svg');
 }
