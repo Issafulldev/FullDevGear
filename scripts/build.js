@@ -90,6 +90,9 @@ async function copyAssets() {
   if (fs.existsSync(path.join(ROOT, 'manifest.webmanifest'))) {
     copyStatic('manifest.webmanifest');
   }
+  if (fs.existsSync(path.join(ROOT, '_headers'))) {
+    copyStatic('_headers');
+  }
   // Copy SW if present (legacy/manual). Workbox generateSW will overwrite in dist.
   if (fs.existsSync(path.join(ROOT, 'sw.js'))) {
     copyStatic('sw.js');
@@ -132,8 +135,12 @@ async function main() {
         },
         {
           urlPattern: ({ request }) => ['style', 'script', 'worker'].includes(request.destination),
-          handler: 'StaleWhileRevalidate',
-          options: { cacheName: 'static-resources' },
+          handler: 'CacheFirst',
+          options: {
+            cacheName: 'static-resources',
+            expiration: { maxEntries: 60, maxAgeSeconds: 365 * 24 * 60 * 60 },
+            cacheableResponse: { statuses: [0, 200] },
+          },
         },
         {
           urlPattern: ({ request }) => request.destination === 'font',

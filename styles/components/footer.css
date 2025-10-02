@@ -7,6 +7,7 @@ footer {
   color: var(--color-footer-text);
   padding: 3rem 1rem 1rem;
   margin-top: auto;
+  position: relative;
   z-index: var(--z-index-footer);
 }
 
@@ -108,6 +109,23 @@ footer {
   }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  #footer-logo {
+    animation: none;
+  }
+
+  .footer-contact-info address a,
+  .social-icons li a,
+  .footer-nav ul li a {
+    transition: none;
+  }
+
+  .social-icons li a:hover,
+  .social-icons li a:focus-visible {
+    transform: none;
+  }
+}
+
 /* Mobile: Ensure footer uses same structure as desktop */
 @media (max-width: 767px) {
   .footer-title-line {
@@ -152,17 +170,49 @@ footer {
   line-height: 1.6;
 }
 
+
 .footer-contact-info address a,
 .footer-contact-info address span {
-  color: var(--color-footer-text);
-  display: flex;
-  align-items: center;
-  margin-bottom: 0.5rem;
-  transition: color 0.3s ease;
+  color: rgba(245, 245, 245, 0.95);
 }
 
-.footer-contact-info address a:hover {
+.footer-contact-info address a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.18rem;
+  margin-bottom: 0.5rem;
+  transition: color 0.3s ease, padding-left 0.3s ease;
+  padding: 0.3rem 0;
+  padding-left: 0;
+  position: relative;
+  --footer-contact-icon: url("../../assets/icons/email.svg");
+}
+
+.footer-contact-info address a::before {
+  content: "";
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+  background-color: currentColor;
+  mask-image: var(--footer-contact-icon);
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-image: var(--footer-contact-icon);
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+}
+
+.footer-contact-info address a:hover,
+.footer-contact-info address a:focus-visible {
   color: var(--color-accent-yellow);
+  padding-left: 0.5rem;
+}
+
+.footer-contact-info address a:focus-visible {
+  outline: 2px solid var(--color-accent-yellow);
+  outline-offset: 0.2rem;
+  border-radius: 0.3rem;
 }
 
 .footer-contact-info address i.fa-solid {
@@ -179,16 +229,64 @@ footer {
   gap: 1.25rem;
 }
 
-.social-icons li a {
-  color: var(--color-footer-text);
-  font-size: 1.75rem;
-  transition: color 0.3s ease, transform 0.2s ease;
-  display: inline-block;
+.social-icons li {
+  display: flex;
 }
 
-.social-icons li a:hover {
+.social-icons li a {
+  color: rgba(245, 245, 245, 0.95);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.3s ease, padding-left 0.3s ease;
+  padding-left: 0;
+  position: relative;
+  min-width: 2.5rem;
+  min-height: 2.5rem;
+  --footer-social-icon: none;
+}
+
+.social-icons li a[aria-label="LinkedIn Profile"] {
+  --footer-social-icon: url("../../assets/icons/linkedin.svg");
+}
+
+.social-icons li a[aria-label="GitHub Profile"] {
+  --footer-social-icon: url("../../assets/icons/github.svg");
+}
+
+.social-icons li a[aria-label="Twitter Profile"] {
+  --footer-social-icon: url("../../assets/icons/twitter-x.svg");
+}
+
+.social-icons li a::before {
+  content: "";
+  inline-size: 1.75rem;
+  block-size: 1.75rem;
+  background-color: currentColor;
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-image: var(--footer-social-icon);
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-image: var(--footer-social-icon);
+}
+
+.social-icons li a:hover,
+.social-icons li a:focus-visible {
   color: var(--color-accent-yellow);
-  transform: scale(1.1);
+  padding-left: 0.5rem;
+}
+
+.social-icons li a:focus-visible {
+  outline: 2px solid var(--color-accent-yellow);
+  outline-offset: 0.2rem;
+  border-radius: 0.3rem;
+}
+
+.social-icons li a .social-icon {
+  display: none;
 }
 
 .footer-nav ul {
@@ -206,6 +304,33 @@ footer {
 .footer-nav ul li a:focus-visible {
   color: var(--color-accent-yellow);
   padding-left: 0.5rem;
+}
+
+@media (max-width: 600px) {
+  .footer-container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.5rem;
+  }
+
+  .footer-section {
+    flex: 1 1 auto;
+    width: 100%;
+    max-width: 22rem;
+  }
+
+  .footer-logo-section .footer-logo a {
+    justify-content: center;
+  }
+
+  .footer-contact-info address a {
+    justify-content: center;
+  }
+
+  .social-icons {
+    justify-content: center;
+  }
 }
 
 .footer-copyright {
