@@ -67,7 +67,7 @@ const TRANSLATIONS = {
     cv_status: 'Available for opportunities',
     cv_summary_title: 'Summary',
     cv_summary_text:
-      'Passionate Junior Web Developer, recently graduated. Hands-on experience in building web applications using React.js, Node.js, HTML/CSS, and JavaScript. Backed by 7 years of experience in customer success roles within SaaS companies, offering a deep understanding of client needs and excellent communication skills. Eager to contribute to innovative projects within a dynamic team environment.',
+      "I'm a passionate developer with a focus on building impactful online solutions for businesses. Whether you're looking to launch a new website, create an online store on WordPress or Shopify, or build a complex web application, I can help you achieve your goals.<br>With 7 years of client success experience, I ensure the final product perfectly matches your business goals.",
     cv_experience_title: 'Experience - Projects',
     cv_exp1_title: 'Full Stack Web Developer',
     cv_exp1_period: '2023 - Today',
@@ -203,7 +203,7 @@ const TRANSLATIONS = {
     cv_status: 'Disponible pour opportunités',
     cv_summary_title: 'Résumé',
     cv_summary_text:
-      "Développeur web junior passionné, récemment diplômé. Expérience pratique en React.js, Node.js, HTML/CSS et JavaScript. Fort de 7 ans en Customer Success dans des SaaS, je comprends les enjeux clients et communique efficacement. Motivé pour contribuer à des projets innovants au sein d'équipes dynamiques.",
+      'Développeur passionné, spécialisé dans la création de solutions en ligne à fort impact pour les entreprises. Que vous souhaitiez lancer un nouveau site web, créer une boutique WordPress ou Shopify, ou développer une application web complexe, je vous aide à atteindre vos objectifs.<br>Fort de 7 ans en réussite client, je veille à ce que le produit final corresponde parfaitement à vos ambitions business.',
     cv_experience_title: 'Expériences - Projets',
     cv_exp1_title: 'Développeur Web Full Stack',
     cv_exp1_period: "2023 - Aujourd'hui",
