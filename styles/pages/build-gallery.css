@@ -271,10 +271,20 @@
   border: 2px solid var(--color-text-dark);
 }
 
+#build-gallery .project-link.github .project-link-icon {
+  color: white;
+  filter: brightness(0) invert(1);
+}
+
 #build-gallery .project-link.github:hover {
   background: transparent;
   color: var(--color-text-dark);
   transform: translateY(-2px);
+}
+
+#build-gallery .project-link.github:hover .project-link-icon {
+  color: var(--color-text-dark);
+  filter: none;
 }
 
 #build-gallery .project-link.demo {
@@ -283,10 +293,20 @@
   border: 2px solid var(--color-primary);
 }
 
+#build-gallery .project-link.demo .project-link-icon {
+  filter: invert(31%) sepia(94%) saturate(4764%) hue-rotate(217deg) brightness(101%) contrast(101%);
+  transition: all 0.3s ease;
+}
+
 #build-gallery .project-link.demo:hover {
   background: var(--color-primary);
   color: white;
   transform: translateY(-2px);
+}
+
+#build-gallery .project-link.demo:hover .project-link-icon {
+  filter: brightness(0) invert(1);
+  transform: scale(1.1);
 }
 
 #build-gallery .project-link i {
